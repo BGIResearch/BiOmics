@@ -1,0 +1,15 @@
+## 本文档记录各个agent可能出现的状态
+
+supervisor:
+env_checker
+general_responder
+data_analyzer
+analyze_planner
+planner
+plan_reviewer
+plan_executor
+coder
+code_runner
+code_debugger
+responder
+notebook_searcher
