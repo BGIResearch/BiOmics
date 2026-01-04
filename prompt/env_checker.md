@@ -18,7 +18,6 @@ Avoid using pure lists and bullet points format in any language.
 
 <context>
 - User question: {{question}}
-- Is the h5ad file valid: {{valid_data}}
 - Data path: {{data_path}}
 - User update information: {{update_data_info}}
 </context>
@@ -98,7 +97,6 @@ Do not make assumptions about data validity without calling the validation tool.
 Return a JSON object with the following structure:
 {
   "thought": "<Summarize your reasoning, referencing the checklist items>",
-  "language": "<User's working language, e.g., English, Chinese, etc.>",
   "check_md": "<Formatted check.md content>",
   "output": "<User-facing message>",
   "next": "env_checker" or "data_analyzer",

@@ -133,6 +133,11 @@ def summarize_data_tool(data_path, preview_n=5) -> Output:
     return output
 
 if __name__ == "__main__":
-    data_info = summarize_data_tool.invoke({"data_path":"/home/lyt/Biomics_agent/simulated_dat.h5ad"})
-    print(type(data_info))
-    print(data_info)
+    data_info1 = summarize_data_tool.invoke({"data_path":"/home/liyuntian/Biomics_agent/data/adata_new1.h5ad"})
+    data_info2 = summarize_data_tool.invoke({"data_path":"/home/liyuntian/Biomics_agent/data/Neutrophil_adata_sub.h5ad"})
+    data_info3 = summarize_data_tool.invoke({"data_path":"/home/liyuntian/Biomics_agent/data/Phosphopeptides_glycopeptides_evidence_TiO2_TMT_HUMAN.h5ad"})
+    data_info4 = summarize_data_tool.invoke({"data_path":"/home/liyuntian/Biomics_agent/data/processed_wbc_m_group1.h5ad"})
+    print(data_info1)
+    print(data_info2)
+    print(data_info3)
+    print(data_info4)

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.27 159.57">
+  <defs>
+    <style>
+      .b {
+        fill: #231815;
+        font-family: Arial-BoldMT, Arial;
+        font-size: 86.59px;
+        font-weight: 700;
+      }
+
+      .c {
+        fill: #dcdddd;
+      }
+
+      .c, .d, .e {
+        stroke: #231815;
+        stroke-miterlimit: 10;
+      }
+
+      .c, .e {
+        stroke-width: .75px;
+      }
+
+      .d {
+        fill: #c9caca;
+        stroke-linecap: round;
+        stroke-width: .25px;
+      }
+
+      .e {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <text class="b" transform="translate(0 74.28)"><tspan x="0" y="0">Bi</tspan></text>
+  <g>
+    <path class="e" d="M210.19,72.43c0-29.58-23.11-53.68-51.96-54.49,14.05.82,25.19,12.7,25.19,27.22s-11.97,27.27-26.77,27.27-26.75,12.22-26.75,27.27,11.14,26.41,25.19,27.22c.52.05,1.04.05,1.56.05s1.06,0,1.58-.05c28.85-.82,51.96-24.91,51.96-54.49Z"/>
+    <path class="c" d="M183.42,45.16c0-14.53-11.14-26.41-25.19-27.22-.52-.02-1.06-.05-1.58-.05s-1.04.02-1.56.05c-28.83.82-51.96,24.91-51.96,54.49s23.14,53.68,51.96,54.49c-14.05-.82-25.19-12.7-25.19-27.22s11.97-27.27,26.75-27.27,26.77-12.22,26.77-27.27Z"/>
+    <ellipse class="d" cx="125.18" cy="81.51" rx="3.57" ry="3.64"/>
+    <ellipse class="d" cx="145.94" cy="63.41" rx="3.57" ry="3.64"/>
+    <ellipse class="d" cx="166.39" cy="79.09" rx="3.57" ry="3.64"/>
+    <ellipse class="d" cx="188.77" cy="63.41" rx="3.57" ry="3.64"/>
+    <ellipse class="d" cx="145.94" cy="41.7" rx="3.57" ry="3.64"/>
+    <ellipse class="d" cx="166.39" cy="101.88" rx="3.57" ry="3.64"/>
+    <line class="d" x1="145.94" y1="63.41" x2="166.39" y2="79.09"/>
+    <line class="d" x1="166.39" y1="79.09" x2="166.39" y2="101.88"/>
+    <line class="d" x1="166.39" y1="79.09" x2="188.77" y2="63.41"/>
+    <line class="d" x1="125.18" y1="81.51" x2="145.94" y2="63.41"/>
+    <line class="d" x1="145.94" y1="63.41" x2="145.94" y2="41.7"/>
+  </g>
+  <text class="b" transform="translate(214.91 126.97)"><tspan x="0" y="0">mics</tspan></text>
+</svg>

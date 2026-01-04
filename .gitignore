@@ -4,6 +4,12 @@ data/
 # 忽略运行结果文件夹
 run_res/
 
+# 忽略临时文件夹
+tmp/
+
+# 忽略报告文件夹
+reports/
+
 # 忽略notebook缓存
 notebook_cache/
 
@@ -56,3 +62,5 @@ Thumbs.db
 # 日志文件
 *.log
 logs/
+# 忽略todo文件
+todo.txt

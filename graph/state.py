@@ -29,12 +29,16 @@ class BrickState(BaseModel):
     code: Optional[str] = None
     # code运行输出
     code_output: list[Union[str, dict, list]] = []
+    # 完整的代码运行结果
+    complete_output: dict = {}
     # 用户id
     customer_id: str = ""
     # 生成的cypher
     cypher: Optional[str] = None
     # planner生成的当前的plan
     current_plan: Optional[Union[str, dict, list]] = None
+    # 当前第几步
+    current_step: int = 0
     # 数据的总览
     data_info: Optional[Union[str, Dict[str, Union[str, int, float, list, dict]]]] = None
     # 上传数据路径
@@ -470,6 +474,8 @@ sc.pl.umap(adata, color = 'celltype')
     step_output: Optional[Union[str, dict]] = None
     # 单独的step的输出
     step_content:Optional[dict] = {} 
+    # 计划步骤数
+    step_num: int = 0
     # LLM的思考过程
     thought: Optional[str]= None
     # 翻译后的用户问题

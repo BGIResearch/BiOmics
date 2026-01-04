@@ -23,7 +23,7 @@ The code generated previously:{{full_code}}
 <task>
 Based on the provided information, generate a valid Python code to implement the step. Use `notebook_text` (if provided) as a reference to align function usage, parameters, and real attribute names from the notebook; prioritize consistency with the notebook over assumptions.
 
-**MANDATORY**: You MUST return your response as a valid JSON object following the exact format specified in <output_format>. Do NOT use tool calls, do NOT include any text outside the JSON structure.
+**MANDATORY**: You MUST return your response as a valid JSON object following the exact format specified in <output_format>. DO NOT include any text outside the JSON structure.
 </task>
 
 <brick_overview>
@@ -51,18 +51,8 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 
 <important_tips>
 - The "find_function" is used to make you understand the function of the BRICK module and function, DO NOT define it.Just use the function.
-
-- When using BRICK tools, you MUST use the following import pattern:
-```
-from BRICK import pp
-pp.rank_genes_groups2df()
-```
-DO NOT use direct function imports like:
-```
-from BRICK.pp import filter_marker
-filter_marker()
-```
-If the "find_function" is empty, this usually means that the BRICK package is not needed for this step.
+- If the "find_function" is empty, this usually means that the BRICK package is not needed for this step.
+- Focus on completing the content in "step_content", not the entire task.
 </important_tips>
 
 

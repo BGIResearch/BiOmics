@@ -9,24 +9,8 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 class DockerSandbox:
-    """本地 Docker 沙箱客户端 - 基于 Jupyter Kernel Gateway
-    
-    功能：
-    1. 创建/关闭沙箱（Jupyter 内核）
-    2. 上传文件到沙箱工作目录
-    3. 列出沙箱文件夹中的所有文件
-    4. 下载沙箱中的文件
-    5. 实时运行代码并查看输出（文本、图像等）
-    6. 运行在本地 Docker 容器中
-    """
-    
+
     def __init__(self, server_url="127.0.0.1:8888", workspace="/workspace"):
-        """初始化沙箱客户端
-        
-        Args:
-            server_url: Jupyter Server 地址（格式：host:port）
-            workspace: 沙箱内的工作目录路径
-        """
         self.http_url = f"http://{server_url}"
         self.ws_url = f"ws://{server_url}"
         self.kernel_id = None
@@ -35,11 +19,6 @@ class DockerSandbox:
         self.session_id = str(uuid.uuid4())
 
     def start(self) -> bool:
-        """创建沙箱（启动 Jupyter 内核）
-        
-        Returns:
-            bool: 创建成功返回 True，失败返回 False
-        """
         print(f"正在连接沙盒服务 {self.http_url}...")
         try:
             response = requests.post(f"{self.http_url}/api/kernels")
@@ -168,6 +147,10 @@ class DockerSandbox:
         start_time = time.time()
         last_idle_time = None  # 记录最后一次收到 idle 的时间
         idle_threshold = 10  # idle 后等待 N 秒仍无 execute_reply 就结束
+        
+        # 设置较短的 recv 超时，以便定期检查 idle 超时
+        original_timeout = self.ws.gettimeout()
+        self.ws.settimeout(2.0)  # 2秒超时，定期检查 idle 状态
 
         while True:
             try:
@@ -276,15 +259,34 @@ class DockerSandbox:
                         last_idle_time = None
             
             except websocket.WebSocketTimeoutException:
-                result["error"] = "接收超时"
-                if verbose:
-                    print("\n❌ 接收超时！")
-                break
+                # recv 超时，检查是否已经在 idle 状态超过阈值
+                if last_idle_time is not None:
+                    idle_duration = time.time() - last_idle_time
+                    if idle_duration > idle_threshold:
+                        if verbose:
+                            print(f"\n  [Debug] idle {idle_duration:.1f}秒仍无 execute_reply，判定为执行结束")
+                            print("\n>>> 执行结束（通过 idle 超时）.")
+                        break
+                # 检查总超时
+                elapsed = time.time() - start_time
+                if elapsed > max_wait_time:
+                    result["error"] = f"执行超时(>{max_wait_time}秒)"
+                    if verbose:
+                        print(f"\n⚠️ 执行超时！已经过去 {elapsed:.1f} 秒")
+                    break
+                # 否则继续等待
+                continue
             except Exception as e:
                 result["error"] = str(e)
                 if verbose:
                     print(f"\n❌ 通信异常: {e}")
                 break
+        
+        # 恢复原始超时设置
+        try:
+            self.ws.settimeout(original_timeout)
+        except Exception:
+            pass
         
         return result
 
@@ -506,7 +508,7 @@ if __name__ == "__main__":
         print("测试 1: 运行简单代码")
         print("="*50)
         result = box.run("""
-print("50")
+
 """)
         print(result)
 

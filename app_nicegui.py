@@ -1,7 +1,9 @@
 from ast import Dict
 from time import sleep
 import asyncio
+import threading
 import os
+import re
 from dotenv import load_dotenv
 from pathlib import Path
 from nicegui import app, ui
@@ -10,24 +12,48 @@ from utils.build_config_id import build_config_id
 from graph.state import BrickState
 from graph.builder import build_graph_with_interaction
 from utils.save_dir_name import get_save_dir
+from utils.sandbox_manager import SandboxManager
+from utils.plan_extracter import plan_exetract
+
+def build_tree_nodes(data, prefix=''):
+    """将嵌套字典转换为 ui.tree 所需的节点格式"""
+    nodes = []
+    if not isinstance(data, dict):
+        return nodes
+    for key, value in data.items():
+        node_id = f"{prefix}_{key}" if prefix else key
+        if isinstance(value, dict):
+            children = build_tree_nodes(value, node_id)
+            nodes.append({
+                'id': node_id,
+                'label': key,
+                'children': children if children else None
+            })
+        elif isinstance(value, list):
+            preview = str(value[:3]) + '...' if len(value) > 3 else str(value)
+            nodes.append({
+                'id': node_id,
+                'label': f"{key}: {preview}"
+            })
+        else:
+            display_val = str(value)[:50] + '...' if len(str(value)) > 50 else str(value)
+            nodes.append({
+                'id': node_id,
+                'label': f"{key}: {display_val}"
+            })
+    return nodes
 
 # 加载环境变量
 config_file = Path(__file__).parent / 'graph' / 'brick_test_config.env'
 load_dotenv(dotenv_path=str(config_file))
 PROJECT_ROOT = os.getenv('PROJECT_ROOT', os.path.abspath(os.path.dirname(__file__)))
-"""
-组件：
-上方的菜单栏
-左侧对话框
-右侧操作台
-下方输入文本框
-文本框右侧重置按钮
-"""
 
+# 添加静态文件目录，使 logo 等资源可访问
+app.add_static_files('/static', PROJECT_ROOT)
 
 ui.query('body').style('margin: 0; padding: 0; overflow: hidden;')
 
-# 添加 iMessage 风格的动画
+# 添加 iMessage 风格的动画和自定义样式
 ui.add_head_html('''
 <style>
 @keyframes slideInFade {
@@ -40,6 +66,53 @@ ui.add_head_html('''
         transform: translateY(0) scale(1);
     }
 }
+/* 覆盖默认的绿色消息背景，改为灰色 */
+.q-message-text--received {
+    background-color: #e0e0e0 !important;
+    color: #333 !important;
+}
+/* 用户发送的消息改为蓝色 */
+.q-message-text--sent {
+    background-color: #1976d2 !important;
+    color: white !important;
+}
+.q-message-text--sent > div {
+    color: white !important;
+}
+/* 隐藏消息气泡的三角形箭头 */
+.q-message-text:before,
+.q-message-text:after {
+    display: none !important;
+}
+/* 缩小消息框内 Markdown 标题的字体大小 */
+.q-message-text h1 {
+    font-size: 1.25em !important;
+    margin: 0.3em 0 !important;
+}
+.q-message-text h2 {
+    font-size: 1.1em !important;
+    margin: 0.25em 0 !important;
+}
+.q-message-text h3 {
+    font-size: 1em !important;
+    margin: 0.2em 0 !important;
+}
+.q-message-text h4, .q-message-text h5, .q-message-text h6 {
+    font-size: 0.95em !important;
+    margin: 0.15em 0 !important;
+}
+/* 限制 code 组件宽度，防止擑开容器 */
+.nicegui-code, .nicegui-code pre, .q-card pre {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+}
+.q-card {
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
 </style>
 ''')
 
@@ -66,10 +139,13 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
         'align-items: center; padding: 0 24px; '
         'border-bottom: 1px solid #ddd; background: #f5f5f5;'
     ):
-        ui.icon('science', size='md')
-        ui.label('BRICK Agent').style('font-size: 24px; font-weight: bold; margin-left: 12px;')
-        ui.space()
-        ui.label('Demo Layout').style('font-size: 14px; color: #888;')
+        ui.html('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.27 159.57" style="height: 40px; width: auto;">
+          <defs><style>.b{fill:#231815;font-family:Arial-BoldMT,Arial;font-size:86.59px;font-weight:700}.c{fill:#dcdddd}.c,.d,.e{stroke:#231815;stroke-miterlimit:10}.c,.e{stroke-width:.75px}.d{fill:#c9caca;stroke-linecap:round;stroke-width:.25px}.e{fill:none}</style></defs>
+          <text class="b" transform="translate(0 74.28)"><tspan x="0" y="0">Bi</tspan></text>
+          <g><path class="e" d="M210.19,72.43c0-29.58-23.11-53.68-51.96-54.49,14.05.82,25.19,12.7,25.19,27.22s-11.97,27.27-26.77,27.27-26.75,12.22-26.75,27.27,11.14,26.41,25.19,27.22c.52.05,1.04.05,1.56.05s1.06,0,1.58-.05c28.85-.82,51.96-24.91,51.96-54.49Z"/><path class="c" d="M183.42,45.16c0-14.53-11.14-26.41-25.19-27.22-.52-.02-1.06-.05-1.58-.05s-1.04.02-1.56.05c-28.83.82-51.96,24.91-51.96,54.49s23.14,53.68,51.96,54.49c-14.05-.82-25.19-12.7-25.19-27.22s11.97-27.27,26.75-27.27,26.77-12.22,26.77-27.27Z"/><ellipse class="d" cx="125.18" cy="81.51" rx="3.57" ry="3.64"/><ellipse class="d" cx="145.94" cy="63.41" rx="3.57" ry="3.64"/><ellipse class="d" cx="166.39" cy="79.09" rx="3.57" ry="3.64"/><ellipse class="d" cx="188.77" cy="63.41" rx="3.57" ry="3.64"/><ellipse class="d" cx="145.94" cy="41.7" rx="3.57" ry="3.64"/><ellipse class="d" cx="166.39" cy="101.88" rx="3.57" ry="3.64"/><line class="d" x1="145.94" y1="63.41" x2="166.39" y2="79.09"/><line class="d" x1="166.39" y1="79.09" x2="166.39" y2="101.88"/><line class="d" x1="166.39" y1="79.09" x2="188.77" y2="63.41"/><line class="d" x1="125.18" y1="81.51" x2="145.94" y2="63.41"/><line class="d" x1="145.94" y1="63.41" x2="145.94" y2="41.7"/></g>
+          <text class="b" transform="translate(214.91 126.97)"><tspan x="0" y="0">mics</tspan></text>
+        </svg>''', sanitize=False)
+        ui.label('Agent').style('font-size: 24px; font-weight: bold; margin-left: 8px;')
 
     # === 中间区域===
     with ui.element('div').style(
@@ -81,7 +157,7 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
             'width: 50%; height: 100%; padding: 16px; '
             'border-right: 1px solid #ddd; display: flex; flex-direction: column;'
         ):
-            ui.label('💬 对话').style('font-size: 18px; font-weight: 600; margin-bottom: 8px;')
+            ui.label('💬 BiOmics Chat').style('font-size: 18px; font-weight: 600; margin-bottom: 8px;')
             biomics_chat = ui.scroll_area().style('width: 100%; flex: 1;')
 
 
@@ -90,8 +166,8 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
         with ui.element('div').style(
             'width: 50%; height: 100%; padding: 16px; display: flex; flex-direction: column;'
         ):
-            ui.label('🧾 代码').style('font-size: 18px; font-weight: 600; margin-bottom: 8px;')
-            biomics_co_pilot = ui.scroll_area().style('width: 100%; flex: 1;')
+            ui.label('✨ BiOmics Co-pilot').style('font-size: 18px; font-weight: 600; margin-bottom: 8px;')
+            biomics_co_pilot = ui.scroll_area().style('width: 100%; flex: 1; ')
 
 
     # === 底部对话栏 ===
@@ -117,19 +193,12 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
             )
         
         # 中间:输入框
-        user_input = ui.input(placeholder='请输入消息或指令...').style('flex: 1;')
+        user_input = ui.input(placeholder='输入生信分析任务...').style('flex: 1;')
         
         # 右侧:重置按钮
         reset_button = ui.button('重置', icon='restart_alt').props('outlined')
 
-"""
-函数：
-1. 对话区，根据event更新向对话区添加信息
-2. 代码区，根据event更新右侧的copilot
-3. 重置页面按钮对应函数，清除页面内容
-4. 
 
-"""
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, 'data')
 
 def set_graph_running(is_running: bool) -> None:
@@ -150,7 +219,6 @@ def set_graph_running(is_running: bool) -> None:
         
         # 隐藏顶部加载横幅
         loading_banner.style('display: none;')
-
 def save_uploaded_file(e) -> str:
     """保存上传文件到固定目录，并返回保存路径"""
     os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -193,22 +261,6 @@ async def handle_file_upload(e) -> None:
     upload_button.props('icon=check_circle color=positive')
     ui.notify(f'文件已上传: {os.path.basename(save_path)}', type='positive')
 def agent_update_chat(event) -> None:
-    """
-    supervisor
-    env_checker
-    general_responder
-    data_analyzer
-    analyze_planner
-    planner
-    plan_executor
-    coder
-    code_runner
-    code_debugger
-    responder 
-    notebook_searcher
-    """
-
-    
     agent_name = event.get('agent')   
     agent_thought = ""
     agent_output = ""
@@ -229,19 +281,22 @@ def agent_update_chat(event) -> None:
         agent_thought = event.get('thought')
         agent_output = event.get('output')
         with biomics_chat:
-            ui.chat_message(text=[agent_thought, agent_output], name=agent_name).style(message_animation)
+            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
+            with ui.chat_message(name=agent_name):
+                ui.markdown(agent_output)
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="data_analyzer":
         agent_thought = event.get('thought')
         agent_output = event.get('output')
         with biomics_chat:
-            ui.chat_message(text=[agent_thought, agent_output], name=agent_name).style(message_animation)
+            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
+            
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="analyze_planner":
         agent_thought = event.get('thought')
         agent_output = event.get('output')
         with biomics_chat:
-            ui.chat_message(text=[agent_thought, agent_output], name=agent_name).style(message_animation)
+            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="planner":
         agent_thought = event.get('thought')
@@ -250,18 +305,15 @@ def agent_update_chat(event) -> None:
             ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="plan_executor":
-        agent_thought = event.get('thought')
         agent_output = event.get('output')
         with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
+            ui.chat_message(text=agent_output, name=agent_name).style(message_animation)
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="coder":
         agent_thought = event.get('thought')
         agent_output = event.get('output')
         with biomics_chat:
             ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-            with ui.chat_message(name=agent_name):
-                ui.code(agent_output)
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="code_runner":
         pf = event.get('process_flag')
@@ -275,8 +327,6 @@ def agent_update_chat(event) -> None:
         agent_output = event.get('output')
         with biomics_chat:
             ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-            with ui.chat_message(name=agent_name):
-                ui.code(agent_output)
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="responder":
         agent_thought = event.get('thought')
@@ -294,6 +344,172 @@ def agent_update_chat(event) -> None:
         biomics_chat.scroll_to(percent=1.0)
     else:
         print("未获取到", agent_name)
+def agent_update_copilot(event) -> None:
+    agent_name = event.get('agent')   
+    if agent_name=="supervisor":
+        pass
+    elif agent_name=="env_checker":
+        di = event.get('data_info')
+        if event.get("status")=="AWAITING_CONFIRMATION":
+            with biomics_co_pilot:
+                with ui.card().style('width: 100%;'):
+                    ui.label('Env Checker waiting for confirmation:')
+                    ui.label('Please input your comfirmation in the box below')
+        elif event.get("status")=="VALIDATED":
+            with biomics_co_pilot:
+                with ui.card().style('width: 100%;'):
+                    ui.label('Env Checker checked the data.')
+                    if di:
+                        tree_nodes = build_tree_nodes(di.get('data_info', di))
+                        ui.tree(tree_nodes, label_key='label', children_key='children').props('default-expand-all')
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="data_analyzer":
+        data_report = event.get('output')
+        with biomics_co_pilot:
+            with ui.card().style('width: 100%;'):
+                ui.label('Data Analyzer generated a report:')
+                ui.markdown(data_report)
+
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="analyze_planner":
+        a_plan = event.get('output')
+        with biomics_co_pilot:
+            with ui.card().style('width: 100%;'):
+                ui.label('Analyze Planner generated a plan:')
+                ui.markdown(a_plan)
+
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="planner":
+        plan = event.get('output')
+        plan = plan_exetract(plan)
+        with biomics_co_pilot:
+            with ui.card().style('width: 100%;'):
+                ui.label('Plan Check List').style('font-size: 16px; font-weight: bold; margin-bottom: 12px;')
+                for idx, step in enumerate(plan, 1):
+                    with ui.row().style('width: 100%; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;'):
+                        ui.label(str(idx)).style('width: 24px; height: 24px; background: #1976d2; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;')
+                        ui.label(step).style('flex: 1; margin: 0 12px;')
+                        ui.icon('radio_button_unchecked').style('color: #bbb; font-size: 20px;')
+
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="plan_executor":
+        step_num = event.get("step_num")
+        current_step = event.get("current_step")
+        current_plan = event.get("current_plan")
+        is_end = current_step >= step_num
+        with biomics_co_pilot:
+            if not is_end:
+                with ui.card().style('width: 100%;'):
+                    ui.label(f'Executing Step {current_step}').style('font-size: 16px; font-weight: bold; margin-bottom: 12px;')
+                    for idx, step in enumerate(current_plan, 1):
+                        step_name = step.get('type', str(step)) if isinstance(step, dict) else str(step)
+                        with ui.row().style('width: 100%; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;'):
+                            ui.label(str(idx)).style('width: 24px; height: 24px; background: #1976d2; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;')
+                            if idx < current_step:
+                                ui.label(step_name).style('flex: 1; margin: 0 12px; color: #333;')
+                            elif idx == current_step:
+                                ui.label(step_name).style('flex: 1; margin: 0 12px; color: #1976d2; font-weight: bold;')
+                            else:
+                                ui.label(step_name).style('flex: 1; margin: 0 12px; color: #bbb;')
+                            if idx < current_step:
+                                ui.icon('check_circle').style('color: #4caf50; font-size: 20px;')
+                            else:
+                                ui.icon('radio_button_unchecked').style('color: #bbb; font-size: 20px;')
+            else:
+                with ui.card().style('width: 100%;'):
+                    ui.label('Plan Execution Completed').style('font-size: 16px; font-weight: bold; margin-bottom: 12px;')
+                    for idx, step in enumerate(current_plan, 1):
+                        step_name = step.get('type', str(step)) if isinstance(step, dict) else str(step)
+                        with ui.row().style('width: 100%; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;'):
+                            ui.label(str(idx)).style('width: 24px; height: 24px; background: #1976d2; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;')
+                            ui.label(step_name).style('flex: 1; margin: 0 12px; color: #333;')
+                            ui.icon('check_circle').style('color: #4caf50; font-size: 20px;')
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="coder":
+        code = event.get('output')
+        with biomics_co_pilot:
+            with ui.card().style('width: 100%;'):
+                ui.label('Coder generated code:')
+                ui.code(code)
+
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="code_runner":
+        res = event.get('complete_output')
+        save_dir = event.get('save_dir')
+        if res:
+            with biomics_co_pilot:
+                with ui.card().style('width: 100%; max-width: 100%; overflow: hidden;'):
+                    ui.label('Code Runner Output:').style('font-weight: bold;')
+                    # stdout
+                    stdout = res.get('stdout', [])
+                    if stdout:
+                        stdout_text = ''.join(stdout)
+                        ui.code(stdout_text, language='text').style('background: #f5f5f5; width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
+                    # stderr
+                    stderr = res.get('stderr', [])
+                    if stderr:
+                        stderr_text = ''.join(stderr)
+                        ui.code(stderr_text, language='text').style('background: #fff3cd; color: #856404; width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
+                    # result (expression return value)
+                    result_val = res.get('result')
+                    if result_val:
+                        ui.label('Out:').style('color: #d63384; font-weight: bold;')
+                        ui.code(str(result_val), language='python').style('width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
+                    # images
+                    images = res.get('images', [])
+                    import base64
+                    for idx, img in enumerate(images):
+                        img_type = img.get('type', 'png')
+                        img_data = img.get('data', '')
+                        if img_data:
+                            ui.image(f'data:image/{img_type};base64,{img_data}').style('width: 400px; height: auto;')
+                            # 保存图片到 save_dir
+                            if save_dir:
+                                os.makedirs(save_dir, exist_ok=True)
+                                img_path = os.path.join(save_dir, f'output_{idx}.{img_type}')
+                                with open(img_path, 'wb') as f:
+                                    f.write(base64.b64decode(img_data))
+                                print(f'[INFO] 图片已保存: {img_path}')
+                    # error
+                    error = res.get('error')
+                    if error:
+                        ui.label('Error:').style('color: #dc3545; font-weight: bold;')
+                        # 清除 ANSI 转义码
+                        clean_error = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]|\[\d+(?:;\d+)*m', '', error)
+                        ui.code(clean_error, language='text').style('background: #f8d7da; color: #721c24; width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="code_debugger":
+        code = event.get('output')
+        with biomics_co_pilot:
+            with ui.card().style('width: 100%;'):
+                ui.label('Code Debugger generated code:')
+                ui.code(code)
+
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="responder":
+        sid = event.get('sandbox_id')
+        sd = event.get('save_dir')
+        if sid:
+            sandbox_manager = SandboxManager()
+            sandbox_manager.close_sandbox(sid)
+            print(f"[INFO] 沙箱已关闭: {sid}")
+        # 压缩保存目录并提供下载按钮
+        if sd and os.path.isdir(sd):
+            import shutil
+            zip_path = shutil.make_archive(sd, 'zip', sd)
+            print(f"[INFO] 已压缩: {zip_path}")
+            with biomics_co_pilot:
+                with ui.card().style('width: 100%;'):
+                    ui.label('任务完成，结果已保存').style('font-weight: bold;')
+                    ui.button('下载结果', icon='download', on_click=lambda: ui.download(zip_path)).props('color=primary')
+        biomics_co_pilot.scroll_to(percent=1.0)
+    elif agent_name=="notebook_searcher":
+        pass
+    elif agent_name=="general_responder":
+
+        biomics_co_pilot.scroll_to(percent=1.0)
+    else:
+        print("未获取到", agent_name)
 def start_graph(question: str, file_path: str, config: dict, save_dir: str = None):
     state_data = {
         "question": question,
@@ -308,31 +524,43 @@ def start_graph(question: str, file_path: str, config: dict, save_dir: str = Non
     initial_state_dict = initial_state.model_dump()
     events = graph.stream(initial_state_dict, config=config, stream_mode="values")
     return events, graph
-def process_events(graph, events, config):
+def process_events(graph, events, config, cancel_event: threading.Event = None):
     """循环消费 events，直到遇到中断或 FINISHED
-    返回值: (waiting_kind, graph) 元组
+    返回值: (waiting_kind, graph, sandbox_id) 元组
     - waiting_kind: None / 'update_data_info' / 'update_data_repo'
     - graph: 更新后的 graph 实例
+    - sandbox_id: 当前会话的沙箱ID
     """
+    sandbox_id = None
     for event in events:
+        # 检查是否被取消
+        if cancel_event and cancel_event.is_set():
+            print("[DEBUG] process_events 被取消")
+            return (None, graph, sandbox_id)
+        
         status = event.get("status")
+        # 提取 sandbox_id 并立即保存到 storage
+        if event.get('sandbox_id'):
+            sandbox_id = event.get('sandbox_id')
+            app.storage.client['sandbox_id'] = sandbox_id
+            print(f"[DEBUG] sandbox_id 已保存: {sandbox_id}")
         agent_update_chat(event)  # 统一更新界面
-
+        agent_update_copilot(event)
         if status == "AWAITING_CONFIRMATION":
-            # env_checker 需要 update_data_info：在 UI 上提示，并记录“等待类型”
+            # env_checker 需要 update_data_info：在 UI 上提示，并记录"等待类型"
             print("[DEBUG] process_events 返回 waiting_kind = 'update_data_info'")
-            return ('update_data_info', graph)
-
+            return ('update_data_info', graph, sandbox_id)
+        
         elif status == "Revise":
             # data_analyzer 需要 update_data_repo
             print("[DEBUG] process_events 返回 waiting_kind = 'update_data_repo'")
-            return ('update_data_repo', graph)
-
+            return ('update_data_repo', graph, sandbox_id)
+        
         elif status == "VALIDATED":
             # 根据项目记忆：VALIDATED 也需要手动继续 stream
             events = graph.stream(None, config=config, stream_mode="values")
             first_event = next(events, None)
-            return process_events(graph, events, config)
+            return process_events(graph, events, config, cancel_event)
 
         elif status == "NOT_FINISHED":
             continue
@@ -341,7 +569,7 @@ def process_events(graph, events, config):
             user_question = event.get("question")
             if event.get("agent")=='general_responder':
                 with biomics_chat:
-                    with ui.card():
+                    with ui.card().style('width: 100%;'):
                         with ui.row().props('no-wrap').style('align-items: center;'):
                             ui.label(f"您的问题“{user_question}”不在我们能力范围内，试试让我们做细胞注释、基因富集等任务？")
                         with ui.row().props('no-wrap').style('align-items: center;'):
@@ -353,10 +581,10 @@ def process_events(graph, events, config):
                             ui.label(f"您的任务需求“{user_question}”已完成，此会话将已结束")
                         with ui.row().props('no-wrap').style('align-items: center;'):
                             ui.button('重新提问', on_click=lambda: reset_button.run_method('click')).props('flat round dense')
-            return (None, graph)
+            return (None, graph, sandbox_id)
     
     # 如果 events 消费完没有任何特殊状态，返回 None
-    return (None, graph)
+    return (None, graph, sandbox_id)
 async def handle_user_input():
     """统一处理用户输入：
     - 没有等待状态时，作为新问题启动一条图
@@ -393,7 +621,7 @@ async def handle_user_input():
             return
         # 为本次会话生成 config（使用独立 thread_id）
         thread_id = build_config_id()
-        config = {"configurable": {"thread_id": thread_id}}
+        config = {"configurable": {"thread_id": thread_id}, "recursion_limit": 200}
 
         try:
             set_graph_running(True)
@@ -411,16 +639,21 @@ async def handle_user_input():
             app.storage.client['graph'] = graph
             app.storage.client['config'] = config
 
+            # 创建取消事件，用于中断后台任务
+            cancel_event = threading.Event()
+            app.storage.client['cancel_event'] = cancel_event
+
             # 交给统一的事件处理逻辑（后台线程执行，避免阻塞UI）
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config))
+            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
             app.storage.client['background_task'] = task
             result = await task
             
             # 后台线程返回的状态，由主线程设置到 app.storage.client
             if result:
-                waiting_kind, graph = result
+                waiting_kind, graph, sandbox_id = result
                 app.storage.client['graph'] = graph
                 app.storage.client['config'] = config
+                app.storage.client['sandbox_id'] = sandbox_id
                 if waiting_kind:
                     app.storage.client['waiting_kind'] = waiting_kind
                     set_graph_running(False)
@@ -458,15 +691,18 @@ async def handle_user_input():
             set_graph_running(True)
             events = graph.stream(None, config=config, stream_mode='values')
             first_event = next(events, None)
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config))
+            cancel_event = threading.Event()
+            app.storage.client['cancel_event'] = cancel_event
+            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
             app.storage.client['background_task'] = task
             result = await task
             
             # 后台线程返回的状态，由主线程设置
             if result:
-                waiting_kind, graph = result
+                waiting_kind, graph, sandbox_id = result
                 app.storage.client['graph'] = graph
                 app.storage.client['config'] = config
+                app.storage.client['sandbox_id'] = sandbox_id
                 if waiting_kind:
                     app.storage.client['waiting_kind'] = waiting_kind
                     set_graph_running(False)
@@ -480,15 +716,18 @@ async def handle_user_input():
             set_graph_running(True)
             events = graph.stream(None, config=config, stream_mode='values')
             first_event = next(events, None)
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config))
+            cancel_event = threading.Event()
+            app.storage.client['cancel_event'] = cancel_event
+            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
             app.storage.client['background_task'] = task
             result = await task
             
             # 后台线程返回的状态，由主线程设置
             if result:
-                waiting_kind, graph = result
+                waiting_kind, graph, sandbox_id = result
                 app.storage.client['graph'] = graph
                 app.storage.client['config'] = config
+                app.storage.client['sandbox_id'] = sandbox_id
                 if waiting_kind:
                     app.storage.client['waiting_kind'] = waiting_kind
                     set_graph_running(False)
@@ -513,15 +752,45 @@ def reset_agent():
     biomics_chat.clear()
     biomics_co_pilot.clear()
 
+    # 1. 通过 cancel_event 中断后台任务
+    cancel_event = app.storage.client.get('cancel_event')
+    if cancel_event:
+        cancel_event.set()
+        print("[DEBUG] 已设置 cancel_event，通知后台任务停止")
+
+    # 2. 关闭会话对应的 sandbox
+    sandbox_id = app.storage.client.get('sandbox_id')
+    if sandbox_id:
+        try:
+            sandbox_manager = SandboxManager()
+            sandbox_manager.close_sandbox(sandbox_id)
+            print(f"[INFO] 沙箱已关闭: {sandbox_id}")
+        except Exception as e:
+            print(f"[WARN] 关闭沙箱失败: {e}")
+    else:
+        print("[INFO] 无沙箱 ID，无需关闭沙箱")
+        
+
+    # 3. 重置上传按钮和文件名标签
+    upload_button.props('icon=file_upload')
+    upload_button.props(remove='color')
+    upload_name_label.text = ''
+    app.storage.client['uploaded_file_path'] = ''
+    file_upload.reset()  # 重置上传控件，允许重新上传
+
+    # 4. 清理会话状态
     set_graph_running(False)
     app.storage.client['waiting_kind'] = None
-
-    # 为新的会话生成一个 thread_id（5 位数字字符串）
     app.storage.client['thread_id'] = ''
+    app.storage.client['graph'] = None
+    app.storage.client['config'] = None
+    app.storage.client['background_task'] = None
+    app.storage.client['cancel_event'] = None
+    app.storage.client['sandbox_id'] = None
 
 
 if __name__ in {"__main__", "__mp_main__"}:
     file_upload.on_upload(handle_file_upload)
     user_input.on('keydown.enter', handle_user_input)
     reset_button.on_click(reset_agent)
-    ui.run()
+    ui.run(title='Biomics Agent', favicon='/home/liyuntian/Biomics_agent/BiomicsLOGO.svg')

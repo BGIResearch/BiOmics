@@ -45,7 +45,7 @@ Output: "Add_calculation"
 
 def get_save_dir(question: str, save_path: str = None) -> str:
     if save_path is None:
-        save_path = os.path.join(PROJECT_ROOT, "run_res")
+        save_path = os.path.join(PROJECT_ROOT, "data", "run_file")
     summary = summarize_question(question)
     timestamp = time.strftime("%a_%b_%d_%Y_%H_%M_%S", time.localtime())
     folder_name = f"{summary}_{timestamp}"

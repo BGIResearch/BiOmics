@@ -20,8 +20,10 @@ from utils.exec_res_tool import (
     format_images, format_error, has_error
 )
 from utils.docker_path_transform import transform_path
+from utils.save_dir_name import get_save_dir
 from tools.extract_code import extract_python_blocks_tool
 from tools.read_notebook import read_notebook_tool
+from tools.read_notebook import extract_notebook_text
 from tools.brick_rag_searcher import perform_rag_search_tool
 from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
 from .output import safe_stream_model
@@ -131,7 +133,7 @@ def supervisor(state: BrickState) -> BrickState:
         docker_data_path = transform_path(state.data_path)
     else:
         docker_data_path = None
-    
+    sd = get_save_dir(state.question)
     print("[thought]", result.get("thought", []))
     print("[output]", result.get("output", []))
     
@@ -145,7 +147,8 @@ def supervisor(state: BrickState) -> BrickState:
             "docker_data_path": docker_data_path,
             "sandbox_id": sandbox_id,
             "output": result.get("output", []),
-            "agent": "supervisor"
+            "agent": "supervisor",
+            "save_dir": sd
         }
     )
 
@@ -201,7 +204,6 @@ def data_analyzer(state: BrickState) -> BrickState:
         state.messages.append(HumanMessage(content=state.update_data_repo))
 
     agent = create_agent("data_analyzer", "data_analyzer", [], "data_analyzer", state.model_dump())
-    #result = safe_stream_agent_json(agent, state.model_dump())
 
     print("data_analyzer invoke message:")
     result = agent.invoke({"messages":[state.messages[-1]]})
@@ -339,8 +341,8 @@ def planner(state: BrickState) -> BrickState:
         result = {}
     
     print("[thought]", result.get("thought", ""))
-    print("[output]", result.get("output", ""))
-    
+    print("[output]", result.get("output", []))
+    step_num = len(result.get("output"))
     new_message = SystemMessage(content=f"thought: {result.get('thought', '')}, current_plan: {result.get('output', '')}")
     updated_state = state.model_copy(
         update={
@@ -351,7 +353,8 @@ def planner(state: BrickState) -> BrickState:
             "next": result.get("next", ""),
             "status": "NOT_FINISHED",
             "make_plan": True,
-            "agent": "planner"
+            "agent": "planner",
+            "step_num": step_num
         }
     )
     
@@ -496,8 +499,42 @@ def responder(state: BrickState) -> BrickState:
             "agent": "responder"
         }
     )
-
+    return updated_state
 def plan_executor(state: BrickState) -> BrickState:
+    plan = state.current_plan
+    step_num = state.step_num
+    current_step = state.current_step
+    is_end = current_step >= step_num
+    step_content = None
+    rag_res = None
+    op = ""
+    print("step_num:", step_num, "current_step:", current_step)
+    if not is_end:
+        step_content = plan[current_step]
+        print("== starting RAG ==")
+        rag_res = RAG_func(query=json.dumps(step_content),vectorstore=state.default_vectorstore)
+        print("== rag_res ==", rag_res)
+        current_step += 1
+        next_agent = "coder"
+        op = "执行第" + str(current_step) + "步"
+    if is_end:
+        op = "所有步骤都已执行完毕"
+        next_agent = "responder"
+
+    updated_state = state.model_copy(
+        update={
+            "thought": "pe thinking",
+            "output": op,
+            "next": next_agent,
+            "step_content": step_content,
+            "find_function": rag_res,
+            "status": "NOT_FINISHED",
+            "agent": "plan_executor",
+            "current_step": current_step
+        }
+    )
+    return updated_state
+def plan_executor2(state: BrickState) -> BrickState:
 
     
     agent = create_agent(
@@ -511,6 +548,8 @@ def plan_executor(state: BrickState) -> BrickState:
     result = agent.invoke({"messages": [state.messages[-1]]})
     
     print("plan_executor result:")
+    plan = state.current_plan
+    print("tipe",type(plan))
 
 
     if "messages" in result:
@@ -652,7 +691,7 @@ def coder(state: BrickState) -> BrickState:
     agent = create_agent(
         "coder", 
         "coder", 
-        [extract_python_blocks_tool], 
+        [], 
         "coder",
         state.model_dump()
     )
@@ -1092,10 +1131,14 @@ def general_responder(state: BrickState) -> BrickState:
     return updated_state
 
 def notebook_searcher(state: BrickState) -> BrickState:
-    print("find notebook:", find_notebook(state.question,state.notebooks_path))
+    fn = find_notebook(state.question,state.notebooks_path)
+    nt = extract_notebook_text(fn)
+    
+    print("find notebook:", fn)
     updated_state = state.model_copy(
         update={
             "reference_notebook_path": find_notebook(state.question,state.notebooks_path),
+            "notebook_text": nt,
             "status": "NOT_FINISHED"
         }
     
@@ -1184,7 +1227,8 @@ def code_runner(state: BrickState) -> BrickState:
                     "code_output": stdout_lines,
                     "next": "code_debugger",
                     "status": "NOT_FINISHED",
-                    "agent": "code_runner"
+                    "agent": "code_runner",
+                    "complete_output": result
                 }
             )
         else:
@@ -1196,7 +1240,8 @@ def code_runner(state: BrickState) -> BrickState:
                     "code_output": stdout_lines,
                     "next": "plan_executor",
                     "status": "NOT_FINISHED",
-                    "agent": "code_runner"
+                    "agent": "code_runner",
+                    "complete_output": result
                 }
             )
         
