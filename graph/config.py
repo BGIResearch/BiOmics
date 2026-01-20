@@ -15,7 +15,7 @@ from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
 # 配置环境变量
 # 自动查找项目根目录下的配置文件
 config_file = Path(__file__).parent / 'brick_test_config.env'
-load_dotenv(dotenv_path=str(config_file))
+load_dotenv(dotenv_path=str(config_file), override=True)
 api_key = os.getenv('API_KEY')
 base_url = os.getenv('BASE_URL')
 url = os.getenv('KG_URL')

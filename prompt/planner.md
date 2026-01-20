@@ -26,6 +26,7 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 </brick_overview>
 
 <context>
+- Response language: {{language}}.
 - Analysis plan from analyze_planner: {{a_plan}}
 - BRICK module reference: {{brick_info}}
 </context>

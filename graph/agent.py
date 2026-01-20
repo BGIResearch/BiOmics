@@ -16,7 +16,7 @@ AGENT_LLM_MAP: dict[str, LLMType] = {
     "plan_executor": "basic",
     "coder": "coder",
     #"coder": "basic",
-    "code_debugger": "claude",
+    "code_debugger": "coder",
     #"code_debugger": "basic",
     "code_evaluator": "basic",
     "responder": "reasoning",

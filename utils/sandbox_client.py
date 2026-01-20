@@ -525,7 +525,7 @@ if __name__ == "__main__":
 #   --network="host" \
 #   -e PYTHONUNBUFFERED=1 \
 #   -v /home/liyuntian/Biomics_agent/data:/workspace/data \
-#   biomics_agent:v6 \
+#   biomics_agent:v11 \
 #   jupyter kernelgateway \
 #   --KernelGatewayApp.ip=0.0.0.0 \
 #   --KernelGatewayApp.port=8888 \

@@ -45,6 +45,8 @@ class BrickState(BaseModel):
     data_path: Optional[str] = None
     # 数据的报告
     data_repo: Optional[Union[str,dict,list]] = None
+    # docker中的存储文件夹
+    docker_save_dir : Optional[str] = None
     # docker中的数据路径
     docker_data_path: Optional[str] = None
     # debug历史记录
@@ -60,10 +62,14 @@ class BrickState(BaseModel):
     execution_result: Optional[dict] = None
     # 代码报错信息
     error_message: Optional[str] = None
+    # 过去生成的错误代码
+    error_code: Optional[str] = None
     # 最终答案
     final_answer: Optional[str] = None
     # 最终结果
     final_result: Optional[Union[str, dict, list]] = None
+    # 关系查询结果表格 (DataFrame类型)
+    relation_frame: Optional[Any] = None
     # 单次返回的未验证的function
     find_function: Optional[Union[str,list]] = None
     # 单次返回的tutorial
@@ -88,6 +94,8 @@ class BrickState(BaseModel):
     make_review: bool = False
     # 记忆：每一轮agent的对话
     messages: Annotated[list[AnyMessage], add_messages]
+    # 代码执行的notebook结果
+    notebook_cells: list = []
     # notebook默认库
     notebooks_path: str = os.path.join(PROJECT_ROOT, "notebooks")
     # notebook的文本内容
@@ -426,7 +434,7 @@ adata.obs['celltype'] = [cellcluster2celltype[x] for x in adata.obs['leiden']]
 sc.pl.umap(adata, color = 'celltype')
 """
     # 下一个agent
-    next: Literal["env_checker", "supervisor", "translator", "data_analyzer", "analyze_planner", "analyse_planner", "planner", "planner_stepwise", "searcher", "BRICK_searcher", "bkg_searcher", "plan_reviewer", "plan_executor", "plan_checker", "plan_strategy", "coder", "code_runner","code_debugger","code_evaluator", "code_controller", "code_executer", "responder", "general_responder", "step_checker", "step_spliter", "parse_interact", "parse_update", "test", "verify", "END"] = "supervisor"
+    next: Literal["env_checker", "supervisor", "translator", "data_analyzer", "analyze_planner", "analyse_planner", "planner", "planner_stepwise", "searcher", "BRICK_searcher", "bkg_searcher", "plan_reviewer", "plan_executor", "plan_checker", "plan_strategy", "coder", "code_runner","code_debugger","code_evaluator", "code_controller", "code_executer", "responder", "general_responder", "step_checker", "step_spliter", "parse_interact", "parse_update", "test", "verify", "END","query_agent"] = "supervisor"
     # Agent的系统输出
     output: Optional[Union[str, dict, list]] = None
     #代码运行是否成功
@@ -494,3 +502,6 @@ sc.pl.umap(adata, color = 'celltype')
     user_update_detail: list = []
     # 是否是标准h5ad文件
     valid_data: bool = False
+
+    class Config:
+        arbitrary_types_allowed = True  # 允许 DataFrame 等任意类型

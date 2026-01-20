@@ -18,7 +18,8 @@ from .node2 import (
     code_evaluator,
     responder,
     general_responder,
-    notebook_searcher 
+    notebook_searcher,
+    query_agent
 )
 
 def route_next_step(state: BrickState) -> str:
@@ -40,6 +41,7 @@ def route_next_step(state: BrickState) -> str:
         "analyze_planner": "analyze_planner",
         "general_responder": "general_responder",
         "notebook_searcher": "notebook_searcher",
+        "query_agent":"query_agent",
         "END": "END"
     }
     if state.status == "FINISHED":
@@ -68,13 +70,15 @@ def _build_base_graph():
     builder.add_node("code_debugger", code_debugger)
     builder.add_node("responder", responder) 
     builder.add_node("notebook_searcher", notebook_searcher)
-
+    builder.add_node("query_agent", query_agent)
+    
     builder.add_edge(START, "notebook_searcher")
-    builder.add_edge("notebook_searcher", "supervisor")
+    builder.add_edge("notebook_searcher", "supervisor") 
     builder.add_edge("code_debugger", "code_runner")
     builder.add_edge("responder", END)
     builder.add_edge("general_responder", END)
-
+    builder.add_edge("query_agent", END)
+    
     builder.add_conditional_edges("translator",route_next_step,{"supervisor": "supervisor"})
     builder.add_edge("coder", "code_runner")
     builder.add_edge("planner", "plan_executor")
@@ -93,6 +97,7 @@ def _build_base_graph():
         route_next_step,
         {
             "env_checker": "env_checker",
+            "query_agent": "query_agent",
             "general_responder": "general_responder"
         }
     )

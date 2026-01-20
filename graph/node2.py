@@ -7,6 +7,8 @@ from tools.mock_adata import generate_enhanced_simulated_data_tool
 from tools.summarize_data import summarize_data_tool
 from tools.valid_h5ad import validate_h5ad_structure_tool
 from tools.write_file import write_file_tool
+from tools.read_table import read_table_tool
+from Query_Agent import run_query
 from .create_agent import create_agent
 from .state import BrickState
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -21,6 +23,7 @@ from utils.exec_res_tool import (
 )
 from utils.docker_path_transform import transform_path
 from utils.save_dir_name import get_save_dir
+from utils.gene_id_converter import convert_var_names_to_symbol
 from tools.extract_code import extract_python_blocks_tool
 from tools.read_notebook import read_notebook_tool
 from tools.read_notebook import extract_notebook_text
@@ -34,7 +37,7 @@ output_parser = JsonOutputParser()
 
 def env_checker(state: BrickState) -> BrickState:
 
-
+    data_path = state.data_path
     if state.update_data_info:
         state.messages.append(HumanMessage(content=state.update_data_info))
 
@@ -43,9 +46,8 @@ def env_checker(state: BrickState) -> BrickState:
         "env_checker",
         [
             validate_h5ad_structure_tool,
-            generate_enhanced_simulated_data_tool,
             summarize_data_tool,
-            write_file_tool,
+            read_table_tool,
         ],
         "env_checker",
         state.model_dump()
@@ -57,16 +59,45 @@ def env_checker(state: BrickState) -> BrickState:
     
 
     if "messages" in result:
-
         result = result["messages"][-1].content
         print("env_checker result:", result)
-    result = json.loads(result)
+        result = json.loads(result)
+    
     print("env_checker result:", result)
     if isinstance(result, dict):
         print("[thought]", result["thought"])
         print("[output]", result["output"])
+
+        
             
         new_message = SystemMessage(content=f"thought: {result['thought']}, output: {result['output']}, status: {result['status']}")
+        
+        # 先根据原始文件获取 data_info
+        if data_path:
+            if data_path.endswith('.h5ad'):
+                data_info = summarize_data_tool.invoke({"data_path": data_path})["data_info"]
+            elif data_path.endswith('.csv') or data_path.endswith('.tsv'):
+                data_info = read_table_tool.invoke({"file_path": data_path})["description"]
+            else:
+                data_info = f"Unsupported file type: {data_path}"
+        else:
+            data_info = "No target data found."
+        
+        # 再处理 h5ad 文件的基因ID转换
+        final_data_path = data_path
+        if data_path and data_path.endswith('.h5ad'):
+            try:
+                converted_path = convert_var_names_to_symbol(data_path, verbose=True)
+                if converted_path != data_path:
+                    final_data_path = converted_path
+                    print(f"[INFO] 基因ID转换完成，新文件: {final_data_path}")
+            except Exception as e:
+                print(f"[WARN] 基因ID转换失败: {e}")
+        
+        # 转换 docker 路径
+        docker_data_path = transform_path(final_data_path) if final_data_path else None
+        
+        print("di",data_info)
         updated_state = state.model_copy(
             update={
                 "messages": state.messages + [new_message],
@@ -74,9 +105,9 @@ def env_checker(state: BrickState) -> BrickState:
                 "output": result["output"],
                 "next": result["next"],
                 "status": result["status"],
-                "valid_data": result["valid_data"],
-                "data_path": result["data_path"],
-                "data_info": summarize_data_tool.invoke({"data_path": result["data_path"]})["data_info"] if result.get("data_path") else "No target data found.",
+                "data_path": final_data_path,
+                "docker_data_path": docker_data_path,
+                "data_info": data_info,
                 "make_env_check" : True,
                 "agent":"env_checker"
             },
@@ -133,7 +164,9 @@ def supervisor(state: BrickState) -> BrickState:
         docker_data_path = transform_path(state.data_path)
     else:
         docker_data_path = None
+    
     sd = get_save_dir(state.question)
+    docker_save_dir = transform_path(sd)
     print("[thought]", result.get("thought", []))
     print("[output]", result.get("output", []))
     
@@ -148,7 +181,9 @@ def supervisor(state: BrickState) -> BrickState:
             "sandbox_id": sandbox_id,
             "output": result.get("output", []),
             "agent": "supervisor",
-            "save_dir": sd
+            "language": result.get("language", "English"),
+            "save_dir": sd,
+            "docker_save_dir": docker_save_dir, 
         }
     )
 
@@ -402,6 +437,7 @@ def code_debugger(state: BrickState) -> BrickState:
             "output": result.get("output", ""),
             "full_code": new_full_code,
             "code":result.get("output", ""),
+            "error_code": result.get("output", ""),
             "next": "code_runner",
             "status": "NOT_FINISHED",
             "agent": "code_debugger"
@@ -516,9 +552,9 @@ def plan_executor(state: BrickState) -> BrickState:
         print("== rag_res ==", rag_res)
         current_step += 1
         next_agent = "coder"
-        op = "执行第" + str(current_step) + "步"
+        op = "Executing step " + str(current_step) + " of " + str(step_num) + "..."
     if is_end:
-        op = "所有步骤都已执行完毕"
+        op = "All steps executed."
         next_agent = "responder"
 
     updated_state = state.model_copy(
@@ -722,6 +758,7 @@ def coder(state: BrickState) -> BrickState:
             "output": result.get("output", ""),
             "full_code": new_full_code,
             "code": result["output"],
+            "error_code": result["output"],
             "next": "code_runner",
             "status": "NOT_FINISHED",
             "agent": "coder"
@@ -1151,7 +1188,15 @@ def code_runner(state: BrickState) -> BrickState:
     从 state 中获取 sandbox_id，连接到对应的沙箱，执行 state.code
     """
     print("code_runner received state:")
-    
+    step_content = state.step_content
+    if state.agent == "code_debugger":
+        mdata = "Step"+ str(step_content.get("step")) + ":" + step_content.get("type") + " debugging" + "."
+    else:
+        mdata = "Step"+ str(step_content.get("step")) + ":" + step_content.get("type") + "."
+    thought = state.thought
+    code = state.code
+    notebook_cells = state.notebook_cells
+
     # 检查是否有 sandbox_id
     if not state.sandbox_id:
         error_msg = "沙箱未初始化，state 中缺少 sandbox_id"
@@ -1214,7 +1259,14 @@ def code_runner(state: BrickState) -> BrickState:
         result_value = format_result(result)
         error_msg = format_error(result)
         is_error = has_error(result)
-        
+        notebook_cells.append(
+            {
+                "mdata": mdata,
+                "thought": thought,
+                "code": code,
+                "outputs": result,
+            }
+        )
         # 5. 根据是否有错误决定下一步
         if is_error:
             print(f"❌ 代码执行出错")
@@ -1228,7 +1280,8 @@ def code_runner(state: BrickState) -> BrickState:
                     "next": "code_debugger",
                     "status": "NOT_FINISHED",
                     "agent": "code_runner",
-                    "complete_output": result
+                    "complete_output": result,
+                    "notebook_cells": notebook_cells
                 }
             )
         else:
@@ -1241,7 +1294,9 @@ def code_runner(state: BrickState) -> BrickState:
                     "next": "plan_executor",
                     "status": "NOT_FINISHED",
                     "agent": "code_runner",
-                    "complete_output": result
+                    "complete_output": result,
+                    "error_code": "",
+                    "notebook_cells": notebook_cells
                 }
             )
         
@@ -1262,3 +1317,21 @@ def code_runner(state: BrickState) -> BrickState:
                 "agent": "code_runner"
             }
         )
+
+def query_agent(state: BrickState) -> BrickState:
+    print("query_agent received state:")
+    ques = state.question
+    # 确保 save_dir 是绝对路径
+    save_dir = os.path.abspath(state.save_dir) if state.save_dir else None
+    print(f"[DEBUG] query_agent save_dir: {save_dir}")
+    res = run_query(ques, save_dir)
+    res_text = res.get("final_res", "")
+    res_table = res.get("relation_frame", "")
+    return state.model_copy(
+        update={
+            "output": res_text,
+            "status": "FINISHED",
+            "relation_frame": res_table,
+            "agent": "responder"
+        }
+    )

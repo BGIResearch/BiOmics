@@ -1,56 +1,56 @@
-## BRICK Agent - 使用指南
+## BRICK Agent - User Guide
 
-### 步骤 1：克隆项目仓库
+### Step 1: Clone the Repository
 
 ```bash
-git clone -b master https://github.com/lyt2003-yt/Biomics_agent.git
+git clone -b master https://github.com/BGIResearch/BiOmics
 ```
 
-### 步骤 2：配置环境变量
+### Step 2: Configure Environment Variables
 
-编辑 `graph/brick_test_config.env` 文件，修改以下配置：
+Edit the `graph/brick_test_config.env` file and modify the following configuration:
 
 ```bash
-# 修改项目根路径为实际路径
+# Change the project root path to your actual path
 PROJECT_ROOT=/your/path/to/Biomics_agent
 ```
 
-### 步骤 3：创建 Conda 环境
+### Step 3: Create Conda Environment
 
-使用提供的环境配置文件创建 Python 环境：
+Create a Python environment using the provided configuration file:
 
 ```bash
-# 使用 conda 创建环境
+# Create environment using conda
 conda env create -f biomics_environment.yml
 
-# 激活环境
+# Activate the environment
 conda activate biomics_agent
 ```
 
-### 步骤 4：启动 Docker 沙箱容器
+### Step 4: Start Docker Sandbox Container
 
-#### 4.1 下载 Docker 镜像
+#### 4.1 Download Docker Image
 
-从阿里云容器镜像服务下载预构建的镜像：
+Download the pre-built image from Alibaba Cloud Container Registry:
 
 ```bash
-# 下载镜像（约 6.57GB）
+# Download image (approximately 6.57GB)
 docker pull crpi-b88i7r04wqgzpar4.cn-beijing.personal.cr.aliyuncs.com/biomics/biomics-agent:v6
 
-# 可选：给镜像打一个标签
+# Optional: Tag the image
 docker tag crpi-b88i7r04wqgzpar4.cn-beijing.personal.cr.aliyuncs.com/biomics/biomics-agent:v6 biomics_agent:v6
 ```
 
-#### 4.2 启动沙箱容器
+#### 4.2 Start the Sandbox Container
 
 ```bash
-# 在项目目录下新建一个data文件：
+# Create a data directory under the project folder:
 Biomics_agent/data
 
-# 停止并删除旧容器（如果存在）
+# Stop and remove old container (if exists)
 docker rm -f my_code_sandbox
 
-# 启动新的沙箱容器
+# Start new sandbox container
 docker run -d \
   --name my_code_sandbox \
   --network="host" \
@@ -65,37 +65,36 @@ docker run -d \
   --KernelManager.ip=0.0.0.0
 ```
 
-**说明：**
-- 将 `/your/path/to/Biomics_agent/data` 换成项目 `data` 目录的**绝对路径**
-- 容器会在 `8888` 端口启动 Jupyter Kernel Gateway 服务
-- 使用 `--network="host"` 使容器与主机共享网络
+**Notes:**
+- Replace `/your/path/to/Biomics_agent/data` with the **absolute path** to your project's `data` directory
+- The container will start Jupyter Kernel Gateway service on port `8888`
+- Using `--network="host"` allows the container to share the host's network
 
-**验证容器运行：**
+**Verify container is running:**
 ```bash
-# 检查容器状态
+# Check container status
 docker ps | grep my_code_sandbox
 
-# 测试连接
+# Test connection
 curl http://127.0.0.1:8888/api
 ```
 
-### 步骤 5：运行应用
+### Step 5: Run the Application
 
-启动 NiceGUI Web 应用：
+Start the NiceGUI Web application:
 
 ```bash
-# 确保在项目根目录
+# Make sure you're in the project root directory
 cd /your/path/to/Biomics_agent
 
-# 激活环境（如果还没激活）
+# Activate the environment (if not already activated)
 conda activate biomics_agent
 
-# 启动应用
+# Start the application
 python app_nicegui.py
 ```
 
-应用启动后，浏览器会自动打开或访问：
+Once the application starts, the browser will automatically open or you can visit:
 ```
 http://localhost:8080
 ```
-
