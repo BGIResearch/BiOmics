@@ -64,3 +64,9 @@ Thumbs.db
 logs/
 # 忽略todo文件
 todo.txt
+
+# 忽略基因映射相关文件
+gene_mapping_filled.csv
+ncbi_genes_filtered.csv
+ncbi_genes.csv
+project_prompt.md
