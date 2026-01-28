@@ -83,19 +83,9 @@ def env_checker(state: BrickState) -> BrickState:
         else:
             data_info = "No target data found."
         
-        # 再处理 h5ad 文件的基因ID转换
-        final_data_path = data_path
-        if data_path and data_path.endswith('.h5ad'):
-            try:
-                converted_path = convert_var_names_to_symbol(data_path, verbose=True)
-                if converted_path != data_path:
-                    final_data_path = converted_path
-                    print(f"[INFO] 基因ID转换完成，新文件: {final_data_path}")
-            except Exception as e:
-                print(f"[WARN] 基因ID转换失败: {e}")
         
         # 转换 docker 路径
-        docker_data_path = transform_path(final_data_path) if final_data_path else None
+        docker_data_path = transform_path(data_path) if data_path else None
         
         print("di",data_info)
         updated_state = state.model_copy(
@@ -105,9 +95,9 @@ def env_checker(state: BrickState) -> BrickState:
                 "output": result["output"],
                 "next": result["next"],
                 "status": result["status"],
-                "data_path": final_data_path,
+                "data_path": data_path,
                 "docker_data_path": docker_data_path,
-                "data_info": data_info,
+                "data_info": data_info, 
                 "make_env_check" : True,
                 "agent":"env_checker"
             },
@@ -133,6 +123,14 @@ def supervisor(state: BrickState) -> BrickState:
     
     if not box.start():
         print("沙箱启动失败")
+        updated_state = state.model_copy(
+        update={
+            "thought": "Failed to start the Docker sandbox",
+            "output": "Please check whether the Docker image is running and then ask again",
+            "agent": "supervisor",
+            "next": "general_responder"
+        })
+        return updated_state
         exit(1)
     
     print(f"\n沙箱 ID: {box.get_id()}")
@@ -270,7 +268,7 @@ def data_analyzer(state: BrickState) -> BrickState:
                 "thought": result["thought"],
                 "data_repo": result["output"],
                 "output": result["output"],
-                "make_data_repo": True,
+                "make_data_repo": True, 
                 "final_result": result["output"],
                 "status": "VALIDATED",
                 "next": "analyze_planner",
@@ -326,7 +324,7 @@ def analyze_planner(state: BrickState) -> BrickState:
                 "thought": result.get("thought", ""),
                 "output": result.get("output", ""),
                 "a_plan": result.get("output", ""),
-                "status": result.get("status", ""),
+                "status": "ASK_USER",
                 "next": "analyze_planner",
                 "agent": "analyze_planner"
             }
@@ -339,7 +337,7 @@ def analyze_planner(state: BrickState) -> BrickState:
                 "thought": result.get("thought", ""),
                 "output": result.get("output", ""),
                 "a_plan": result.get("output", ""),
-                "status": "NOT_FINISHED",
+                "status": "VALIDATED",
                 "next": "planner",
                 "make_analysis": True,
                 "agent": "analyze_planner"
@@ -1001,128 +999,7 @@ def code_executer_old(state: BrickState) -> BrickState:
 
     return updated_state
 
-def code_executer(step: str, code: str, step_id: str, keep_files: bool = False, save_dir: str = None) -> dict:
-    """
-    修正后的执行函数（解决文件保存问题）
-    """
-    result_template = {
-        "stdout": "", 
-        "stderr": "",
-        "returncode": -1,
-        "file_path": None,
-        "error": None
-    }
-    
-    script_path = None  # 显式初始化
-    use_tempfile = False  # 默认值
-    
-    try:
-         # 检查并创建 plots 目录
-        plots_dir = "plots"
-        Path(plots_dir).mkdir(parents=True, exist_ok=True)
-        
-        file_id = f"BRICK_{step_id}"
-        if save_dir:
-            save_dir = os.path.expanduser(save_dir)
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
-            script_path = Path(save_dir) / f"generated_{file_id}.py"
-            use_tempfile = False
-        else:
-            temp_dir = tempfile.gettempdir()
-            script_path = Path(temp_dir) / f"generated_{file_id}.py"
-            use_tempfile = True
-        
-        fixed_code = """
-import sys
-import os
-os.chdir("/home/lyt/checker_finallap") # your working path
-sys.path.append("/home/lyt/checker_finallap")
 
-import scanpy as sc
-from scipy.sparse.csgraph import connected_components
-import numpy as np
-import scipy.sparse
-import pandas as pd
-import networkx as nx
-import matplotlib.pyplot as plt
-import itertools
-from datetime import datetime
-from pathlib import Path
-
-import BRICK
-
-#base_url = ""
-#api_key = ""
-
-api_key = "sk-kpsteSkpDGl1xBmDEcC7D51b968e43499092826f17286b55"
-base_url = "http://10.224.28.80:3000/v1"
-llm_params = {"model_name": "deepseek-v3-hs", "temperature": 0.7}
-
-BRICK.config_llm(modeltype='ChatOpenAI', base_url=base_url, api_key=api_key, llm_params=llm_params)
-
-url = "neo4j://10.224.28.66:7687"
-auth = ("neo4j", "bmVvNGpwYXNzd29yZA==")  
-
-BRICK.config(url=url, auth=auth)
-
-plots_dir = "plots"
-if not os.path.exists(plots_dir):
-    os.makedirs(plots_dir, exist_ok=True)  # 自动创建目录
-    print(f"创建目录: {{plots_dir}}")
-else:
-    print(f"目录已存在: {{plots_dir}}")
-
-current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-"""
-        full_script = f"""
-{fixed_code}
-
-# ----------User code start----------
-{code}
-# ----------User code end------------
-if __name__ == "__main__":
-    try:
-        print("EXECUTION_START")
-        exec('''{code}''')
-    except Exception as e:
-        print(f"EXECUTION_ERROR:{{str(e)}}")
-        raise
-"""
-        """"""
-        # 调试输出
-        print(f"生成脚本路径: {script_path}")  # 添加调试信息
-        
-        # 写入文件（处理权限）
-        try:
-            with open(script_path, "w", encoding="utf-8") as f:  # 指定编码
-                f.write(full_script)
-            script_path.chmod(0o600)
-            print(f"文件写入成功: {script_path.stat().st_size} 字节")  # 验证写入
-            #print("生成的脚本内容:\n", full_script)
-            print("Now running code...")
-            debug_state, code, output = debug(step,full_script,work_dir=save_dir)
-            print("debug_state:", debug_state)
-            #print('output: ', output)
-            result_template["stdout"] = output
-            return result_template
-        except Exception as e:
-            result_template["error"] = f"文件写入失败: {str(e)}"
-            return result_template
-        
-    except subprocess.TimeoutExpired as e:
-        result_template["error"] = f"执行超时: {str(e)}"
-        return result_template
-    except Exception as e:
-        result_template["error"] = f"系统错误: {str(e)}"
-        return result_template
-    finally:
-        if script_path and script_path.exists():
-            should_delete = (use_tempfile and not keep_files) or (not use_tempfile and not keep_files)
-            if should_delete:
-                try:
-                    script_path.unlink()
-                except Exception as e:
-                    pass
 
 def general_responder(state: BrickState) -> BrickState:
     

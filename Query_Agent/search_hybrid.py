@@ -14,18 +14,14 @@ brick_path = os.path.join(project_root, 'BRICK')
 if brick_path not in sys.path:
     sys.path.insert(0, brick_path)
 
+# 导入配置加载器
+sys.path.insert(0, os.path.join(project_root, 'Query_Agent'))
+from config_loader import configure_brick
 
 import BRICK
 
-# Configure BRICK
-url = "neo4j://10.224.28.66:7687"
-auth = ("neo4j", "bmVvNGpwYXNzd29yZA==")
-
-BRICK.config(url=url, auth=auth)
-BRICK.config_llm(modeltype='ChatOpenAI', 
-                 api_key="sk-kpsteSkpDGl1xBmDEcC7D51b968e43499092826f17286b55",  
-                 base_url='http://10.224.28.80:3000/v1', 
-                 llm_params={'model_name': 'qwen-max'})
+# Configure BRICK - 从配置文件加载
+configure_brick(model_key="BASIC_MODEL")
 
 client = BRICK.se.BRICKSearchClient()
 print(f"字符串索引: {client.search_config.string_index_name}")

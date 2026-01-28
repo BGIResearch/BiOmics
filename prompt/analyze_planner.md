@@ -28,20 +28,20 @@ BRICK consists of 5 core modules:
 BRICK must to use the Biomedical Knowledge Graph's schema.
 </brick_overview>
 
-<content>
+<context>
 - Your last thought: {{thought}}
 - Your last plan: {{output}}
-- User update details: {{user_update_detail}}
+- User's modification feedback: {{user_update_detail}}
 - User question: {{question}}
-- Data info: {{data_info}}
+- Data information: {{data_info}}
 - Data report: {{data_repo}}
-- Current plan (if any): {{current_plan}}
 - Reference notebook content: {{notebook_text}}
-</content>
+- The previous plan you generated:{{a_plan}}
+</context>
 
 <task>
 1. Realize the user's intent from their question.
-2. Use `read_notebook_tool` to read and parse the reference notebook.
+2. Read the reference notebook content carefully, and understand the BRICK tool profoundly.
 3. Browse the parsed notebook content to understand the existing analysis steps.
 4. Make plan step with the reference notebook analysis steps , user's question and the data information, 
    When writing a plan:
@@ -59,7 +59,7 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 2. Make sure every step has exactly one function that is used in the reference notebook. If a step contains multiple functions, split it into multiple steps. If a step has no function, merge it with other relevant steps. DO NOT use functions that are not used in the reference notebook.
 3. You need to regard the data information when writing the plan.
 4. The language of the plan should be the same as the user's question.
-5. Do not include BRICK system connection configuration (BRICK.config) in the plan, as this step will be completed before code generation.
+5. Incorporate the user's modification feedback to revise your generated plan.
 6. Output the "output" content of json in markdown format.
 7. **CRITICAL**: You MUST return your response in STRICT JSON format. Your entire response must be a valid JSON object with curly braces and proper key-value pairs.
 </tips>
@@ -67,12 +67,25 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 <output_format>
 **IMPORTANT**: Your response MUST be a valid JSON object. Do NOT include any text before or after the JSON. Start your response with "{" and end with "}".
 
-The JSON format must be exactly:
+- If the user's modification feedback and "The previous plan you generated" are both empty, this indicates you are generating the plan for the first time. Generate in the following format:
 {
   "thought": "Summarize your reasoning for constructing this plan.",
-  "output": "The full updated analysis plan.",
-  "status": "NOT_FINISHED"
+  "output": "The full updated analysis plan. Consider the notebook content and data information. At the end of your response, prompt the user for modification feedback, e.g., 'Do you think this plan is feasible? If modifications are needed, please let me know.'",
+  "status": "ASK_USER"
 }
 
+- If the user has provided modification feedback, you need to revise the plan based on "The previous plan you generated" according to the feedback. Generate in the following format:
+{
+  "thought": "Summarize your reasoning for constructing this plan.",
+  "output": "The revised plan based on user's modification feedback. At the end, ask the user if further modifications are needed.",
+  "status": "ASK_USER"
+}
+
+- If the user confirms the plan is feasible and no further modifications are needed, generate in the following format:
+{
+  "thought": "Summarize your reasoning for constructing this plan.",
+  "output": "Same as 'The previous plan you generated', but remove the user inquiry part and keep only the plan itself.",
+  "status": "VALIDATED"
+}
 **MANDATORY**: Return ONLY the JSON object above. No additional text, explanations, or formatting outside the JSON structure.
 </output_format>

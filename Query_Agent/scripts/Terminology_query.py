@@ -7,20 +7,17 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
+# 导入配置加载器
+sys.path.insert(0, os.path.join(project_root, 'Query_Agent'))
+from config_loader import configure_brick
+
 
 def terminology_query(question, entity_name, file_path, query_type) -> tuple:    
     import BRICK
     import scanpy as sc
 
-    # Configure BRICK
-    url = "neo4j://10.224.28.66:7687"
-    auth = ("neo4j", "bmVvNGpwYXNzd29yZA==")
-
-    BRICK.config(url=url, auth=auth)
-    BRICK.config_llm(modeltype='ChatOpenAI', 
-                    api_key="sk-kpsteSkpDGl1xBmDEcC7D51b968e43499092826f17286b55",  
-                    base_url='http://10.224.28.80:3000/v1', 
-                    llm_params={'model_name': 'qwen-max'})
+    # Configure BRICK - 从配置文件加载
+    configure_brick(model_key="BASIC_MODEL")
 
     
     neighbor_df = BRICK.qr.query_neighbor(

@@ -54,7 +54,7 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 - The "find_function" is used to make you understand the function of the BRICK module and function, DO NOT define it.Just use the function.
 - If the "find_function" is empty, this usually means that the BRICK package is not needed for this step.
 - Focus on completing the content in "step_content", not the entire task.
-- **CRITICAL**: Save all intermediate files (e.g., tables queried via BRICK, intermediate task results, final task outputs) to "The storage location of intermediate files" (docker_save_dir). This includes DataFrames, plots, processed data, and any generated artifacts.
+- **CRITICAL**: Save all intermediate files (e.g., tables queried via BRICK, intermediate task results, final task outputs) to "The storage location of intermediate files" (docker_save_dir). This includes DataFrames, plots, but don't save processed h5ad data because it's too big.
 </important_tips>
 
 

@@ -44,6 +44,11 @@ wheels/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# 忽略测试/临时 notebook 文件
+notebooks/t.ipynb
+notebooks/Spatial_Transcriptomics.ipynb
+notebooks/Spatial_Transcriptomics1.ipynb
+
 # 环境变量（如果包含敏感信息）
 # .env
 # brick_test_config.env
@@ -69,4 +74,4 @@ todo.txt
 gene_mapping_filled.csv
 ncbi_genes_filtered.csv
 ncbi_genes.csv
-project_prompt.md
+project_prompt.mdsystem_prompt.md

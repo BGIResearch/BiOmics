@@ -101,19 +101,26 @@ class DockerSandbox:
             except Exception:
                 return False
     
-    def run(self, code: str, verbose: bool = True, max_wait_time: int = 300) -> Dict[str, Any]:
-        """运行代码并返回结果
+    def _run_iter(self, code: str, verbose: bool = True, max_wait_time: int = 300):
+        """内部生成器：流式执行代码，每收到一条消息就 yield 一个事件
         
         Args:
             code: 要执行的 Python 代码
             verbose: 是否打印详细信息
             max_wait_time: 最大等待时间（秒），默认 300秒
             
-        Returns:
-            Dict: 包含 stdout, stderr, result, images 等字段的字典
+        Yields:
+            Dict: 事件字典，包含 event 类型和相关数据
+                - {"event": "stdout", "text": ...}
+                - {"event": "stderr", "text": ...}
+                - {"event": "error", "error": ...}
+                - {"event": "result", "data": ...}
+                - {"event": "image", "image": {"type": ..., "data": ...}}
+                - {"event": "done", "result": {...}}  # 最后一个事件，包含完整结果
         """
         if not self.ws:
-            return {"error": "沙箱未启动"}
+            yield {"event": "error", "error": "沙箱未启动"}
+            return
 
         msg_id = str(uuid.uuid4())
         message = {
@@ -134,7 +141,7 @@ class DockerSandbox:
             print(f"\n>>> 正在执行代码 ({len(code)} chars)...")
         self.ws.send(json.dumps(message))
 
-        # 收集结果
+        # 收集结果（用于最后的 done 事件）
         result = {
             "stdout": [],
             "stderr": [],
@@ -181,10 +188,12 @@ class DockerSandbox:
                         result["stdout"].append(text)
                         if verbose:
                             print(f"[输出]: {text}", end="")
+                        yield {"event": "stdout", "text": text}
                     elif content.get('name') == 'stderr':
                         result["stderr"].append(text)
                         if verbose:
                             print(f"[错误]: {text}", end="")
+                        yield {"event": "stderr", "text": text}
                 
                 # 2. 错误信息
                 elif msg_type == "error":
@@ -192,20 +201,22 @@ class DockerSandbox:
                     result["error"] = trace_str
                     if verbose:
                         print(f"\n❌ 运行时错误:\n{trace_str}")
+                    yield {"event": "error", "error": trace_str}
                 
                 # 3. 执行结果
                 elif msg_type == "execute_result":
-                    result["result"] = content.get('data', {}).get('text/plain', '')
+                    data = content.get('data', {})
+                    text_result = data.get('text/plain', '')
+                    result["result"] = text_result
                     if verbose:
-                        print(f"\n[结果]: {result['result']}")
+                        print(f"\n[结果]: {text_result}")
+                    yield {"event": "result", "data": text_result}
                     
                     # 检查是否有图像数据
-                    data = content.get('data', {})
                     if 'image/png' in data:
-                        result["images"].append({
-                            'type': 'png',
-                            'data': data['image/png']
-                        })
+                        img = {'type': 'png', 'data': data['image/png']}
+                        result["images"].append(img)
+                        yield {"event": "image", "image": img}
 
                 # 4. 富文本/图表
                 elif msg_type == "display_data":
@@ -215,15 +226,13 @@ class DockerSandbox:
                     
                     # 提取图像
                     if 'image/png' in data:
-                        result["images"].append({
-                            'type': 'png',
-                            'data': data['image/png']
-                        })
+                        img = {'type': 'png', 'data': data['image/png']}
+                        result["images"].append(img)
+                        yield {"event": "image", "image": img}
                     if 'image/jpeg' in data:
-                        result["images"].append({
-                            'type': 'jpeg',
-                            'data': data['image/jpeg']
-                        })
+                        img = {'type': 'jpeg', 'data': data['image/jpeg']}
+                        result["images"].append(img)
+                        yield {"event": "image", "image": img}
                 
                 # 5. 执行回复（真正的结束标志）
                 elif msg_type == "execute_reply":
@@ -270,16 +279,20 @@ class DockerSandbox:
                 # 检查总超时
                 elapsed = time.time() - start_time
                 if elapsed > max_wait_time:
-                    result["error"] = f"执行超时(>{max_wait_time}秒)"
+                    error_msg = f"执行超时(>{max_wait_time}秒)"
+                    result["error"] = error_msg
                     if verbose:
                         print(f"\n⚠️ 执行超时！已经过去 {elapsed:.1f} 秒")
+                    yield {"event": "error", "error": error_msg}
                     break
                 # 否则继续等待
                 continue
             except Exception as e:
-                result["error"] = str(e)
+                error_msg = str(e)
+                result["error"] = error_msg
                 if verbose:
                     print(f"\n❌ 通信异常: {e}")
+                yield {"event": "error", "error": error_msg}
                 break
         
         # 恢复原始超时设置
@@ -288,7 +301,56 @@ class DockerSandbox:
         except Exception:
             pass
         
-        return result
+        # 最后 yield 一个 done 事件，包含完整结果
+        yield {"event": "done", "result": result}
+    
+    def run(self, code: str, verbose: bool = True, max_wait_time: int = 300) -> Dict[str, Any]:
+        """运行代码并返回最终结果（向后兼容的同步接口）
+        
+        Args:
+            code: 要执行的 Python 代码
+            verbose: 是否打印详细信息
+            max_wait_time: 最大等待时间（秒），默认 300秒
+            
+        Returns:
+            Dict: 包含 stdout, stderr, result, images 等字段的字典
+        """
+        final_result = None
+        for event in self._run_iter(code=code, verbose=verbose, max_wait_time=max_wait_time):
+            if event.get("event") == "done":
+                final_result = event["result"]
+                break
+        return final_result or {"error": "未知错误"}
+    
+    def run_stream(self, code: str, verbose: bool = True, max_wait_time: int = 300):
+        """流式执行代码：每当有新输出/结果，就 yield 一个事件
+        
+        Args:
+            code: 要执行的 Python 代码
+            verbose: 是否打印详细信息
+            max_wait_time: 最大等待时间（秒），默认 300秒
+            
+        Yields:
+            Dict: 事件字典，可能的事件类型：
+                - {"event": "stdout", "text": "..."} - 标准输出
+                - {"event": "stderr", "text": "..."} - 标准错误
+                - {"event": "error", "error": "..."} - 运行时错误
+                - {"event": "result", "data": "..."} - 执行结果
+                - {"event": "image", "image": {"type": "png/jpeg", "data": "..."}} - 图像
+                - {"event": "done", "result": {...}} - 执行完成（最后一个事件）
+        
+        Example:
+            >>> box = DockerSandbox()
+            >>> box.start()
+            >>> for event in box.run_stream("print('Hello'); import matplotlib.pyplot as plt; plt.plot([1,2,3])"):
+            ...     if event["event"] == "stdout":
+            ...         print(f"输出: {event['text']}")
+            ...     elif event["event"] == "image":
+            ...         save_image(event["image"])
+            ...     elif event["event"] == "done":
+            ...         print("执行完成")
+        """
+        return self._run_iter(code=code, verbose=verbose, max_wait_time=max_wait_time)
 
     def upload_file(self, local_path: str, remote_path: Optional[str] = None) -> bool:
         """上传文件到沙箱
@@ -502,21 +564,43 @@ if __name__ == "__main__":
         exit(1)
     
     print(f"\n沙箱 ID: {box.get_id()}")
-    try:
-        # ========== 测试 1: 运行代码 ==========
-        print("\n" + "="*50)
-        print("测试 1: 运行简单代码")
-        print("="*50)
-        result = box.run("""
 
-""")
-        print(result)
+    # ========== 测试 1: 运行代码 ==========
+    print("\n" + "=" * 50)
+    print("测试 1: 运行简单代码（流式输出）")
+    print("=" * 50)
 
-    finally:
-        # 关闭沙箱
-        print("\n" + "="*50)
-        box.close()
-        print("="*50)
+    code = """
+print(a)
+print("123456")
+"""
+
+    final_result = None
+    for event in box.run_stream(code, verbose=False):  # verbose=False 防止重复打印
+        et = event["event"]
+        if et == "stdout":
+            # 标准输出流式打印
+            print(f"[STDOUT] {event['text']}", end="")
+
+        elif et == "stderr":
+            print(f"[STDERR] {event['text']}", end="")
+
+        elif et == "result":
+            print(f"\n[RESULT] {event['data']}")
+
+        elif et == "image":
+            img = event["image"]
+            print(f"\n[IMAGE] type={img['type']} (len={len(img['data'])})")
+
+        elif et == "error":
+            print(f"\n[ERROR] {event['error']}")
+
+        elif et == "done":
+            final_result = event["result"]
+            print("\n[DONE] 收到最终结果")
+
+    print("\n最终 result 字典：")
+    print(final_result)
 
 
 # docker stop my_code_sandbox
@@ -525,7 +609,7 @@ if __name__ == "__main__":
 #   --network="host" \
 #   -e PYTHONUNBUFFERED=1 \
 #   -v /home/liyuntian/Biomics_agent/data:/workspace/data \
-#   biomics_agent:v11 \
+#   biomics_agent:v12 \
 #   jupyter kernelgateway \
 #   --KernelGatewayApp.ip=0.0.0.0 \
 #   --KernelGatewayApp.port=8888 \

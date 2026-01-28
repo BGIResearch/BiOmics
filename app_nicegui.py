@@ -190,18 +190,17 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
     with ui.row().style(
         'height: 10%; min-height: 60px; width: 100%; '
         'align-items: center; padding: 0 24px; '
-        'border-bottom: 1px solid #ddd; background: #f5f5f5; '
+        'border-bottom: 1px solid #ddd; background: #476179; '
         'justify-content: space-between;'
     ):
-        # 左侧：Logo 和标题
+        # 左侧：Logo
         with ui.row().style('align-items: center;'):
-            ui.html('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.27 159.57" style="height: 40px; width: auto;">
-              <defs><style>.b{fill:#231815;font-family:Arial-BoldMT,Arial;font-size:86.59px;font-weight:700}.c{fill:#dcdddd}.c,.d,.e{stroke:#231815;stroke-miterlimit:10}.c,.e{stroke-width:.75px}.d{fill:#c9caca;stroke-linecap:round;stroke-width:.25px}.e{fill:none}</style></defs>
-              <text class="b" transform="translate(0 74.28)"><tspan x="0" y="0">Bi</tspan></text>
-              <g><path class="e" d="M210.19,72.43c0-29.58-23.11-53.68-51.96-54.49,14.05.82,25.19,12.7,25.19,27.22s-11.97,27.27-26.77,27.27-26.75,12.22-26.75,27.27,11.14,26.41,25.19,27.22c.52.05,1.04.05,1.56.05s1.06,0,1.58-.05c28.85-.82,51.96-24.91,51.96-54.49Z"/><path class="c" d="M183.42,45.16c0-14.53-11.14-26.41-25.19-27.22-.52-.02-1.06-.05-1.58-.05s-1.04.02-1.56.05c-28.83.82-51.96,24.91-51.96,54.49s23.14,53.68,51.96,54.49c-14.05-.82-25.19-12.7-25.19-27.22s11.97-27.27,26.75-27.27,26.77-12.22,26.77-27.27Z"/><ellipse class="d" cx="125.18" cy="81.51" rx="3.57" ry="3.64"/><ellipse class="d" cx="145.94" cy="63.41" rx="3.57" ry="3.64"/><ellipse class="d" cx="166.39" cy="79.09" rx="3.57" ry="3.64"/><ellipse class="d" cx="188.77" cy="63.41" rx="3.57" ry="3.64"/><ellipse class="d" cx="145.94" cy="41.7" rx="3.57" ry="3.64"/><ellipse class="d" cx="166.39" cy="101.88" rx="3.57" ry="3.64"/><line class="d" x1="145.94" y1="63.41" x2="166.39" y2="79.09"/><line class="d" x1="166.39" y1="79.09" x2="166.39" y2="101.88"/><line class="d" x1="166.39" y1="79.09" x2="188.77" y2="63.41"/><line class="d" x1="125.18" y1="81.51" x2="145.94" y2="63.41"/><line class="d" x1="145.94" y1="63.41" x2="145.94" y2="41.7"/></g>
-              <text class="b" transform="translate(214.91 126.97)"><tspan x="0" y="0">mics</tspan></text>
+            ui.html('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="270 410 90 25" style="height: 60px; width: auto;">
+              <style type="text/css">.st0{fill:#476179;}.st1{fill:#FFFFFF;}.st2{font-family:'Arial-BoldMT';}.st3{font-size:9px;}.st4{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}.st5{fill:none;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}.st6{opacity:0.5;fill:#455D7D;}.st7{fill:#455D7D;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}.st9{fill:#455D7D;}.st10{fill:none;stroke:#455D7D;stroke-width:0.1294;stroke-miterlimit:10;}.st11{fill:none;stroke:#FFFFFF;stroke-width:0.1294;stroke-miterlimit:10;}.st12{fill:#455D7D;stroke:#455D7D;stroke-width:0.0863;stroke-miterlimit:10;}.st13{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:0.0863;stroke-miterlimit:10;}.st14{fill:#FFFFFF;stroke:#7A75AB;stroke-width:0.0863;stroke-miterlimit:10;}.st15{fill:#455D7D;stroke:#FFFFFF;stroke-width:0.0863;stroke-miterlimit:10;}.st16{fill:#FFFFFF;stroke:#455D7D;stroke-width:0.0789;stroke-miterlimit:10;}.st17{fill:none;stroke:#FFFFFF;stroke-width:0.0731;stroke-miterlimit:10;}.st20{fill:#FFFFFF;stroke:#455D7D;stroke-width:0.0863;stroke-miterlimit:10;}</style>
+              <path class="st0" d="M348.25,429.42h-70.83c-3.48,0-6.3-2.82-6.3-6.3v-3.72c0-3.48,2.82-6.3,6.3-6.3h70.83c3.48,0,6.3,2.82,6.3,6.3v3.72C354.56,426.59,351.73,429.42,348.25,429.42z"/>
+              <text transform="matrix(1 0 0 1 275.389 424.6138)" class="st1 st2 st3">Bi</text><text transform="matrix(1 0 0 1 298.3929 424.6138)" class="st1 st2 st3">mics  Agent</text>
+              <g><path class="st4" d="M288.91,417.49c0-1.32,1.03-2.41,2.34-2.48c0.05,0,0.1,0,0.15,0s0.1,0,0.14,0c2.68,0.07,4.83,2.27,4.83,4.97s-2.15,4.89-4.83,4.97c1.3-0.07,2.34-1.16,2.34-2.48c0-1.37-1.11-2.49-2.48-2.49C290.02,419.97,288.91,418.86,288.91,417.49"/><path class="st5" d="M291.23,415.01c0.05,0,0.1,0,0.14,0c0.05,0,0.1,0,0.15,0c2.68,0.07,4.83,2.27,4.83,4.97c0,2.7-2.15,4.89-4.83,4.97"/><path class="st7" d="M293.86,422.46c0,1.32-1.03,2.41-2.34,2.48c-0.05,0-0.1,0-0.15,0s-0.1,0-0.14,0c-2.68-0.07-4.83-2.27-4.83-4.97s2.15-4.89,4.83-4.97c-1.3,0.07-2.34,1.16-2.34,2.48c0,1.37,1.11,2.49,2.48,2.49C292.75,419.98,293.86,421.09,293.86,422.46"/><g><line class="st10" x1="288.93" y1="418.28" x2="290.37" y2="419.57"/><line class="st10" x1="292.23" y1="419.18" x2="290.37" y2="419.57"/><line class="st10" x1="294.13" y1="420.76" x2="292.23" y2="419.18"/><line class="st10" x1="292.09" y1="416.58" x2="292.23" y2="419.18"/><line class="st10" x1="288.93" y1="418.28" x2="292.09" y2="416.58"/><line class="st11" x1="290.37" y1="419.57" x2="289.77" y2="422.24"/><line class="st11" x1="294.13" y1="420.76" x2="289.77" y2="422.24"/><path class="st12" d="M293.87,421.08c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C293.67,420.68,293.7,420.93,293.87,421.08z"/><path class="st12" d="M291.83,416.89c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C291.64,416.49,291.66,416.75,291.83,416.89z"/><path class="st13" d="M288.67,418.61c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C288.48,418.21,288.5,418.47,288.67,418.61z"/><path class="st14" d="M291.97,419.49c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C291.77,419.09,291.8,419.35,291.97,419.49z"/><path class="st15" d="M290.11,419.88c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C289.91,419.48,289.94,419.74,290.11,419.88z"/><path class="st13" d="M289.51,422.56c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C289.31,422.16,289.34,422.41,289.51,422.56z"/><path class="st16" d="M288.7,418.58c0.16,0.13,0.39,0.11,0.53-0.05c0.13-0.16,0.11-0.39-0.05-0.53c-0.16-0.13-0.39-0.11-0.53,0.05C288.51,418.22,288.54,418.45,288.7,418.58z"/><path class="st16" d="M289.54,422.53c0.16,0.13,0.39,0.11,0.53-0.05c0.13-0.16,0.11-0.39-0.05-0.53c-0.16-0.13-0.39-0.11-0.53,0.05C289.35,422.16,289.38,422.4,289.54,422.53z"/><path class="st17" d="M293.91,421.03c0.15,0.12,0.37,0.1,0.49-0.05c0.12-0.15,0.1-0.37-0.05-0.49c-0.15-0.12-0.37-0.1-0.49,0.05C293.74,420.69,293.76,420.91,293.91,421.03z"/><path class="st17" d="M291.87,416.84c0.15,0.12,0.37,0.1,0.49-0.05c0.12-0.15,0.1-0.37-0.05-0.49s-0.37-0.1-0.49,0.05C291.71,416.5,291.73,416.72,291.87,416.84z"/></g></g>
             </svg>''', sanitize=False)
-            ui.label('Agent').style('font-size: 24px; font-weight: bold; margin-left: 8px;')
         
         # 右侧：按钮组
         with ui.row().style('gap: 20px; margin-right: 40px;'):
@@ -385,7 +384,7 @@ def agent_update_chat(event) -> None:
         agent_thought = event.get('thought')
         agent_output = event.get('output')
         with biomics_chat:
-            ui.chat_message(text=[agent_thought, agent_output], name=agent_name).style(message_animation)
+            ui.chat_message(text=[agent_thought, agent_output], name="BiOmics Agent").style(message_animation)
         biomics_chat.scroll_to(percent=1.0)  # 滚动到底部
     elif agent_name=="env_checker":
         agent_thought = event.get('thought')
@@ -647,7 +646,7 @@ def start_graph(question: str, file_path: str, config: dict, save_dir: str = Non
     if save_dir:
         state_data["save_dir"] = save_dir
     initial_state = BrickState(**state_data)
-    graph = build_graph_with_interaction(interrupt_after=["env_checker","data_analyzer"],interrupt_before=[])
+    graph = build_graph_with_interaction(interrupt_after=["env_checker","data_analyzer","analyze_planner"],interrupt_before=[])
     initial_state_dict = initial_state.model_dump()
     events = graph.stream(initial_state_dict, config=config, stream_mode="values")
     return events, graph
@@ -683,6 +682,10 @@ def process_events(graph, events, config, cancel_event: threading.Event = None):
             print("[DEBUG] process_events 返回 waiting_kind = 'update_data_repo'")
             return ('update_data_repo', graph, sandbox_id)
         
+        elif status == "ASK_USER":
+            print("[DEBUG] process_events 返回 waiting_kind = 'ask_user'")
+            return ('ask_user', graph, sandbox_id)
+            
         elif status == "VALIDATED":
             # 根据项目记忆：VALIDATED 也需要手动继续 stream
             events = graph.stream(None, config=config, stream_mode="values")
@@ -842,6 +845,31 @@ async def handle_user_input():
         elif waiting_kind == 'update_data_repo':
             print("[DEBUG] 进入 update_data_repo 分支")
             graph.update_state(config=config, values={'update_data_repo': text})
+            app.storage.client['waiting_kind'] = None
+            set_graph_running(True)
+            events = graph.stream(None, config=config, stream_mode='values')
+            first_event = next(events, None)
+            cancel_event = threading.Event()
+            app.storage.client['cancel_event'] = cancel_event
+            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
+            app.storage.client['background_task'] = task
+            result = await task
+            
+            # 后台线程返回的状态，由主线程设置
+            if result:
+                waiting_kind, graph, sandbox_id = result
+                app.storage.client['graph'] = graph
+                app.storage.client['config'] = config
+                app.storage.client['sandbox_id'] = sandbox_id
+                if waiting_kind:
+                    app.storage.client['waiting_kind'] = waiting_kind
+                    set_graph_running(False)
+                else:
+                    set_graph_running(False)
+
+        elif waiting_kind == 'ask_user':
+            print("[DEBUG] 进入 ask_user 分支")
+            graph.update_state(config=config, values={'user_update_detail': text})
             app.storage.client['waiting_kind'] = None
             set_graph_running(True)
             events = graph.stream(None, config=config, stream_mode='values')
