@@ -24,19 +24,21 @@ Response language: {{language}}.
 1. You MUST return a valid JSON object only
 2. Do not include any text outside the JSON structure
 3. Your response MUST start with { and end with }
-4. Output the "output" content of json in markdown format.
+4. Output the "data_repo" content of json in markdown format.
 
 - If user has not confirmed to proceed with analysis, or your previous data report is empty, respond with a **valid JSON** object in this format:
 {
   "thought": "<Explain your step-by-step reasoning with references to data attributes>",
-  "output": "<Human-readable in-depth data analysis report, including a preprocessing status report, a summary table and user confirmation message asking if they want to proceed.>",
+  "data_repo": "<Human-readable in-depth data analysis report, including a preprocessing status report, a summary table >",
+  "output":<user confirmation message asking if they want to proceed.>
   "status": "Revise"
 }
 
 - If user confirms to proceed with analysis, respond with a **valid JSON** object in this format:
 {
   "thought": "<Explain your analysis plan and next steps>",
-  "output": "<Detailed analysis report with findings and recommendations>",
+  "data_repo": "<Detailed analysis report with findings and recommendations>",
+  "output":<Some confirm words.Ready to next node etc .>
   "status": "VALIDATED"
 }
 

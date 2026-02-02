@@ -27,6 +27,8 @@ DEMO_BUTTON_CONFIG = {
     'Demonstrate GWAS causal SNPs analysis': ('/home/liyuntian/Biomics_agent/data/filtered_mutation.csv', 'Identify causal SNPs associated with type 2 diabetes using this data'),
     'Demonstrate GWAS phenotype prediction': ('/home/liyuntian/Biomics_agent/data/filtered_mutation.csv', 'Predict associated phenotypes based on SNPs in this data'),
     'Demonstrate trajectory analysis': ('/home/liyuntian/Biomics_agent/data/processed_wbc_m_group1.h5ad', 'Perform trajectory inference analysis on this dataset'),
+    'Demonstrate proteome analysis': ('/home/liyuntian/Biomics_agent/data/Phosphopeptides_glycopeptides_evidence_TiO2_TMT_HUMAN.h5ad', 'Perform proteome analysis on this dataset'),
+    'Demonstrate gene regulatory network': ('/home/liyuntian/Biomics_agent/data/regulon_0619_modules.tsv', 'Perform gene regulatory network analysis on this dataset'),
 }
 
 def build_tree_nodes(data, prefix=''):
@@ -144,12 +146,28 @@ ui.add_head_html('''
 .floating-btn-1 { animation-delay: 3s; }
 .floating-btn-2 { animation-delay: 3.3s; }
 .floating-btn-3 { animation-delay: 3.6s; }
-.floating-btn-4 { animation-delay: 3.9s; }
-.floating-btn-5 { animation-delay: 4.2s; }
-.floating-btn-6 { animation-delay: 4.5s; }
-.floating-btn-7 { animation-delay: 4.8s; }
-.floating-btn-8 { animation-delay: 5.1s; }
-.floating-btn-9 { animation-delay: 5.4s; }
+.floating-btn-4 { animation-delay: 4.2s; }
+.floating-btn-5 { animation-delay: 4.5s; }
+.floating-btn-6 { animation-delay: 4.8s; }
+.floating-btn-7 { animation-delay: 5.1s; }
+.floating-btn-8 { animation-delay: 5.4s; }
+.floating-btn-9 { animation-delay: 5.7s; }
+.floating-btn-10 { animation-delay: 6.0s; }
+.floating-btn-11 { animation-delay: 6.3s; }
+.floating-btn-12 { animation-delay: 6.6s; }
+.floating-btn-13 { animation-delay: 6.9s; }
+/* 上传按钮悬停显示叉号 */
+.upload-btn-container:hover .clear-upload-btn.show {
+    opacity: 1 !important;
+}
+.clear-upload-btn.show {
+    display: block !important;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.clear-upload-btn:hover {
+    color: #f44336 !important;
+}
 
 </style>
 ''')
@@ -161,13 +179,24 @@ with welcome_dialog, ui.card().style('min-width: 400px; padding: 24px;'):
     with ui.row().style('width: 100%; justify-content: space-between; align-items: center; margin-bottom: 12px;'):
         ui.label('Welcome to BiOmics Agent - Usage Tips').style('font-size: 18px; font-weight: bold;')
         ui.button(icon='close', on_click=welcome_dialog.close).props('flat round dense color=red')
-    ui.label('• Sessions are temporary and not persisted. Please do not close the session midway and download result files promptly after completion.').style('font-size: 14px; color: #555; margin-bottom: 8px;')
-    ui.label('• Our computing resources are limited. Please avoid processing computationally complex tasks.').style('font-size: 14px; color: #555;')
+    ui.label('• Session data is ephemeral and will not be retained. Please maintain session continuity and download all output files promptly upon task completion.').style('font-size: 14px; color: #555; margin-bottom: 8px;')
+    ui.label('• Due to limited computational capacity, users are advised to avoid submitting computationally intensive analyses.').style('font-size: 14px; color: #555; margin-bottom: 8px;')
+    ui.label('• You may deploy your own instance of this platform by following the installation guide available in the GitHub repository.').style('font-size: 14px; color: #555;')
     with ui.row().style('width: 100%; justify-content: flex-end;'):
         ui.label("   ")
 
 # 每个客户端加载页面时弹出一次
 ui.timer(0.1, lambda: welcome_dialog.open(), once=True)
+
+# === Reset 确认弹窗 ===
+reset_dialog = ui.dialog()
+
+with reset_dialog, ui.card().style('min-width: 300px; padding: 24px;'):
+    ui.label('Confirm Reset').style('font-size: 18px; font-weight: bold; margin-bottom: 16px;')
+    ui.label('Are you sure you want to reset? All current session data will be cleared.').style('font-size: 14px; color: #555; margin-bottom: 20px;')
+    with ui.row().style('width: 100%; justify-content: flex-end; gap: 12px;'):
+        ui.button('Cancel', on_click=reset_dialog.close).props('flat')
+        ui.button('Confirm', on_click=lambda: (reset_dialog.close(), reset_agent())).props('color=negative')
 
 # 主容器:占满整个视口
 with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
@@ -204,6 +233,7 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
         
         # 右侧：按钮组
         with ui.row().style('gap: 20px; margin-right: 40px;'):
+            ui.button('Paper', icon='article', on_click=lambda: ui.navigate.to('https://www.biorxiv.org/content/10.64898/2026.01.17.699830v1', new_tab=True)).props('outline no-caps').style('border-color: #333; background-color: #fff !important;').classes('text-black')
             with ui.button(icon='', on_click=lambda: ui.navigate.to('https://github.com/BGIResearch/BiOmics', new_tab=True)).props('outline').style('border-color: #333; background-color: #fff !important; padding-left: 1px;').classes('text-black'):
                 ui.html('<svg height="20" width="20" viewBox="0 0 16 16" style="fill: #333;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>', sanitize=False).style('margin: -4px;')
                 ui.label('Github').style('margin-left: 15px; color: #333; text-transform: none;')
@@ -232,21 +262,31 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
             biomics_co_pilot = ui.scroll_area().style('width: 100%; flex: 1; ')
 
 
-    # === 浮动按钮栏（透明，位于对话栏上方左侧） ===
+    # === 浮动按钮栏（透明，位于对话栏上方） ===
     floating_btn_bar = ui.element('div').style(
-        'position: fixed; bottom: 100px; left: 100px; '
+        'position: fixed; bottom: 100px; left: 50px; right: 50px; '
         'background: transparent; z-index: 100; '
-        'display: flex; gap: 12px;'
+        'display: flex; flex-wrap: wrap; gap: 10px; '
+        'justify-content: flex-start; align-items: center;'
     )
     with floating_btn_bar:
-        ui.button('Demonstrate cell annotation', on_click=lambda: handle_demo_button_click('Demonstrate cell annotation')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-1')
-        ui.button('Demonstrate cell refinement', on_click=lambda: handle_demo_button_click('Demonstrate cell refinement')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-2')
-        ui.button('Demonstrate differential gene analysis', on_click=lambda: handle_demo_button_click('Demonstrate differential gene analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-3')
-        ui.button('Demonstrate drug discovery', on_click=lambda: handle_demo_button_click('Demonstrate drug discovery')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-4')
-        ui.button('Demonstrate enrichment analysis', on_click=lambda: handle_demo_button_click('Demonstrate enrichment analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-5')
-        ui.button('Demonstrate GWAS causal SNPs analysis', on_click=lambda: handle_demo_button_click('Demonstrate GWAS causal SNPs analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-6')
-        ui.button('Demonstrate GWAS phenotype prediction', on_click=lambda: handle_demo_button_click('Demonstrate GWAS phenotype prediction')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-7')
-        ui.button('Demonstrate trajectory analysis', on_click=lambda: handle_demo_button_click('Demonstrate trajectory analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-8')
+        # 浅绿色问题按钮
+        ui.button('What is PKD1 Gene?', on_click=lambda: handle_question_button_click('What is PKD1 Gene?')).props('outline no-caps color=teal').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-1')
+        ui.button('What is the relationship between Isl1 and type 2 diabetes?', on_click=lambda: handle_question_button_click('What is the relationship between Isl1 and type 2 diabetes?')).props('outline no-caps color=teal').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-2')
+        ui.button('What disease is most related to the HTT gene?', on_click=lambda: handle_question_button_click('What disease is most related to the HTT gene?')).props('outline no-caps color=teal').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-3')
+        # 换行分隔
+        ui.element('div').style('width: 100%; height: 0;')
+        # 蓝色演示按钮
+        ui.button('Perform cell type annotation on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate cell annotation')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-4')
+        ui.button('Perform cell type refinement on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate cell refinement')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-5')
+        ui.button('Perform differential gene expression analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate differential gene analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-6')
+        ui.button('Predict therapeutic drugs for COVID-19 based on this omics data', on_click=lambda: handle_demo_button_click('Demonstrate drug discovery')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-7')
+        ui.button('Perform gene enrichment analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate enrichment analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-8')
+        ui.button('Identify causal SNPs associated with type 2 diabetes using this data', on_click=lambda: handle_demo_button_click('Demonstrate GWAS causal SNPs analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-9')
+        ui.button('Predict associated phenotypes based on SNPs in this data', on_click=lambda: handle_demo_button_click('Demonstrate GWAS phenotype prediction')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-10')
+        ui.button('Perform trajectory inference analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate trajectory analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-11')
+        ui.button('Perform proteome analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate proteome analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-12')
+        ui.button('Perform gene regulatory network analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate gene regulatory network')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-13')
 
     # === 底部对话栏 ===
     with ui.row().style(
@@ -260,8 +300,17 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
                 auto_upload=True,
             ).style('display: none;')  # 完全隐藏
             
-            # 显示的图标按钮，点击时触发上传
-            upload_button = ui.button(icon='file_upload', on_click=lambda: file_upload.run_method('pickFiles')).props('flat round dense')
+            # 上传按钮容器（相对定位，用于放置叉号）
+            upload_btn_container = ui.element('div').style('position: relative; display: inline-block;').classes('upload-btn-container')
+            with upload_btn_container:
+                # 显示的图标按钮，点击时触发上传
+                upload_button = ui.button(icon='file_upload', on_click=lambda: file_upload.run_method('pickFiles')).props('flat round dense')
+                # 叉号按钮（初始隐藏，悬停时显示，简洁小叉号）
+                clear_upload_btn = ui.button(icon='close', on_click=lambda: clear_uploaded_file()).props('flat dense').style(
+                    'display: none; position: absolute; top: -4px; right: -4px; '
+                    'width: 14px; height: 14px; min-width: 14px; min-height: 14px; '
+                    'font-size: 12px; color: #999; padding: 0; opacity: 0;'
+                ).classes('clear-upload-btn')
             
             # 文件名标签
             upload_name_label = ui.label('').style(
@@ -272,7 +321,8 @@ with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
         # 中间:输入框
         user_input = ui.input(placeholder='Enter bioinformatics analysis task...').style('flex: 1;')
         
-        # 右侧:重置按钮
+        # 右侧:发送按钮和重置按钮
+        send_button = ui.button('Send', icon='send').props('outlined')
         reset_button = ui.button('Reset', icon='restart_alt').props('outlined')
 
 
@@ -293,8 +343,18 @@ async def handle_demo_button_click(button_name: str) -> None:
     app.storage.client['uploaded_file_path'] = file_path
     upload_name_label.text = os.path.basename(file_path)
     upload_button.props('icon=check_circle color=positive')
+    clear_upload_btn.classes(add='show')
     
     # 设置问题并启动任务（handle_user_input 会显示 chat_message）
+    user_input.value = question
+    await handle_user_input()
+
+async def handle_question_button_click(question: str) -> None:
+    """处理问题按钮点击：隐藏按钮栏、设置问题、启动任务（无需文件）"""
+    # 隐藏浮动按钮栏
+    floating_btn_bar.style('display: none;')
+    
+    # 设置问题并启动任务
     user_input.value = question
     await handle_user_input()
 
@@ -339,10 +399,14 @@ async def handle_file_upload(e) -> None:
         ui.notify('Current task is running, cannot upload file now', type='warning')
         return
     
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-    
-    # NiceGUI 的 SmallFileUpload 对象，read() 是异步方法
+    # 检查文件格式
     file_name = e.file.name
+    allowed_extensions = ['.h5ad', '.csv', '.tsv']
+    if not any(file_name.lower().endswith(ext) for ext in allowed_extensions):
+        ui.notify('Only h5ad, csv, tsv files are supported', type='negative')
+        return
+    
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
     
     # 检查文件大小（500MB限制）
     file_content = await e.file.read()  # 必须 await
@@ -368,7 +432,17 @@ async def handle_file_upload(e) -> None:
     app.storage.client['uploaded_file_path'] = save_path
     # 图标变成绿色打勾，提示上传成功
     upload_button.props('icon=check_circle color=positive')
+    clear_upload_btn.classes(add='show')
     ui.notify(f'File uploaded: {os.path.basename(save_path)}', type='positive')
+
+def clear_uploaded_file():
+    """清除已上传的文件，恢复上传按钮状态"""
+    upload_button.props('icon=file_upload')
+    upload_button.props(remove='color')
+    upload_name_label.text = ''
+    app.storage.client['uploaded_file_path'] = ''
+    file_upload.reset()
+    clear_upload_btn.classes(remove='show')
 def agent_update_chat(event) -> None:
     agent_name = event.get('agent')   
     agent_thought = ""
@@ -399,6 +473,8 @@ def agent_update_chat(event) -> None:
         agent_output = event.get('output')
         with biomics_chat:
             ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
+            with ui.chat_message(name=agent_name).style(message_animation):
+                ui.label(agent_output).style('color: #476179; font-weight: bold;')
             
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="analyze_planner":
@@ -406,6 +482,8 @@ def agent_update_chat(event) -> None:
         agent_output = event.get('output')
         with biomics_chat:
             ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
+            with ui.chat_message(name=agent_name).style(message_animation):
+                ui.label(agent_output).style('color: #476179; font-weight: bold;')
         biomics_chat.scroll_to(percent=1.0)
     elif agent_name=="planner":
         agent_thought = event.get('thought')
@@ -474,7 +552,7 @@ def agent_update_copilot(event) -> None:
                             ui.markdown(di)
         biomics_co_pilot.scroll_to(percent=1.0)
     elif agent_name=="data_analyzer":
-        data_report = event.get('output')
+        data_report = event.get('data_repo')
         with biomics_co_pilot:
             with ui.card().style('width: 100%;'):
                 ui.label('Data Analyzer generated a report:')
@@ -482,7 +560,7 @@ def agent_update_copilot(event) -> None:
 
         biomics_co_pilot.scroll_to(percent=1.0)
     elif agent_name=="analyze_planner":
-        a_plan = event.get('output')
+        a_plan = event.get('a_plan')
         with biomics_co_pilot:
             with ui.card().style('width: 100%;'):
                 ui.label('Analyze Planner generated a plan:')
@@ -615,10 +693,19 @@ def agent_update_copilot(event) -> None:
             import pandas as pd
             # 从字典转回 DataFrame
             df = pd.DataFrame(rt) if isinstance(rt, list) else rt
+            # 只保留指定属性的列（列名格式：Path N 属性）
+            allowed_attrs = ['name', 'id', 'type', 'info source', 'original relation', 'relation']
+            filtered_cols = [col for col in df.columns if any(col.lower().endswith(attr) for attr in allowed_attrs)]
+            if filtered_cols:
+                df = df[filtered_cols]
             with biomics_co_pilot:
                 with ui.card().style('width: 100%;'):
                     ui.label('Relation Frame:').style('font-weight: bold;')
-                    ui.aggrid.from_pandas(df).classes('w-full')
+                    ui.label('The column names of the Relation Frame are in the form of Path X Attributes, where X denotes the sequence of the query path. Even numbers represent nodes, while odd numbers represent edges. For instance, in the query results of a one-hop traversal, 0 stands for source nodes, 1 for relations, and 2 for target nodes.').style('font-size: 12px; color: gray; margin-bottom: 8px;')
+                    ui.aggrid.from_pandas(df, options={
+                        'defaultColDef': {'minWidth': 120, 'resizable': True, 'wrapText': True, 'autoHeight': True},
+                        'rowHeight': 40,
+                    }).classes('w-full').style('height: 400px;')
         # 压缩保存目录并提供下载按钮
         if sd and os.path.isdir(sd):
             import shutil
@@ -935,6 +1022,7 @@ def reset_agent():
     upload_name_label.text = ''
     app.storage.client['uploaded_file_path'] = ''
     file_upload.reset()  # 重置上传控件，允许重新上传
+    clear_upload_btn.classes(remove='show')  # 隐藏叉号按钮
 
     # 4. 清理会话状态
     set_graph_running(False)
@@ -953,5 +1041,6 @@ def reset_agent():
 if __name__ in {"__main__", "__mp_main__"}:
     file_upload.on_upload(handle_file_upload)
     user_input.on('keydown.enter', handle_user_input)
-    reset_button.on_click(reset_agent)
-    ui.run(title='Biomics Agent', favicon='/home/liyuntian/Biomics_agent/BiomicsLOGO.svg')
+    send_button.on_click(handle_user_input)
+    reset_button.on_click(reset_dialog.open)
+    ui.run(title='Biomics Agent', favicon='/home/liyuntian/Biomics_agent/BiomicsLOGO.svg', host='0.0.0.0', port=8080)

@@ -60,7 +60,7 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 3. You need to regard the data information when writing the plan.
 4. The language of the plan should be the same as the user's question.
 5. Incorporate the user's modification feedback to revise your generated plan.
-6. Output the "output" content of json in markdown format.
+6. Output the "a_plan" content of json in markdown format.
 7. **CRITICAL**: You MUST return your response in STRICT JSON format. Your entire response must be a valid JSON object with curly braces and proper key-value pairs.
 </tips>
 
@@ -70,21 +70,24 @@ BRICK must to use the Biomedical Knowledge Graph's schema.
 - If the user's modification feedback and "The previous plan you generated" are both empty, this indicates you are generating the plan for the first time. Generate in the following format:
 {
   "thought": "Summarize your reasoning for constructing this plan.",
-  "output": "The full updated analysis plan. Consider the notebook content and data information. At the end of your response, prompt the user for modification feedback, e.g., 'Do you think this plan is feasible? If modifications are needed, please let me know.'",
+  "a_plan":"The full updated analysis plan. Consider the notebook content and data information."
+  "output": "Prompt the user for modification feedback, e.g., 'Do you think this plan is feasible? If modifications are needed, please let me know.'",
   "status": "ASK_USER"
 }
 
 - If the user has provided modification feedback, you need to revise the plan based on "The previous plan you generated" according to the feedback. Generate in the following format:
 {
   "thought": "Summarize your reasoning for constructing this plan.",
-  "output": "The revised plan based on user's modification feedback. At the end, ask the user if further modifications are needed.",
+  "a_plan":"The revised plan based on user's modification feedback. ",
+  "output": "Ask the user if further modifications are needed.",
   "status": "ASK_USER"
 }
 
 - If the user confirms the plan is feasible and no further modifications are needed, generate in the following format:
 {
   "thought": "Summarize your reasoning for constructing this plan.",
-  "output": "Same as 'The previous plan you generated', but remove the user inquiry part and keep only the plan itself.",
+  "a_plan": "Same as 'The previous plan you generated'",
+  "output": "Some confirm words.Ready to next node etc .",
   "status": "VALIDATED"
 }
 **MANDATORY**: Return ONLY the JSON object above. No additional text, explanations, or formatting outside the JSON structure.

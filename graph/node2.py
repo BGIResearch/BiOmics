@@ -256,7 +256,7 @@ def data_analyzer(state: BrickState) -> BrickState:
             updated_state = state.model_copy(update={
                 "messages": state.messages + [new_message],
                 "thought": result["thought"],
-                "data_repo": result["output"],
+                "data_repo": result["data_repo"],
                 "output": result["output"],
                 "status": result["status"],
                 "next": "data_analyzer",
@@ -266,7 +266,7 @@ def data_analyzer(state: BrickState) -> BrickState:
             updated_state = state.model_copy(update={
                 "messages": state.messages + [new_message],
                 "thought": result["thought"],
-                "data_repo": result["output"],
+                "data_repo": result["data_repo"],
                 "output": result["output"],
                 "make_data_repo": True, 
                 "final_result": result["output"],
@@ -323,7 +323,7 @@ def analyze_planner(state: BrickState) -> BrickState:
                 "messages": state.messages + [new_message],
                 "thought": result.get("thought", ""),
                 "output": result.get("output", ""),
-                "a_plan": result.get("output", ""),
+                "a_plan": result.get("a_plan", ""),
                 "status": "ASK_USER",
                 "next": "analyze_planner",
                 "agent": "analyze_planner"
@@ -336,7 +336,7 @@ def analyze_planner(state: BrickState) -> BrickState:
                 "messages": state.messages + [new_message],
                 "thought": result.get("thought", ""),
                 "output": result.get("output", ""),
-                "a_plan": result.get("output", ""),
+                "a_plan": result.get("a_plan", ""),
                 "status": "VALIDATED",
                 "next": "planner",
                 "make_analysis": True,
