@@ -1,0 +1,1725 @@
+{
+    "HSAPDV:0000000": [
+        "life cycle stage",
+        "developmental stage",
+        "stage",
+        "HSAPDV:0000000"
+    ],
+    "HSAPDV:0000001": [
+        "life cycle",
+        "HSAPDV:0000001"
+    ],
+    "HSAPDV:0000002": [
+        "embryonic stage",
+        "embryo stage",
+        "first trimester",
+        "HSAPDV:0000002"
+    ],
+    "HSAPDV:0000003": [
+        "Carnegie stage 01",
+        "CS01",
+        "HSAPDV:0000003"
+    ],
+    "HSAPDV:0000004": [
+        "cleavage stage",
+        "HSAPDV:0000004"
+    ],
+    "HSAPDV:0000005": [
+        "Carnegie stage 02",
+        "cleavage stage",
+        "CS02",
+        "HSAPDV:0000005"
+    ],
+    "HSAPDV:0000006": [
+        "blastula stage",
+        "HSAPDV:0000006"
+    ],
+    "HSAPDV:0000007": [
+        "Carnegie stage 03",
+        "CS03",
+        "HSAPDV:0000007"
+    ],
+    "HSAPDV:0000008": [
+        "Carnegie stage 04",
+        "CS04",
+        "HSAPDV:0000008"
+    ],
+    "HSAPDV:0000009": [
+        "Carnegie stage 05",
+        "CS04",
+        "HSAPDV:0000009"
+    ],
+    "HSAPDV:0000010": [
+        "gastrula stage",
+        "HSAPDV:0000010"
+    ],
+    "HSAPDV:0000011": [
+        "Carnegie stage 06",
+        "CS06",
+        "HSAPDV:0000011"
+    ],
+    "HSAPDV:0000012": [
+        "neurula stage",
+        "HSAPDV:0000012"
+    ],
+    "HSAPDV:0000013": [
+        "Carnegie stage 07",
+        "CS07",
+        "HSAPDV:0000013"
+    ],
+    "HSAPDV:0000014": [
+        "Carnegie stage 08",
+        "CS08",
+        "HSAPDV:0000014"
+    ],
+    "HSAPDV:0000015": [
+        "organogenesis stage",
+        "HSAPDV:0000015"
+    ],
+    "HSAPDV:0000016": [
+        "Carnegie stage 09",
+        "CS09",
+        "HSAPDV:0000016"
+    ],
+    "HSAPDV:0000017": [
+        "Carnegie stage 10",
+        "CS10",
+        "HSAPDV:0000017"
+    ],
+    "HSAPDV:0000018": [
+        "Carnegie stage 11",
+        "CS11",
+        "HSAPDV:0000018"
+    ],
+    "HSAPDV:0000019": [
+        "Carnegie stage 12",
+        "CS12",
+        "HSAPDV:0000019"
+    ],
+    "HSAPDV:0000020": [
+        "Carnegie stage 13",
+        "CS13",
+        "HSAPDV:0000020"
+    ],
+    "HSAPDV:0000021": [
+        "Carnegie stage 14",
+        "CS14",
+        "HSAPDV:0000021"
+    ],
+    "HSAPDV:0000022": [
+        "Carnegie stage 15",
+        "CS15",
+        "HSAPDV:0000022"
+    ],
+    "HSAPDV:0000023": [
+        "Carnegie stage 16",
+        "CS16",
+        "HSAPDV:0000023"
+    ],
+    "HSAPDV:0000024": [
+        "Carnegie stage 17",
+        "CS17",
+        "HSAPDV:0000024"
+    ],
+    "HSAPDV:0000025": [
+        "Carnegie stage 18",
+        "CS18",
+        "HSAPDV:0000025"
+    ],
+    "HSAPDV:0000026": [
+        "Carnegie stage 19",
+        "CS19",
+        "HSAPDV:0000026"
+    ],
+    "HSAPDV:0000027": [
+        "Carnegie stage 20",
+        "CS20",
+        "HSAPDV:0000027"
+    ],
+    "HSAPDV:0000028": [
+        "Carnegie stage 21",
+        "CS21",
+        "HSAPDV:0000028"
+    ],
+    "HSAPDV:0000029": [
+        "Carnegie stage 22",
+        "CS22",
+        "HSAPDV:0000029"
+    ],
+    "HSAPDV:0000030": [
+        "Carnegie stage 23",
+        "CS23",
+        "HSAPDV:0000030"
+    ],
+    "HSAPDV:0000031": [
+        "Carnegie stage 05a",
+        "CS05a",
+        "HSAPDV:0000031"
+    ],
+    "HSAPDV:0000032": [
+        "Carnegie stage 05b",
+        "CS05b",
+        "HSAPDV:0000032"
+    ],
+    "HSAPDV:0000033": [
+        "Carnegie stage 05c",
+        "CS05c",
+        "HSAPDV:0000033"
+    ],
+    "HSAPDV:0000034": [
+        "Carnegie stage 06a",
+        "CS06a",
+        "HSAPDV:0000034"
+    ],
+    "HSAPDV:0000035": [
+        "Carnegie stage 06b",
+        "CS06b",
+        "HSAPDV:0000035"
+    ],
+    "HSAPDV:0000037": [
+        "fetal stage",
+        "fetus stage",
+        "foetus stage",
+        "second and third trimester",
+        "HSAPDV:0000037"
+    ],
+    "HSAPDV:0000045": [
+        "prenatal stage",
+        "HSAPDV:0000045"
+    ],
+    "HSAPDV:0000046": [
+        "9th week post-fertilization stage",
+        "HSAPDV:0000046"
+    ],
+    "HSAPDV:0000047": [
+        "10th week post-fertilization stage",
+        "HSAPDV:0000047"
+    ],
+    "HSAPDV:0000048": [
+        "11th week post-fertilization stage",
+        "HSAPDV:0000048"
+    ],
+    "HSAPDV:0000049": [
+        "12th week post-fertilization stage",
+        "HSAPDV:0000049"
+    ],
+    "HSAPDV:0000050": [
+        "13th week post-fertilization stage",
+        "HSAPDV:0000050"
+    ],
+    "HSAPDV:0000051": [
+        "14th week post-fertilization stage",
+        "HSAPDV:0000051"
+    ],
+    "HSAPDV:0000052": [
+        "15th week post-fertilization stage",
+        "HSAPDV:0000052"
+    ],
+    "HSAPDV:0000053": [
+        "16th week post-fertilization stage",
+        "HSAPDV:0000053"
+    ],
+    "HSAPDV:0000054": [
+        "17th week post-fertilization stage",
+        "HSAPDV:0000054"
+    ],
+    "HSAPDV:0000055": [
+        "18th week post-fertilization stage",
+        "HSAPDV:0000055"
+    ],
+    "HSAPDV:0000056": [
+        "19th week post-fertilization stage",
+        "HSAPDV:0000056"
+    ],
+    "HSAPDV:0000057": [
+        "20th week post-fertilization stage",
+        "HSAPDV:0000057"
+    ],
+    "HSAPDV:0000058": [
+        "21st week post-fertilization stage",
+        "HSAPDV:0000058"
+    ],
+    "HSAPDV:0000059": [
+        "22nd week post-fertilization stage",
+        "HSAPDV:0000059"
+    ],
+    "HSAPDV:0000060": [
+        "23rd week post-fertilization stage",
+        "HSAPDV:0000060"
+    ],
+    "HSAPDV:0000061": [
+        "24th week post-fertilization stage",
+        "HSAPDV:0000061"
+    ],
+    "HSAPDV:0000062": [
+        "25th week post-fertilization stage",
+        "HSAPDV:0000062"
+    ],
+    "HSAPDV:0000063": [
+        "26th week post-fertilization stage",
+        "HSAPDV:0000063"
+    ],
+    "HSAPDV:0000064": [
+        "27th week post-fertilization stage",
+        "HSAPDV:0000064"
+    ],
+    "HSAPDV:0000065": [
+        "28th week post-fertilization stage",
+        "HSAPDV:0000065"
+    ],
+    "HSAPDV:0000066": [
+        "29th week post-fertilization stage",
+        "HSAPDV:0000066"
+    ],
+    "HSAPDV:0000067": [
+        "30th week post-fertilization stage",
+        "HSAPDV:0000067"
+    ],
+    "HSAPDV:0000068": [
+        "31st week post-fertilization stage",
+        "HSAPDV:0000068"
+    ],
+    "HSAPDV:0000069": [
+        "32nd week post-fertilization stage",
+        "HSAPDV:0000069"
+    ],
+    "HSAPDV:0000070": [
+        "33rd week post-fertilization stage",
+        "HSAPDV:0000070"
+    ],
+    "HSAPDV:0000071": [
+        "34th week post-fertilization stage",
+        "HSAPDV:0000071"
+    ],
+    "HSAPDV:0000072": [
+        "35th week post-fertilization stage",
+        "HSAPDV:0000072"
+    ],
+    "HSAPDV:0000073": [
+        "36th week post-fertilization stage",
+        "HSAPDV:0000073"
+    ],
+    "HSAPDV:0000074": [
+        "37th week post-fertilization stage",
+        "HSAPDV:0000074"
+    ],
+    "HSAPDV:0000075": [
+        "38th week post-fertilization and over stage",
+        "HSAPDV:0000075"
+    ],
+    "HSAPDV:0000080": [
+        "immature stage",
+        "0-12 years",
+        "child",
+        "HSAPDV:0000080"
+    ],
+    "HSAPDV:0000081": [
+        "child stage",
+        "2-12 years",
+        "HSAPDV:0000081"
+    ],
+    "HSAPDV:0000082": [
+        "newborn stage",
+        "0-1 month",
+        "neonatal stage",
+        "neonate",
+        "HSAPDV:0000082"
+    ],
+    "HSAPDV:0000083": [
+        "infant stage",
+        "1-23 months",
+        "infantile stage",
+        "HSAPDV:0000083"
+    ],
+    "HSAPDV:0000084": [
+        "2-5 year-old child stage",
+        "preschool child",
+        "HSAPDV:0000084"
+    ],
+    "HSAPDV:0000085": [
+        "6-12 year-old child stage",
+        "prepubescent",
+        "HSAPDV:0000085"
+    ],
+    "HSAPDV:0000086": [
+        "adolescent stage",
+        "13-18 years",
+        "teen",
+        "teenager",
+        "HSAPDV:0000086"
+    ],
+    "HSAPDV:0000087": [
+        "adult stage",
+        "19+ years",
+        "HSAPDV:0000087"
+    ],
+    "HSAPDV:0000088": [
+        "early adulthood stage",
+        "19-44 years",
+        "HSAPDV:0000088"
+    ],
+    "HSAPDV:0000089": [
+        "young adult stage",
+        "19-24 years",
+        "HSAPDV:0000089"
+    ],
+    "HSAPDV:0000090": [
+        "25-44 year-old stage",
+        "HSAPDV:0000090"
+    ],
+    "HSAPDV:0000091": [
+        "late adulthood stage",
+        "45+ years",
+        "Middle Aged + Aged",
+        "HSAPDV:0000091"
+    ],
+    "HSAPDV:0000092": [
+        "middle aged stage",
+        "45-64 years",
+        "HSAPDV:0000092"
+    ],
+    "HSAPDV:0000093": [
+        "aged stage",
+        "65+ years",
+        "elderly",
+        "HSAPDV:0000093"
+    ],
+    "HSAPDV:0000094": [
+        "65-79 year-old stage",
+        "elderly",
+        "HSAPDV:0000094"
+    ],
+    "HSAPDV:0000095": [
+        "80 year-old and over stage",
+        "HSAPDV:0000095"
+    ],
+    "HSAPDV:0000096": [
+        "2-year-old stage",
+        "HSAPDV:0000096"
+    ],
+    "HSAPDV:0000097": [
+        "3-year-old stage",
+        "HSAPDV:0000097"
+    ],
+    "HSAPDV:0000098": [
+        "4-year-old stage",
+        "HSAPDV:0000098"
+    ],
+    "HSAPDV:0000099": [
+        "5-year-old stage",
+        "HSAPDV:0000099"
+    ],
+    "HSAPDV:0000100": [
+        "6-year-old stage",
+        "HSAPDV:0000100"
+    ],
+    "HSAPDV:0000101": [
+        "7-year-old stage",
+        "HSAPDV:0000101"
+    ],
+    "HSAPDV:0000102": [
+        "8-year-old stage",
+        "HSAPDV:0000102"
+    ],
+    "HSAPDV:0000103": [
+        "9-year-old stage",
+        "HSAPDV:0000103"
+    ],
+    "HSAPDV:0000104": [
+        "10-year-old stage",
+        "HSAPDV:0000104"
+    ],
+    "HSAPDV:0000105": [
+        "11-year-old stage",
+        "HSAPDV:0000105"
+    ],
+    "HSAPDV:0000106": [
+        "12-year-old stage",
+        "HSAPDV:0000106"
+    ],
+    "HSAPDV:0000107": [
+        "13-year-old stage",
+        "HSAPDV:0000107"
+    ],
+    "HSAPDV:0000108": [
+        "14-year-old stage",
+        "HSAPDV:0000108"
+    ],
+    "HSAPDV:0000109": [
+        "15-year-old stage",
+        "HSAPDV:0000109"
+    ],
+    "HSAPDV:0000110": [
+        "16-year-old stage",
+        "HSAPDV:0000110"
+    ],
+    "HSAPDV:0000111": [
+        "17-year-old stage",
+        "HSAPDV:0000111"
+    ],
+    "HSAPDV:0000112": [
+        "18-year-old stage",
+        "HSAPDV:0000112"
+    ],
+    "HSAPDV:0000113": [
+        "19-year-old stage",
+        "HSAPDV:0000113"
+    ],
+    "HSAPDV:0000114": [
+        "20-year-old stage",
+        "HSAPDV:0000114"
+    ],
+    "HSAPDV:0000115": [
+        "21-year-old stage",
+        "HSAPDV:0000115"
+    ],
+    "HSAPDV:0000116": [
+        "22-year-old stage",
+        "HSAPDV:0000116"
+    ],
+    "HSAPDV:0000117": [
+        "23-year-old stage",
+        "HSAPDV:0000117"
+    ],
+    "HSAPDV:0000118": [
+        "24-year-old stage",
+        "HSAPDV:0000118"
+    ],
+    "HSAPDV:0000119": [
+        "25-year-old stage",
+        "HSAPDV:0000119"
+    ],
+    "HSAPDV:0000120": [
+        "26-year-old stage",
+        "HSAPDV:0000120"
+    ],
+    "HSAPDV:0000121": [
+        "27-year-old stage",
+        "HSAPDV:0000121"
+    ],
+    "HSAPDV:0000122": [
+        "28-year-old stage",
+        "HSAPDV:0000122"
+    ],
+    "HSAPDV:0000123": [
+        "29-year-old stage",
+        "HSAPDV:0000123"
+    ],
+    "HSAPDV:0000124": [
+        "30-year-old stage",
+        "HSAPDV:0000124"
+    ],
+    "HSAPDV:0000125": [
+        "31-year-old stage",
+        "HSAPDV:0000125"
+    ],
+    "HSAPDV:0000126": [
+        "32-year-old stage",
+        "HSAPDV:0000126"
+    ],
+    "HSAPDV:0000127": [
+        "33-year-old stage",
+        "HSAPDV:0000127"
+    ],
+    "HSAPDV:0000128": [
+        "34-year-old stage",
+        "HSAPDV:0000128"
+    ],
+    "HSAPDV:0000129": [
+        "35-year-old stage",
+        "HSAPDV:0000129"
+    ],
+    "HSAPDV:0000130": [
+        "36-year-old stage",
+        "HSAPDV:0000130"
+    ],
+    "HSAPDV:0000131": [
+        "37-year-old stage",
+        "HSAPDV:0000131"
+    ],
+    "HSAPDV:0000132": [
+        "38-year-old stage",
+        "HSAPDV:0000132"
+    ],
+    "HSAPDV:0000133": [
+        "39-year-old stage",
+        "HSAPDV:0000133"
+    ],
+    "HSAPDV:0000134": [
+        "40-year-old stage",
+        "HSAPDV:0000134"
+    ],
+    "HSAPDV:0000135": [
+        "41-year-old stage",
+        "HSAPDV:0000135"
+    ],
+    "HSAPDV:0000136": [
+        "42-year-old stage",
+        "HSAPDV:0000136"
+    ],
+    "HSAPDV:0000137": [
+        "43-year-old stage",
+        "HSAPDV:0000137"
+    ],
+    "HSAPDV:0000138": [
+        "44-year-old stage",
+        "HSAPDV:0000138"
+    ],
+    "HSAPDV:0000139": [
+        "45-year-old stage",
+        "HSAPDV:0000139"
+    ],
+    "HSAPDV:0000140": [
+        "46-year-old stage",
+        "HSAPDV:0000140"
+    ],
+    "HSAPDV:0000141": [
+        "47-year-old stage",
+        "HSAPDV:0000141"
+    ],
+    "HSAPDV:0000142": [
+        "48-year-old stage",
+        "HSAPDV:0000142"
+    ],
+    "HSAPDV:0000143": [
+        "49-year-old stage",
+        "HSAPDV:0000143"
+    ],
+    "HSAPDV:0000144": [
+        "50-year-old stage",
+        "HSAPDV:0000144"
+    ],
+    "HSAPDV:0000145": [
+        "51-year-old stage",
+        "HSAPDV:0000145"
+    ],
+    "HSAPDV:0000146": [
+        "52-year-old stage",
+        "HSAPDV:0000146"
+    ],
+    "HSAPDV:0000147": [
+        "53-year-old stage",
+        "HSAPDV:0000147"
+    ],
+    "HSAPDV:0000148": [
+        "54-year-old stage",
+        "HSAPDV:0000148"
+    ],
+    "HSAPDV:0000149": [
+        "55-year-old stage",
+        "HSAPDV:0000149"
+    ],
+    "HSAPDV:0000150": [
+        "56-year-old stage",
+        "HSAPDV:0000150"
+    ],
+    "HSAPDV:0000151": [
+        "57-year-old stage",
+        "HSAPDV:0000151"
+    ],
+    "HSAPDV:0000152": [
+        "58-year-old stage",
+        "HSAPDV:0000152"
+    ],
+    "HSAPDV:0000153": [
+        "59-year-old stage",
+        "HSAPDV:0000153"
+    ],
+    "HSAPDV:0000154": [
+        "60-year-old stage",
+        "HSAPDV:0000154"
+    ],
+    "HSAPDV:0000155": [
+        "61-year-old stage",
+        "HSAPDV:0000155"
+    ],
+    "HSAPDV:0000156": [
+        "62-year-old stage",
+        "HSAPDV:0000156"
+    ],
+    "HSAPDV:0000157": [
+        "63-year-old stage",
+        "HSAPDV:0000157"
+    ],
+    "HSAPDV:0000158": [
+        "64-year-old stage",
+        "HSAPDV:0000158"
+    ],
+    "HSAPDV:0000159": [
+        "65-year-old stage",
+        "HSAPDV:0000159"
+    ],
+    "HSAPDV:0000160": [
+        "66-year-old stage",
+        "HSAPDV:0000160"
+    ],
+    "HSAPDV:0000161": [
+        "67-year-old stage",
+        "HSAPDV:0000161"
+    ],
+    "HSAPDV:0000162": [
+        "68-year-old stage",
+        "HSAPDV:0000162"
+    ],
+    "HSAPDV:0000163": [
+        "69-year-old stage",
+        "HSAPDV:0000163"
+    ],
+    "HSAPDV:0000164": [
+        "70-year-old stage",
+        "HSAPDV:0000164"
+    ],
+    "HSAPDV:0000165": [
+        "71-year-old stage",
+        "HSAPDV:0000165"
+    ],
+    "HSAPDV:0000166": [
+        "72-year-old stage",
+        "HSAPDV:0000166"
+    ],
+    "HSAPDV:0000167": [
+        "73-year-old stage",
+        "HSAPDV:0000167"
+    ],
+    "HSAPDV:0000168": [
+        "74-year-old stage",
+        "HSAPDV:0000168"
+    ],
+    "HSAPDV:0000169": [
+        "75-year-old stage",
+        "HSAPDV:0000169"
+    ],
+    "HSAPDV:0000170": [
+        "76-year-old stage",
+        "HSAPDV:0000170"
+    ],
+    "HSAPDV:0000171": [
+        "77-year-old stage",
+        "HSAPDV:0000171"
+    ],
+    "HSAPDV:0000172": [
+        "78-year-old stage",
+        "HSAPDV:0000172"
+    ],
+    "HSAPDV:0000173": [
+        "79-year-old stage",
+        "HSAPDV:0000173"
+    ],
+    "HSAPDV:0000174": [
+        "1-month-old stage",
+        "HSAPDV:0000174"
+    ],
+    "HSAPDV:0000175": [
+        "2-month-old stage",
+        "HSAPDV:0000175"
+    ],
+    "HSAPDV:0000176": [
+        "3-month-old stage",
+        "HSAPDV:0000176"
+    ],
+    "HSAPDV:0000177": [
+        "4-month-old stage",
+        "HSAPDV:0000177"
+    ],
+    "HSAPDV:0000178": [
+        "5-month-old stage",
+        "HSAPDV:0000178"
+    ],
+    "HSAPDV:0000179": [
+        "6-month-old stage",
+        "HSAPDV:0000179"
+    ],
+    "HSAPDV:0000180": [
+        "7-month-old stage",
+        "HSAPDV:0000180"
+    ],
+    "HSAPDV:0000181": [
+        "8-month-old stage",
+        "HSAPDV:0000181"
+    ],
+    "HSAPDV:0000182": [
+        "9-month-old stage",
+        "HSAPDV:0000182"
+    ],
+    "HSAPDV:0000183": [
+        "10-month-old stage",
+        "HSAPDV:0000183"
+    ],
+    "HSAPDV:0000184": [
+        "11-month-old stage",
+        "HSAPDV:0000184"
+    ],
+    "HSAPDV:0000185": [
+        "12-month-old stage",
+        "HSAPDV:0000185"
+    ],
+    "HSAPDV:0000186": [
+        "13-month-old stage",
+        "HSAPDV:0000186"
+    ],
+    "HSAPDV:0000187": [
+        "14-month-old stage",
+        "HSAPDV:0000187"
+    ],
+    "HSAPDV:0000188": [
+        "15-month-old stage",
+        "HSAPDV:0000188"
+    ],
+    "HSAPDV:0000189": [
+        "16-month-old stage",
+        "HSAPDV:0000189"
+    ],
+    "HSAPDV:0000190": [
+        "17-month-old stage",
+        "HSAPDV:0000190"
+    ],
+    "HSAPDV:0000191": [
+        "18-month-old stage",
+        "HSAPDV:0000191"
+    ],
+    "HSAPDV:0000192": [
+        "19-month-old stage",
+        "HSAPDV:0000192"
+    ],
+    "HSAPDV:0000193": [
+        "20-month-old stage",
+        "HSAPDV:0000193"
+    ],
+    "HSAPDV:0000194": [
+        "21-month-old stage",
+        "HSAPDV:0000194"
+    ],
+    "HSAPDV:0000195": [
+        "22-month-old stage",
+        "HSAPDV:0000195"
+    ],
+    "HSAPDV:0000196": [
+        "23-month-old stage",
+        "HSAPDV:0000196"
+    ],
+    "HSAPDV:0000197": [
+        "third LMP month stage",
+        "HSAPDV:0000197"
+    ],
+    "HSAPDV:0000198": [
+        "fourth LMP month stage",
+        "HSAPDV:0000198"
+    ],
+    "HSAPDV:0000199": [
+        "fifth LMP month stage",
+        "HSAPDV:0000199"
+    ],
+    "HSAPDV:0000200": [
+        "sixth LMP month stage",
+        "HSAPDV:0000200"
+    ],
+    "HSAPDV:0000201": [
+        "seventh LMP month stage",
+        "HSAPDV:0000201"
+    ],
+    "HSAPDV:0000202": [
+        "eighth LMP month stage",
+        "HSAPDV:0000202"
+    ],
+    "HSAPDV:0000203": [
+        "ninth LMP month stage",
+        "HSAPDV:0000203"
+    ],
+    "HSAPDV:0000204": [
+        "mature stage",
+        "HSAPDV:0000204"
+    ],
+    "HSAPDV:0000205": [
+        "morula stage",
+        "HSAPDV:0000205"
+    ],
+    "HSAPDV:0000206": [
+        "80-year-old stage",
+        "HSAPDV:0000206"
+    ],
+    "HSAPDV:0000207": [
+        "81-year-old stage",
+        "HSAPDV:0000207"
+    ],
+    "HSAPDV:0000208": [
+        "82-year-old stage",
+        "HSAPDV:0000208"
+    ],
+    "HSAPDV:0000209": [
+        "83-year-old stage",
+        "HSAPDV:0000209"
+    ],
+    "HSAPDV:0000210": [
+        "84-year-old stage",
+        "HSAPDV:0000210"
+    ],
+    "HSAPDV:0000211": [
+        "85-year-old stage",
+        "HSAPDV:0000211"
+    ],
+    "HSAPDV:0000212": [
+        "86-year-old stage",
+        "HSAPDV:0000212"
+    ],
+    "HSAPDV:0000213": [
+        "87-year-old stage",
+        "HSAPDV:0000213"
+    ],
+    "HSAPDV:0000214": [
+        "88-year-old stage",
+        "HSAPDV:0000214"
+    ],
+    "HSAPDV:0000215": [
+        "89-year-old stage",
+        "HSAPDV:0000215"
+    ],
+    "HSAPDV:0000216": [
+        "90-year-old stage",
+        "HSAPDV:0000216"
+    ],
+    "HSAPDV:0000217": [
+        "91-year-old stage",
+        "HSAPDV:0000217"
+    ],
+    "HSAPDV:0000218": [
+        "92-year-old stage",
+        "HSAPDV:0000218"
+    ],
+    "HSAPDV:0000219": [
+        "93-year-old stage",
+        "HSAPDV:0000219"
+    ],
+    "HSAPDV:0000220": [
+        "94-year-old stage",
+        "HSAPDV:0000220"
+    ],
+    "HSAPDV:0000221": [
+        "95-year-old stage",
+        "HSAPDV:0000221"
+    ],
+    "HSAPDV:0000222": [
+        "96-year-old stage",
+        "HSAPDV:0000222"
+    ],
+    "HSAPDV:0000223": [
+        "97-year-old stage",
+        "HSAPDV:0000223"
+    ],
+    "HSAPDV:0000224": [
+        "98-year-old stage",
+        "HSAPDV:0000224"
+    ],
+    "HSAPDV:0000225": [
+        "99-year-old stage",
+        "HSAPDV:0000225"
+    ],
+    "HSAPDV:0000226": [
+        "prime adult stage",
+        "HSAPDV:0000226"
+    ],
+    "HSAPDV:0000227": [
+        "late adult stage",
+        "60+ years",
+        "elderly",
+        "HSAPDV:0000227"
+    ],
+    "HSAPDV:0000228": [
+        "100-year-old stage",
+        "HSAPDV:0000228"
+    ],
+    "HSAPDV:0000229": [
+        "101-year-old stage",
+        "HSAPDV:0000229"
+    ],
+    "HSAPDV:0000230": [
+        "102-year-old stage",
+        "HSAPDV:0000230"
+    ],
+    "HSAPDV:0000231": [
+        "103-year-old stage",
+        "HSAPDV:0000231"
+    ],
+    "HSAPDV:0000232": [
+        "104-year-old stage",
+        "HSAPDV:0000232"
+    ],
+    "HSAPDV:0000233": [
+        "105-year-old stage",
+        "HSAPDV:0000233"
+    ],
+    "HSAPDV:0000234": [
+        "106-year-old stage",
+        "HSAPDV:0000234"
+    ],
+    "HSAPDV:0000235": [
+        "first decade stage",
+        "HSAPDV:0000235"
+    ],
+    "HSAPDV:0000236": [
+        "second decade stage",
+        "HSAPDV:0000236"
+    ],
+    "HSAPDV:0000237": [
+        "third decade stage",
+        "HSAPDV:0000237"
+    ],
+    "HSAPDV:0000238": [
+        "fourth decade stage",
+        "HSAPDV:0000238"
+    ],
+    "HSAPDV:0000239": [
+        "fifth decade stage",
+        "HSAPDV:0000239"
+    ],
+    "HSAPDV:0000240": [
+        "sixth decade stage",
+        "HSAPDV:0000240"
+    ],
+    "HSAPDV:0000241": [
+        "seventh decade stage",
+        "HSAPDV:0000241"
+    ],
+    "HSAPDV:0000242": [
+        "eighth decade stage",
+        "HSAPDV:0000242"
+    ],
+    "HSAPDV:0000243": [
+        "ninth decade stage",
+        "HSAPDV:0000243"
+    ],
+    "HSAPDV:0000244": [
+        "tenth decade stage",
+        "HSAPDV:0000244"
+    ],
+    "HSAPDV:0000245": [
+        "eleventh decade stage",
+        "HSAPDV:0000245"
+    ],
+    "HSAPDV:0000246": [
+        "1-year-old stage",
+        "12-23 months",
+        "HSAPDV:0000246"
+    ],
+    "HSAPDV:0000247": [
+        "centenarian stage",
+        "HSAPDV:0000247"
+    ],
+    "HSAPDV:0000248": [
+        "107-year-old stage",
+        "HSAPDV:0000248"
+    ],
+    "HSAPDV:0000249": [
+        "108-year-old stage",
+        "HSAPDV:0000249"
+    ],
+    "HSAPDV:0000250": [
+        "109-year-old stage",
+        "HSAPDV:0000250"
+    ],
+    "HSAPDV:0000251": [
+        "110-year-old stage",
+        "HSAPDV:0000251"
+    ],
+    "HSAPDV:0000252": [
+        "111-year-old stage",
+        "HSAPDV:0000252"
+    ],
+    "HSAPDV:0000253": [
+        "112-year-old stage",
+        "HSAPDV:0000253"
+    ],
+    "HSAPDV:0000254": [
+        "113-year-old stage",
+        "HSAPDV:0000254"
+    ],
+    "HSAPDV:0000255": [
+        "114-year-old stage",
+        "HSAPDV:0000255"
+    ],
+    "HSAPDV:0000256": [
+        "under-1-year-old stage",
+        "1-11 months",
+        "HSAPDV:0000256"
+    ],
+    "HSAPDV:0000260": [
+        "nursing stage (0-11 months)",
+        "under 1 year old",
+        "HSAPDV:0000260"
+    ],
+    "HSAPDV:0000262": [
+        "newborn stage (0-28 days)",
+        "neonatal stage",
+        "neonate",
+        "HSAPDV:0000262"
+    ],
+    "HSAPDV:0000264": [
+        "pediatric stage",
+        "immature stage",
+        "HSAPDV:0000264"
+    ],
+    "HSAPDV:0000265": [
+        "child stage (1-4 yo)",
+        "childhood stage",
+        "preschool child",
+        "HSAPDV:0000265"
+    ],
+    "HSAPDV:0000268": [
+        "15-19 year-old",
+        "adolescent",
+        "HSAPDV:0000268"
+    ],
+    "HSAPDV:0000270": [
+        "2-4 year-old child stage",
+        "HSAPDV:0000270"
+    ],
+    "HSAPDV:0000271": [
+        "juvenile stage (5-14 yo)",
+        "HSAPDV:0000271"
+    ],
+    "HSAPDV:0000272": [
+        "60-79 year-old stage",
+        "elderly",
+        "HSAPDV:0000272"
+    ],
+    "HSAPDV:0010000": [
+        "postnatal stage",
+        "HSAPDV:0010000"
+    ],
+    "MMUSDV:0000003": [
+        "Theiler stage 01",
+        "E0-2.5",
+        "Theiler stage 1",
+        "TS01 (E0-2.5)",
+        "zygote stage",
+        "MMUSDV:0000003"
+    ],
+    "MMUSDV:0000005": [
+        "Theiler stage 02",
+        "E1-2.5",
+        "TS02",
+        "Theiler stage 2",
+        "TS02 (E1-2.5)",
+        "MMUSDV:0000005"
+    ],
+    "MMUSDV:0000006": [
+        "Theiler stage 03",
+        "E1-3.5",
+        "TS03",
+        "Theiler stage 3",
+        "TS03 (E1-3.5)",
+        "MMUSDV:0000006"
+    ],
+    "MMUSDV:0000008": [
+        "Theiler stage 04",
+        "E2-4",
+        "TS04",
+        "Theiler stage 4",
+        "TS04 (E2-4)",
+        "MMUSDV:0000008"
+    ],
+    "MMUSDV:0000009": [
+        "Theiler stage 05",
+        "E3-5.5",
+        "TS05",
+        "Theiler stage 5",
+        "TS05 (E3-5.5)",
+        "MMUSDV:0000009"
+    ],
+    "MMUSDV:0000010": [
+        "Theiler stage 06",
+        "E4-5.5",
+        "TS06",
+        "Theiler stage 6",
+        "TS06 (E4-5.5)",
+        "MMUSDV:0000010"
+    ],
+    "MMUSDV:0000011": [
+        "Theiler stage 07",
+        "E4.5-6",
+        "TS07",
+        "Theiler stage 7",
+        "TS07 (E4.5-6)",
+        "MMUSDV:0000011"
+    ],
+    "MMUSDV:0000012": [
+        "Theiler stage 08",
+        "E5-6.5",
+        "TS08",
+        "Theiler stage 8",
+        "TS08 (E5-6.5)",
+        "MMUSDV:0000012"
+    ],
+    "MMUSDV:0000014": [
+        "Theiler stage 09",
+        "E6.25-7.25",
+        "TS09",
+        "Theiler stage 9",
+        "TS09 (E6.25-7.25)",
+        "MMUSDV:0000014"
+    ],
+    "MMUSDV:0000015": [
+        "Theiler stage 10",
+        "E6.5-7.75",
+        "TS10",
+        "TS10 (E6.5-7.75)",
+        "MMUSDV:0000015"
+    ],
+    "MMUSDV:0000017": [
+        "Theiler stage 11",
+        "E7.25-8",
+        "TS11",
+        "TS11 (E7.25-8)",
+        "neurula stage",
+        "MMUSDV:0000017"
+    ],
+    "MMUSDV:0000019": [
+        "Theiler stage 12",
+        "E7.5-8.75",
+        "TS12",
+        "TS12 (E7.5-8.75)",
+        "MMUSDV:0000019"
+    ],
+    "MMUSDV:0000020": [
+        "Theiler stage 13",
+        "E8-9.25",
+        "TS13",
+        "TS13 (E8-9.25)",
+        "MMUSDV:0000020"
+    ],
+    "MMUSDV:0000021": [
+        "Theiler stage 14",
+        "E8.5-9.75",
+        "TS14",
+        "TS14 (E8.5-9.75)",
+        "MMUSDV:0000021"
+    ],
+    "MMUSDV:0000022": [
+        "Theiler stage 15",
+        "E9-10.25",
+        "TS15",
+        "TS15 (E9-10.25)",
+        "MMUSDV:0000022"
+    ],
+    "MMUSDV:0000023": [
+        "Theiler stage 16",
+        "E9.5-10.75",
+        "TS16",
+        "TS16 (E9.5-10.75)",
+        "MMUSDV:0000023"
+    ],
+    "MMUSDV:0000024": [
+        "Theiler stage 17",
+        "E10-11.25",
+        "TS17",
+        "TS17 (E10-11.25)",
+        "MMUSDV:0000024"
+    ],
+    "MMUSDV:0000025": [
+        "Theiler stage 18",
+        "E10.5-11.25",
+        "TS18",
+        "TS18 (E10.5-11.25)",
+        "MMUSDV:0000025"
+    ],
+    "MMUSDV:0000026": [
+        "Theiler stage 19",
+        "E11-12.25",
+        "TS19",
+        "TS19 (E11-12.25)",
+        "MMUSDV:0000026"
+    ],
+    "MMUSDV:0000027": [
+        "Theiler stage 20",
+        "E11.5-13",
+        "TS20",
+        "TS20 (E11.5-13)",
+        "MMUSDV:0000027"
+    ],
+    "MMUSDV:0000028": [
+        "Theiler stage 21",
+        "E12.5-14",
+        "TS21",
+        "TS21 (E12.5-14)",
+        "MMUSDV:0000028"
+    ],
+    "MMUSDV:0000029": [
+        "Theiler stage 22",
+        "E13.5-15",
+        "TS22",
+        "TS22 (E13.5-15)",
+        "MMUSDV:0000029"
+    ],
+    "MMUSDV:0000030": [
+        "post-embryonic developmental stage",
+        "MMUSDV:0000030"
+    ],
+    "MMUSDV:0000032": [
+        "Theiler stage 23",
+        "E15",
+        "TS23",
+        "TS23 (E15)",
+        "MMUSDV:0000032"
+    ],
+    "MMUSDV:0000033": [
+        "Theiler stage 24",
+        "E16",
+        "TS24",
+        "TS24 (E16)",
+        "MMUSDV:0000033"
+    ],
+    "MMUSDV:0000034": [
+        "Theiler stage 25",
+        "E17",
+        "TS25",
+        "TS25 (E17)",
+        "MMUSDV:0000034"
+    ],
+    "MMUSDV:0000035": [
+        "Theiler stage 26",
+        "E18",
+        "TS26",
+        "TS26 (E18)",
+        "MMUSDV:0000035"
+    ],
+    "MMUSDV:0000036": [
+        "Theiler stage 27",
+        "newborn stage",
+        "P0",
+        "TS27",
+        "MMUSDV:0000036"
+    ],
+    "MMUSDV:0000037": [
+        "Theiler stage 28",
+        "MMUSDV:0000037"
+    ],
+    "MMUSDV:0000041": [
+        "unknown",
+        "MMUSDV:0000041"
+    ],
+    "MMUSDV:0000044": [
+        "1-7 days",
+        "MMUSDV:0000044"
+    ],
+    "MMUSDV:0000045": [
+        "1 week",
+        "MMUSDV:0000045"
+    ],
+    "MMUSDV:0000046": [
+        "2 weeks",
+        "MMUSDV:0000046"
+    ],
+    "MMUSDV:0000047": [
+        "3-week-old stage",
+        "MMUSDV:0000047"
+    ],
+    "MMUSDV:0000048": [
+        "4 weeks",
+        "MMUSDV:0000048"
+    ],
+    "MMUSDV:0000049": [
+        "5 weeks",
+        "MMUSDV:0000049"
+    ],
+    "MMUSDV:0000050": [
+        "6 weeks",
+        "MMUSDV:0000050"
+    ],
+    "MMUSDV:0000051": [
+        "7 weeks",
+        "MMUSDV:0000051"
+    ],
+    "MMUSDV:0000052": [
+        "8 weeks",
+        "MMUSDV:0000052"
+    ],
+    "MMUSDV:0000053": [
+        "9 weeks",
+        "MMUSDV:0000053"
+    ],
+    "MMUSDV:0000054": [
+        "10 weeks",
+        "MMUSDV:0000054"
+    ],
+    "MMUSDV:0000055": [
+        "11 weeks",
+        "MMUSDV:0000055"
+    ],
+    "MMUSDV:0000056": [
+        "12 weeks",
+        "MMUSDV:0000056"
+    ],
+    "MMUSDV:0000057": [
+        "13 weeks",
+        "MMUSDV:0000057"
+    ],
+    "MMUSDV:0000058": [
+        "14 weeks",
+        "MMUSDV:0000058"
+    ],
+    "MMUSDV:0000059": [
+        "15 weeks",
+        "MMUSDV:0000059"
+    ],
+    "MMUSDV:0000061": [
+        "early adult stage",
+        "MMUSDV:0000061"
+    ],
+    "MMUSDV:0000065": [
+        "16 weeks",
+        "MMUSDV:0000065"
+    ],
+    "MMUSDV:0000066": [
+        "17 weeks",
+        "MMUSDV:0000066"
+    ],
+    "MMUSDV:0000067": [
+        "18 weeks",
+        "MMUSDV:0000067"
+    ],
+    "MMUSDV:0000068": [
+        "19 weeks",
+        "MMUSDV:0000068"
+    ],
+    "MMUSDV:0000070": [
+        "20 weeks",
+        "MMUSDV:0000070"
+    ],
+    "MMUSDV:0000071": [
+        "21 weeks",
+        "MMUSDV:0000071"
+    ],
+    "MMUSDV:0000072": [
+        "22 weeks",
+        "MMUSDV:0000072"
+    ],
+    "MMUSDV:0000073": [
+        "23 weeks",
+        "MMUSDV:0000073"
+    ],
+    "MMUSDV:0000074": [
+        "24 weeks",
+        "MMUSDV:0000074"
+    ],
+    "MMUSDV:0000076": [
+        "aged adult stage",
+        "MMUSDV:0000076"
+    ],
+    "MMUSDV:0000091": [
+        "20-month-old stage and over",
+        "MMUSDV:0000091"
+    ],
+    "MMUSDV:0000093": [
+        "Theiler stage 11b",
+        "TS11b",
+        "MMUSDV:0000093"
+    ],
+    "MMUSDV:0000094": [
+        "Theiler stage 11c",
+        "TS11c",
+        "MMUSDV:0000094"
+    ],
+    "MMUSDV:0000095": [
+        "Theiler stage 11d",
+        "TS11d",
+        "MMUSDV:0000095"
+    ],
+    "MMUSDV:0000096": [
+        "early immature stage",
+        "MMUSDV:0000096"
+    ],
+    "MMUSDV:0000098": [
+        "25 weeks",
+        "MMUSDV:0000098"
+    ],
+    "MMUSDV:0000099": [
+        "26 weeks",
+        "MMUSDV:0000099"
+    ],
+    "MMUSDV:0000100": [
+        "27 weeks",
+        "MMUSDV:0000100"
+    ],
+    "MMUSDV:0000101": [
+        "28 weeks",
+        "MMUSDV:0000101"
+    ],
+    "MMUSDV:0000102": [
+        "29 weeks",
+        "MMUSDV:0000102"
+    ],
+    "MMUSDV:0000103": [
+        "Theiler stage 09a",
+        "TS09a",
+        "Theiler stage 9",
+        "MMUSDV:0000103"
+    ],
+    "MMUSDV:0000104": [
+        "Theiler stage 09b",
+        "TS09b",
+        "Theiler stage 9",
+        "MMUSDV:0000104"
+    ],
+    "MMUSDV:0000105": [
+        "Theiler stage 10a",
+        "TS10a",
+        "MMUSDV:0000105"
+    ],
+    "MMUSDV:0000106": [
+        "Theiler stage 10b",
+        "TS10b",
+        "MMUSDV:0000106"
+    ],
+    "MMUSDV:0000107": [
+        "Theiler stage 10c",
+        "TS10c",
+        "MMUSDV:0000107"
+    ],
+    "MMUSDV:0000108": [
+        "Theiler stage 12a",
+        "TS12a",
+        "MMUSDV:0000108"
+    ],
+    "MMUSDV:0000109": [
+        "Theiler stage 12b",
+        "TS12b",
+        "MMUSDV:0000109"
+    ],
+    "MMUSDV:0000111": [
+        "Theiler stage 11a",
+        "TS11a",
+        "MMUSDV:0000111"
+    ],
+    "MMUSDV:0000112": [
+        "premature stage",
+        "infant stage",
+        "MMUSDV:0000112"
+    ],
+    "MMUSDV:0000113": [
+        "4-7 days",
+        "MMUSDV:0000113"
+    ],
+    "MMUSDV:0000114": [
+        "4-day-old stage",
+        "MMUSDV:0000114"
+    ],
+    "MMUSDV:0000115": [
+        "5-day-old stage",
+        "MMUSDV:0000115"
+    ],
+    "MMUSDV:0000116": [
+        "6-day-old stage",
+        "MMUSDV:0000116"
+    ],
+    "MMUSDV:0000117": [
+        "7-day-old stage",
+        "MMUSDV:0000117"
+    ],
+    "MMUSDV:0000118": [
+        "8-day-old stage",
+        "MMUSDV:0000118"
+    ],
+    "MMUSDV:0000119": [
+        "9-day-old stage",
+        "MMUSDV:0000119"
+    ],
+    "MMUSDV:0000120": [
+        "10-day-old stage",
+        "MMUSDV:0000120"
+    ],
+    "MMUSDV:0000121": [
+        "11-day-old stage",
+        "MMUSDV:0000121"
+    ],
+    "MMUSDV:0000122": [
+        "12-day-old stage",
+        "MMUSDV:0000122"
+    ],
+    "MMUSDV:0000123": [
+        "13-day-old stage",
+        "MMUSDV:0000123"
+    ],
+    "MMUSDV:0000128": [
+        "24-month-old stage",
+        "MMUSDV:0000128"
+    ],
+    "MMUSDV:0000129": [
+        "25-month-old stage",
+        "MMUSDV:0000129"
+    ],
+    "MMUSDV:0000130": [
+        "26-month-old stage",
+        "MMUSDV:0000130"
+    ],
+    "MMUSDV:0000131": [
+        "27-month-old stage",
+        "MMUSDV:0000131"
+    ],
+    "MMUSDV:0000132": [
+        "28-month-old stage",
+        "MMUSDV:0000132"
+    ],
+    "MMUSDV:0000133": [
+        "29-month-old stage",
+        "MMUSDV:0000133"
+    ],
+    "MMUSDV:0000137": [
+        "3-6 month-old mature stage",
+        "MMUSDV:0000137"
+    ],
+    "MMUSDV:0000138": [
+        "nursing stage",
+        "MMUSDV:0000138"
+    ],
+    "MMUSDV:0000139": [
+        "4-6 days",
+        "MMUSDV:0000139"
+    ],
+    "MMUSDV:0000140": [
+        "1-week-old stage",
+        "MMUSDV:0000140"
+    ],
+    "MMUSDV:0000141": [
+        "2-week-old stage",
+        "MMUSDV:0000141"
+    ],
+    "MMUSDV:0000142": [
+        "21-day-old stage",
+        "MMUSDV:0000142"
+    ],
+    "MMUSDV:0000143": [
+        "22-day-old stage",
+        "MMUSDV:0000143"
+    ],
+    "MMUSDV:0000144": [
+        "23-day-old stage",
+        "MMUSDV:0000144"
+    ],
+    "MMUSDV:0000145": [
+        "24-day-old stage",
+        "MMUSDV:0000145"
+    ],
+    "MMUSDV:0000146": [
+        "25-day-old stage",
+        "MMUSDV:0000146"
+    ],
+    "MMUSDV:0000147": [
+        "26-day-old stage",
+        "MMUSDV:0000147"
+    ],
+    "MMUSDV:0000148": [
+        "27-day-old stage",
+        "MMUSDV:0000148"
+    ],
+    "MMUSDV:0000149": [
+        "4-week-old stage",
+        "MMUSDV:0000149"
+    ],
+    "MMUSDV:0000150": [
+        "5-week-old stage",
+        "MMUSDV:0000150"
+    ],
+    "MMUSDV:0000151": [
+        "6-week-old stage",
+        "MMUSDV:0000151"
+    ],
+    "MMUSDV:0000152": [
+        "7-week-old stage",
+        "MMUSDV:0000152"
+    ],
+    "MMUSDV:0000154": [
+        "8-week-old stage",
+        "MMUSDV:0000154"
+    ],
+    "MMUSDV:0000155": [
+        "9-week-old stage",
+        "MMUSDV:0000155"
+    ],
+    "MMUSDV:0000156": [
+        "10-week-old stage",
+        "MMUSDV:0000156"
+    ],
+    "MMUSDV:0000157": [
+        "11-week-old stage",
+        "MMUSDV:0000157"
+    ],
+    "MMUSDV:0000158": [
+        "12-week-old stage",
+        "MMUSDV:0000158"
+    ],
+    "MMUSDV:0000159": [
+        "13-week-old stage",
+        "MMUSDV:0000159"
+    ],
+    "MMUSDV:0000160": [
+        "14-week-old stage",
+        "MMUSDV:0000160"
+    ],
+    "MMUSDV:0000161": [
+        "15-week-old stage",
+        "MMUSDV:0000161"
+    ],
+    "MMUSDV:0000162": [
+        "16-week-old stage",
+        "MMUSDV:0000162"
+    ],
+    "MMUSDV:0000163": [
+        "17-week-old stage",
+        "MMUSDV:0000163"
+    ],
+    "MMUSDV:0000164": [
+        "18-week-old stage",
+        "MMUSDV:0000164"
+    ],
+    "MMUSDV:0000165": [
+        "19-week-old stage",
+        "MMUSDV:0000165"
+    ],
+    "MMUSDV:0000166": [
+        "20-week-old stage",
+        "MMUSDV:0000166"
+    ],
+    "MMUSDV:0000167": [
+        "21-week-old stage",
+        "MMUSDV:0000167"
+    ],
+    "MMUSDV:0000168": [
+        "22-week-old stage",
+        "MMUSDV:0000168"
+    ],
+    "MMUSDV:0000169": [
+        "23-week-old stage",
+        "MMUSDV:0000169"
+    ],
+    "MMUSDV:0000170": [
+        "24-week-old stage",
+        "MMUSDV:0000170"
+    ],
+    "MMUSDV:0000171": [
+        "25-week-old stage",
+        "MMUSDV:0000171"
+    ],
+    "MMUSDV:0000172": [
+        "26-week-old stage",
+        "MMUSDV:0000172"
+    ],
+    "MMUSDV:0000173": [
+        "27-week-old stage",
+        "MMUSDV:0000173"
+    ],
+    "MMUSDV:0000174": [
+        "28-week-old stage",
+        "MMUSDV:0000174"
+    ],
+    "MMUSDV:0000175": [
+        "29-week-old stage",
+        "MMUSDV:0000175"
+    ],
+    "MMUSDV:0000176": [
+        "30-month-old stage",
+        "MMUSDV:0000176"
+    ],
+    "MMUSDV:0000178": [
+        "juvenile stage",
+        "MMUSDV:0000178"
+    ]
+}

@@ -1,0 +1,3117 @@
+{
+    "KEGG:09100": [
+        "Metabolism",
+        "Metabolism",
+        "KEGG:09100"
+    ],
+    "KEGG:09101": [
+        "Carbohydrate metabolism",
+        "Carbohydrate metabolism",
+        "KEGG:09101"
+    ],
+    "KEGG:00010": [
+        "Glycolysis / Gluconeogenesis [PATH:hsa00010]",
+        "Glycolysis / Gluconeogenesis [PATH:hsa00010]",
+        "KEGG:00010"
+    ],
+    "KEGG:00020": [
+        "Citrate cycle (TCA cycle) [PATH:hsa00020]",
+        "Citrate cycle (TCA cycle) [PATH:hsa00020]",
+        "KEGG:00020"
+    ],
+    "KEGG:00030": [
+        "Pentose phosphate pathway [PATH:hsa00030]",
+        "Pentose phosphate pathway [PATH:hsa00030]",
+        "KEGG:00030"
+    ],
+    "KEGG:00040": [
+        "Pentose and glucuronate interconversions [PATH:hsa00040]",
+        "Pentose and glucuronate interconversions [PATH:hsa00040]",
+        "KEGG:00040"
+    ],
+    "KEGG:00051": [
+        "Fructose and mannose metabolism [PATH:hsa00051]",
+        "Fructose and mannose metabolism [PATH:hsa00051]",
+        "KEGG:00051"
+    ],
+    "KEGG:00052": [
+        "Galactose metabolism [PATH:hsa00052]",
+        "Galactose metabolism [PATH:hsa00052]",
+        "KEGG:00052"
+    ],
+    "KEGG:00053": [
+        "Ascorbate and aldarate metabolism [PATH:hsa00053]",
+        "Ascorbate and aldarate metabolism [PATH:hsa00053]",
+        "KEGG:00053"
+    ],
+    "KEGG:00500": [
+        "Starch and sucrose metabolism [PATH:hsa00500]",
+        "Starch and sucrose metabolism [PATH:hsa00500]",
+        "KEGG:00500"
+    ],
+    "KEGG:00520": [
+        "Amino sugar and nucleotide sugar metabolism [PATH:hsa00520]",
+        "Amino sugar and nucleotide sugar metabolism [PATH:hsa00520]",
+        "KEGG:00520"
+    ],
+    "KEGG:00620": [
+        "Pyruvate metabolism [PATH:hsa00620]",
+        "Pyruvate metabolism [PATH:hsa00620]",
+        "KEGG:00620"
+    ],
+    "KEGG:00630": [
+        "Glyoxylate and dicarboxylate metabolism [PATH:hsa00630]",
+        "Glyoxylate and dicarboxylate metabolism [PATH:hsa00630]",
+        "KEGG:00630"
+    ],
+    "KEGG:00640": [
+        "Propanoate metabolism [PATH:hsa00640]",
+        "Propanoate metabolism [PATH:hsa00640]",
+        "KEGG:00640"
+    ],
+    "KEGG:00650": [
+        "Butanoate metabolism [PATH:hsa00650]",
+        "Butanoate metabolism [PATH:hsa00650]",
+        "KEGG:00650"
+    ],
+    "KEGG:00660": [
+        "C5-Branched dibasic acid metabolism",
+        "C5-Branched dibasic acid metabolism",
+        "KEGG:00660"
+    ],
+    "KEGG:00562": [
+        "Inositol phosphate metabolism [PATH:hsa00562]",
+        "Inositol phosphate metabolism [PATH:hsa00562]",
+        "KEGG:00562"
+    ],
+    "KEGG:09102": [
+        "Energy metabolism",
+        "Energy metabolism",
+        "KEGG:09102"
+    ],
+    "KEGG:00190": [
+        "Oxidative phosphorylation [PATH:hsa00190]",
+        "Oxidative phosphorylation [PATH:hsa00190]",
+        "KEGG:00190"
+    ],
+    "KEGG:00195": [
+        "Photosynthesis",
+        "Photosynthesis",
+        "KEGG:00195"
+    ],
+    "KEGG:00196": [
+        "Photosynthesis - antenna proteins",
+        "Photosynthesis - antenna proteins",
+        "KEGG:00196"
+    ],
+    "KEGG:00710": [
+        "Carbon fixation by Calvin cycle",
+        "Carbon fixation by Calvin cycle",
+        "KEGG:00710"
+    ],
+    "KEGG:00720": [
+        "Other carbon fixation pathways",
+        "Other carbon fixation pathways",
+        "KEGG:00720"
+    ],
+    "KEGG:00680": [
+        "Methane metabolism",
+        "Methane metabolism",
+        "KEGG:00680"
+    ],
+    "KEGG:00910": [
+        "Nitrogen metabolism [PATH:hsa00910]",
+        "Nitrogen metabolism [PATH:hsa00910]",
+        "KEGG:00910"
+    ],
+    "KEGG:00920": [
+        "Sulfur metabolism [PATH:hsa00920]",
+        "Sulfur metabolism [PATH:hsa00920]",
+        "KEGG:00920"
+    ],
+    "KEGG:09103": [
+        "Lipid metabolism",
+        "Lipid metabolism",
+        "KEGG:09103"
+    ],
+    "KEGG:00061": [
+        "Fatty acid biosynthesis [PATH:hsa00061]",
+        "Fatty acid biosynthesis [PATH:hsa00061]",
+        "KEGG:00061"
+    ],
+    "KEGG:00062": [
+        "Fatty acid elongation [PATH:hsa00062]",
+        "Fatty acid elongation [PATH:hsa00062]",
+        "KEGG:00062"
+    ],
+    "KEGG:00071": [
+        "Fatty acid degradation [PATH:hsa00071]",
+        "Fatty acid degradation [PATH:hsa00071]",
+        "KEGG:00071"
+    ],
+    "KEGG:00073": [
+        "Cutin, suberine and wax biosynthesis",
+        "Cutin, suberine and wax biosynthesis",
+        "KEGG:00073"
+    ],
+    "KEGG:00074": [
+        "Mycolic acid biosynthesis",
+        "Mycolic acid biosynthesis",
+        "KEGG:00074"
+    ],
+    "KEGG:00100": [
+        "Steroid biosynthesis [PATH:hsa00100]",
+        "Steroid biosynthesis [PATH:hsa00100]",
+        "KEGG:00100"
+    ],
+    "KEGG:00120": [
+        "Primary bile acid biosynthesis [PATH:hsa00120]",
+        "Primary bile acid biosynthesis [PATH:hsa00120]",
+        "KEGG:00120"
+    ],
+    "KEGG:00121": [
+        "Secondary bile acid biosynthesis",
+        "Secondary bile acid biosynthesis",
+        "KEGG:00121"
+    ],
+    "KEGG:00140": [
+        "Steroid hormone biosynthesis [PATH:hsa00140]",
+        "Steroid hormone biosynthesis [PATH:hsa00140]",
+        "KEGG:00140"
+    ],
+    "KEGG:00561": [
+        "Glycerolipid metabolism [PATH:hsa00561]",
+        "Glycerolipid metabolism [PATH:hsa00561]",
+        "KEGG:00561"
+    ],
+    "KEGG:00564": [
+        "Glycerophospholipid metabolism [PATH:hsa00564]",
+        "Glycerophospholipid metabolism [PATH:hsa00564]",
+        "KEGG:00564"
+    ],
+    "KEGG:00565": [
+        "Ether lipid metabolism [PATH:hsa00565]",
+        "Ether lipid metabolism [PATH:hsa00565]",
+        "KEGG:00565"
+    ],
+    "KEGG:00600": [
+        "Sphingolipid metabolism [PATH:hsa00600]",
+        "Sphingolipid metabolism [PATH:hsa00600]",
+        "KEGG:00600"
+    ],
+    "KEGG:00590": [
+        "Arachidonic acid metabolism [PATH:hsa00590]",
+        "Arachidonic acid metabolism [PATH:hsa00590]",
+        "KEGG:00590"
+    ],
+    "KEGG:00591": [
+        "Linoleic acid metabolism [PATH:hsa00591]",
+        "Linoleic acid metabolism [PATH:hsa00591]",
+        "KEGG:00591"
+    ],
+    "KEGG:00592": [
+        "alpha-Linolenic acid metabolism [PATH:hsa00592]",
+        "alpha-Linolenic acid metabolism [PATH:hsa00592]",
+        "KEGG:00592"
+    ],
+    "KEGG:01040": [
+        "Biosynthesis of unsaturated fatty acids [PATH:hsa01040]",
+        "Biosynthesis of unsaturated fatty acids [PATH:hsa01040]",
+        "KEGG:01040"
+    ],
+    "KEGG:09104": [
+        "Nucleotide metabolism",
+        "Nucleotide metabolism",
+        "KEGG:09104"
+    ],
+    "KEGG:00230": [
+        "Purine metabolism [PATH:hsa00230]",
+        "Purine metabolism [PATH:hsa00230]",
+        "KEGG:00230"
+    ],
+    "KEGG:00240": [
+        "Pyrimidine metabolism [PATH:hsa00240]",
+        "Pyrimidine metabolism [PATH:hsa00240]",
+        "KEGG:00240"
+    ],
+    "KEGG:09105": [
+        "Amino acid metabolism",
+        "Amino acid metabolism",
+        "KEGG:09105"
+    ],
+    "KEGG:00250": [
+        "Alanine, aspartate and glutamate metabolism [PATH:hsa00250]",
+        "Alanine, aspartate and glutamate metabolism [PATH:hsa00250]",
+        "KEGG:00250"
+    ],
+    "KEGG:00260": [
+        "Glycine, serine and threonine metabolism [PATH:hsa00260]",
+        "Glycine, serine and threonine metabolism [PATH:hsa00260]",
+        "KEGG:00260"
+    ],
+    "KEGG:00270": [
+        "Cysteine and methionine metabolism [PATH:hsa00270]",
+        "Cysteine and methionine metabolism [PATH:hsa00270]",
+        "KEGG:00270"
+    ],
+    "KEGG:00280": [
+        "Valine, leucine and isoleucine degradation [PATH:hsa00280]",
+        "Valine, leucine and isoleucine degradation [PATH:hsa00280]",
+        "KEGG:00280"
+    ],
+    "KEGG:00290": [
+        "Valine, leucine and isoleucine biosynthesis [PATH:hsa00290]",
+        "Valine, leucine and isoleucine biosynthesis [PATH:hsa00290]",
+        "KEGG:00290"
+    ],
+    "KEGG:00300": [
+        "Lysine biosynthesis",
+        "Lysine biosynthesis",
+        "KEGG:00300"
+    ],
+    "KEGG:00310": [
+        "Lysine degradation [PATH:hsa00310]",
+        "Lysine degradation [PATH:hsa00310]",
+        "KEGG:00310"
+    ],
+    "KEGG:00220": [
+        "Arginine biosynthesis [PATH:hsa00220]",
+        "Arginine biosynthesis [PATH:hsa00220]",
+        "KEGG:00220"
+    ],
+    "KEGG:00330": [
+        "Arginine and proline metabolism [PATH:hsa00330]",
+        "Arginine and proline metabolism [PATH:hsa00330]",
+        "KEGG:00330"
+    ],
+    "KEGG:00340": [
+        "Histidine metabolism [PATH:hsa00340]",
+        "Histidine metabolism [PATH:hsa00340]",
+        "KEGG:00340"
+    ],
+    "KEGG:00350": [
+        "Tyrosine metabolism [PATH:hsa00350]",
+        "Tyrosine metabolism [PATH:hsa00350]",
+        "KEGG:00350"
+    ],
+    "KEGG:00360": [
+        "Phenylalanine metabolism [PATH:hsa00360]",
+        "Phenylalanine metabolism [PATH:hsa00360]",
+        "KEGG:00360"
+    ],
+    "KEGG:00380": [
+        "Tryptophan metabolism [PATH:hsa00380]",
+        "Tryptophan metabolism [PATH:hsa00380]",
+        "KEGG:00380"
+    ],
+    "KEGG:00400": [
+        "Phenylalanine, tyrosine and tryptophan biosynthesis [PATH:hsa00400]",
+        "Phenylalanine, tyrosine and tryptophan biosynthesis [PATH:hsa00400]",
+        "KEGG:00400"
+    ],
+    "KEGG:09106": [
+        "Metabolism of other amino acids",
+        "Metabolism of other amino acids",
+        "KEGG:09106"
+    ],
+    "KEGG:00410": [
+        "beta-Alanine metabolism [PATH:hsa00410]",
+        "beta-Alanine metabolism [PATH:hsa00410]",
+        "KEGG:00410"
+    ],
+    "KEGG:00430": [
+        "Taurine and hypotaurine metabolism [PATH:hsa00430]",
+        "Taurine and hypotaurine metabolism [PATH:hsa00430]",
+        "KEGG:00430"
+    ],
+    "KEGG:00440": [
+        "Phosphonate and phosphinate metabolism [PATH:hsa00440]",
+        "Phosphonate and phosphinate metabolism [PATH:hsa00440]",
+        "KEGG:00440"
+    ],
+    "KEGG:00450": [
+        "Selenocompound metabolism [PATH:hsa00450]",
+        "Selenocompound metabolism [PATH:hsa00450]",
+        "KEGG:00450"
+    ],
+    "KEGG:00460": [
+        "Cyanoamino acid metabolism",
+        "Cyanoamino acid metabolism",
+        "KEGG:00460"
+    ],
+    "KEGG:00470": [
+        "D-Amino acid metabolism [PATH:hsa00470]",
+        "D-Amino acid metabolism [PATH:hsa00470]",
+        "KEGG:00470"
+    ],
+    "KEGG:00480": [
+        "Glutathione metabolism [PATH:hsa00480]",
+        "Glutathione metabolism [PATH:hsa00480]",
+        "KEGG:00480"
+    ],
+    "KEGG:09107": [
+        "Glycan biosynthesis and metabolism",
+        "Glycan biosynthesis and metabolism",
+        "KEGG:09107"
+    ],
+    "KEGG:00510": [
+        "N-Glycan biosynthesis [PATH:hsa00510]",
+        "N-Glycan biosynthesis [PATH:hsa00510]",
+        "KEGG:00510"
+    ],
+    "KEGG:00513": [
+        "Various types of N-glycan biosynthesis [PATH:hsa00513]",
+        "Various types of N-glycan biosynthesis [PATH:hsa00513]",
+        "KEGG:00513"
+    ],
+    "KEGG:00512": [
+        "Mucin type O-glycan biosynthesis [PATH:hsa00512]",
+        "Mucin type O-glycan biosynthesis [PATH:hsa00512]",
+        "KEGG:00512"
+    ],
+    "KEGG:00515": [
+        "Mannose type O-glycan biosynthesis [PATH:hsa00515]",
+        "Mannose type O-glycan biosynthesis [PATH:hsa00515]",
+        "KEGG:00515"
+    ],
+    "KEGG:00514": [
+        "Other types of O-glycan biosynthesis [PATH:hsa00514]",
+        "Other types of O-glycan biosynthesis [PATH:hsa00514]",
+        "KEGG:00514"
+    ],
+    "KEGG:00532": [
+        "Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate [PATH:hsa00532]",
+        "Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate [PATH:hsa00532]",
+        "KEGG:00532"
+    ],
+    "KEGG:00534": [
+        "Glycosaminoglycan biosynthesis - heparan sulfate / heparin [PATH:hsa00534]",
+        "Glycosaminoglycan biosynthesis - heparan sulfate / heparin [PATH:hsa00534]",
+        "KEGG:00534"
+    ],
+    "KEGG:00533": [
+        "Glycosaminoglycan biosynthesis - keratan sulfate [PATH:hsa00533]",
+        "Glycosaminoglycan biosynthesis - keratan sulfate [PATH:hsa00533]",
+        "KEGG:00533"
+    ],
+    "KEGG:00531": [
+        "Glycosaminoglycan degradation [PATH:hsa00531]",
+        "Glycosaminoglycan degradation [PATH:hsa00531]",
+        "KEGG:00531"
+    ],
+    "KEGG:00563": [
+        "Glycosylphosphatidylinositol (GPI)-anchor biosynthesis [PATH:hsa00563]",
+        "Glycosylphosphatidylinositol (GPI)-anchor biosynthesis [PATH:hsa00563]",
+        "KEGG:00563"
+    ],
+    "KEGG:00601": [
+        "Glycosphingolipid biosynthesis - lacto and neolacto series [PATH:hsa00601]",
+        "Glycosphingolipid biosynthesis - lacto and neolacto series [PATH:hsa00601]",
+        "KEGG:00601"
+    ],
+    "KEGG:00603": [
+        "Glycosphingolipid biosynthesis - globo and isoglobo series [PATH:hsa00603]",
+        "Glycosphingolipid biosynthesis - globo and isoglobo series [PATH:hsa00603]",
+        "KEGG:00603"
+    ],
+    "KEGG:00604": [
+        "Glycosphingolipid biosynthesis - ganglio series [PATH:hsa00604]",
+        "Glycosphingolipid biosynthesis - ganglio series [PATH:hsa00604]",
+        "KEGG:00604"
+    ],
+    "KEGG:00511": [
+        "Other glycan degradation [PATH:hsa00511]",
+        "Other glycan degradation [PATH:hsa00511]",
+        "KEGG:00511"
+    ],
+    "KEGG:00540": [
+        "Lipopolysaccharide biosynthesis",
+        "Lipopolysaccharide biosynthesis",
+        "KEGG:00540"
+    ],
+    "KEGG:00542": [
+        "O-Antigen repeat unit biosynthesis",
+        "O-Antigen repeat unit biosynthesis",
+        "KEGG:00542"
+    ],
+    "KEGG:00541": [
+        "O-Antigen nucleotide sugar biosynthesis",
+        "O-Antigen nucleotide sugar biosynthesis",
+        "KEGG:00541"
+    ],
+    "KEGG:00550": [
+        "Peptidoglycan biosynthesis",
+        "Peptidoglycan biosynthesis",
+        "KEGG:00550"
+    ],
+    "KEGG:00552": [
+        "Teichoic acid biosynthesis",
+        "Teichoic acid biosynthesis",
+        "KEGG:00552"
+    ],
+    "KEGG:00571": [
+        "Lipoarabinomannan (LAM) biosynthesis",
+        "Lipoarabinomannan (LAM) biosynthesis",
+        "KEGG:00571"
+    ],
+    "KEGG:00572": [
+        "Arabinogalactan biosynthesis - Mycobacterium",
+        "Arabinogalactan biosynthesis - Mycobacterium",
+        "KEGG:00572"
+    ],
+    "KEGG:00543": [
+        "Exopolysaccharide biosynthesis",
+        "Exopolysaccharide biosynthesis",
+        "KEGG:00543"
+    ],
+    "KEGG:09108": [
+        "Metabolism of cofactors and vitamins",
+        "Metabolism of cofactors and vitamins",
+        "KEGG:09108"
+    ],
+    "KEGG:00730": [
+        "Thiamine metabolism [PATH:hsa00730]",
+        "Thiamine metabolism [PATH:hsa00730]",
+        "KEGG:00730"
+    ],
+    "KEGG:00740": [
+        "Riboflavin metabolism [PATH:hsa00740]",
+        "Riboflavin metabolism [PATH:hsa00740]",
+        "KEGG:00740"
+    ],
+    "KEGG:00750": [
+        "Vitamin B6 metabolism [PATH:hsa00750]",
+        "Vitamin B6 metabolism [PATH:hsa00750]",
+        "KEGG:00750"
+    ],
+    "KEGG:00760": [
+        "Nicotinate and nicotinamide metabolism [PATH:hsa00760]",
+        "Nicotinate and nicotinamide metabolism [PATH:hsa00760]",
+        "KEGG:00760"
+    ],
+    "KEGG:00770": [
+        "Pantothenate and CoA biosynthesis [PATH:hsa00770]",
+        "Pantothenate and CoA biosynthesis [PATH:hsa00770]",
+        "KEGG:00770"
+    ],
+    "KEGG:00780": [
+        "Biotin metabolism [PATH:hsa00780]",
+        "Biotin metabolism [PATH:hsa00780]",
+        "KEGG:00780"
+    ],
+    "KEGG:00785": [
+        "Lipoic acid metabolism [PATH:hsa00785]",
+        "Lipoic acid metabolism [PATH:hsa00785]",
+        "KEGG:00785"
+    ],
+    "KEGG:00790": [
+        "Folate biosynthesis [PATH:hsa00790]",
+        "Folate biosynthesis [PATH:hsa00790]",
+        "KEGG:00790"
+    ],
+    "KEGG:00670": [
+        "One carbon pool by folate [PATH:hsa00670]",
+        "One carbon pool by folate [PATH:hsa00670]",
+        "KEGG:00670"
+    ],
+    "KEGG:00830": [
+        "Retinol metabolism [PATH:hsa00830]",
+        "Retinol metabolism [PATH:hsa00830]",
+        "KEGG:00830"
+    ],
+    "KEGG:00860": [
+        "Porphyrin metabolism [PATH:hsa00860]",
+        "Porphyrin metabolism [PATH:hsa00860]",
+        "KEGG:00860"
+    ],
+    "KEGG:00130": [
+        "Ubiquinone and other terpenoid-quinone biosynthesis [PATH:hsa00130]",
+        "Ubiquinone and other terpenoid-quinone biosynthesis [PATH:hsa00130]",
+        "KEGG:00130"
+    ],
+    "KEGG:09109": [
+        "Metabolism of terpenoids and polyketides",
+        "Metabolism of terpenoids and polyketides",
+        "KEGG:09109"
+    ],
+    "KEGG:00900": [
+        "Terpenoid backbone biosynthesis [PATH:hsa00900]",
+        "Terpenoid backbone biosynthesis [PATH:hsa00900]",
+        "KEGG:00900"
+    ],
+    "KEGG:00902": [
+        "Monoterpenoid biosynthesis",
+        "Monoterpenoid biosynthesis",
+        "KEGG:00902"
+    ],
+    "KEGG:00909": [
+        "Sesquiterpenoid and triterpenoid biosynthesis",
+        "Sesquiterpenoid and triterpenoid biosynthesis",
+        "KEGG:00909"
+    ],
+    "KEGG:00904": [
+        "Diterpenoid biosynthesis",
+        "Diterpenoid biosynthesis",
+        "KEGG:00904"
+    ],
+    "KEGG:00906": [
+        "Carotenoid biosynthesis",
+        "Carotenoid biosynthesis",
+        "KEGG:00906"
+    ],
+    "KEGG:00905": [
+        "Brassinosteroid biosynthesis",
+        "Brassinosteroid biosynthesis",
+        "KEGG:00905"
+    ],
+    "KEGG:00981": [
+        "Insect hormone biosynthesis",
+        "Insect hormone biosynthesis",
+        "KEGG:00981"
+    ],
+    "KEGG:00908": [
+        "Zeatin biosynthesis",
+        "Zeatin biosynthesis",
+        "KEGG:00908"
+    ],
+    "KEGG:00903": [
+        "Limonene degradation",
+        "Limonene degradation",
+        "KEGG:00903"
+    ],
+    "KEGG:00907": [
+        "Pinene, camphor and geraniol degradation",
+        "Pinene, camphor and geraniol degradation",
+        "KEGG:00907"
+    ],
+    "KEGG:01052": [
+        "Type I polyketide structures",
+        "Type I polyketide structures",
+        "KEGG:01052"
+    ],
+    "KEGG:00522": [
+        "Biosynthesis of 12-, 14- and 16-membered macrolides",
+        "Biosynthesis of 12-, 14- and 16-membered macrolides",
+        "KEGG:00522"
+    ],
+    "KEGG:01051": [
+        "Biosynthesis of ansamycins",
+        "Biosynthesis of ansamycins",
+        "KEGG:01051"
+    ],
+    "KEGG:01059": [
+        "Biosynthesis of enediyne antibiotics",
+        "Biosynthesis of enediyne antibiotics",
+        "KEGG:01059"
+    ],
+    "KEGG:01056": [
+        "Biosynthesis of type II polyketide backbone",
+        "Biosynthesis of type II polyketide backbone",
+        "KEGG:01056"
+    ],
+    "KEGG:01057": [
+        "Biosynthesis of type II polyketide products",
+        "Biosynthesis of type II polyketide products",
+        "KEGG:01057"
+    ],
+    "KEGG:00253": [
+        "Tetracycline biosynthesis",
+        "Tetracycline biosynthesis",
+        "KEGG:00253"
+    ],
+    "KEGG:00523": [
+        "Polyketide sugar unit biosynthesis",
+        "Polyketide sugar unit biosynthesis",
+        "KEGG:00523"
+    ],
+    "KEGG:01054": [
+        "Nonribosomal peptide structures",
+        "Nonribosomal peptide structures",
+        "KEGG:01054"
+    ],
+    "KEGG:01053": [
+        "Biosynthesis of siderophore group nonribosomal peptides",
+        "Biosynthesis of siderophore group nonribosomal peptides",
+        "KEGG:01053"
+    ],
+    "KEGG:01055": [
+        "Biosynthesis of vancomycin group antibiotics",
+        "Biosynthesis of vancomycin group antibiotics",
+        "KEGG:01055"
+    ],
+    "KEGG:09110": [
+        "Biosynthesis of other secondary metabolites",
+        "Biosynthesis of other secondary metabolites",
+        "KEGG:09110"
+    ],
+    "KEGG:00940": [
+        "Phenylpropanoid biosynthesis",
+        "Phenylpropanoid biosynthesis",
+        "KEGG:00940"
+    ],
+    "KEGG:00945": [
+        "Stilbenoid, diarylheptanoid and gingerol biosynthesis",
+        "Stilbenoid, diarylheptanoid and gingerol biosynthesis",
+        "KEGG:00945"
+    ],
+    "KEGG:00941": [
+        "Flavonoid biosynthesis",
+        "Flavonoid biosynthesis",
+        "KEGG:00941"
+    ],
+    "KEGG:00944": [
+        "Flavone and flavonol biosynthesis",
+        "Flavone and flavonol biosynthesis",
+        "KEGG:00944"
+    ],
+    "KEGG:00942": [
+        "Anthocyanin biosynthesis",
+        "Anthocyanin biosynthesis",
+        "KEGG:00942"
+    ],
+    "KEGG:00943": [
+        "Isoflavonoid biosynthesis",
+        "Isoflavonoid biosynthesis",
+        "KEGG:00943"
+    ],
+    "KEGG:00946": [
+        "Degradation of flavonoids",
+        "Degradation of flavonoids",
+        "KEGG:00946"
+    ],
+    "KEGG:00901": [
+        "Indole alkaloid biosynthesis",
+        "Indole alkaloid biosynthesis",
+        "KEGG:00901"
+    ],
+    "KEGG:00403": [
+        "Indole diterpene alkaloid biosynthesis",
+        "Indole diterpene alkaloid biosynthesis",
+        "KEGG:00403"
+    ],
+    "KEGG:00950": [
+        "Isoquinoline alkaloid biosynthesis",
+        "Isoquinoline alkaloid biosynthesis",
+        "KEGG:00950"
+    ],
+    "KEGG:00960": [
+        "Tropane, piperidine and pyridine alkaloid biosynthesis",
+        "Tropane, piperidine and pyridine alkaloid biosynthesis",
+        "KEGG:00960"
+    ],
+    "KEGG:00996": [
+        "Biosynthesis of various alkaloids",
+        "Biosynthesis of various alkaloids",
+        "KEGG:00996"
+    ],
+    "KEGG:00232": [
+        "Caffeine metabolism [PATH:hsa00232]",
+        "Caffeine metabolism [PATH:hsa00232]",
+        "KEGG:00232"
+    ],
+    "KEGG:00965": [
+        "Betalain biosynthesis",
+        "Betalain biosynthesis",
+        "KEGG:00965"
+    ],
+    "KEGG:00966": [
+        "Glucosinolate biosynthesis",
+        "Glucosinolate biosynthesis",
+        "KEGG:00966"
+    ],
+    "KEGG:00402": [
+        "Benzoxazinoid biosynthesis",
+        "Benzoxazinoid biosynthesis",
+        "KEGG:00402"
+    ],
+    "KEGG:00311": [
+        "Penicillin and cephalosporin biosynthesis",
+        "Penicillin and cephalosporin biosynthesis",
+        "KEGG:00311"
+    ],
+    "KEGG:00332": [
+        "Carbapenem biosynthesis",
+        "Carbapenem biosynthesis",
+        "KEGG:00332"
+    ],
+    "KEGG:00261": [
+        "Monobactam biosynthesis",
+        "Monobactam biosynthesis",
+        "KEGG:00261"
+    ],
+    "KEGG:00331": [
+        "Clavulanic acid biosynthesis",
+        "Clavulanic acid biosynthesis",
+        "KEGG:00331"
+    ],
+    "KEGG:00521": [
+        "Streptomycin biosynthesis",
+        "Streptomycin biosynthesis",
+        "KEGG:00521"
+    ],
+    "KEGG:00524": [
+        "Neomycin, kanamycin and gentamicin biosynthesis [PATH:hsa00524]",
+        "Neomycin, kanamycin and gentamicin biosynthesis [PATH:hsa00524]",
+        "KEGG:00524"
+    ],
+    "KEGG:00525": [
+        "Acarbose and validamycin biosynthesis",
+        "Acarbose and validamycin biosynthesis",
+        "KEGG:00525"
+    ],
+    "KEGG:00401": [
+        "Novobiocin biosynthesis",
+        "Novobiocin biosynthesis",
+        "KEGG:00401"
+    ],
+    "KEGG:00404": [
+        "Staurosporine biosynthesis",
+        "Staurosporine biosynthesis",
+        "KEGG:00404"
+    ],
+    "KEGG:00405": [
+        "Phenazine biosynthesis",
+        "Phenazine biosynthesis",
+        "KEGG:00405"
+    ],
+    "KEGG:00333": [
+        "Prodigiosin biosynthesis",
+        "Prodigiosin biosynthesis",
+        "KEGG:00333"
+    ],
+    "KEGG:00254": [
+        "Aflatoxin biosynthesis",
+        "Aflatoxin biosynthesis",
+        "KEGG:00254"
+    ],
+    "KEGG:00998": [
+        "Biosynthesis of various antibiotics",
+        "Biosynthesis of various antibiotics",
+        "KEGG:00998"
+    ],
+    "KEGG:00999": [
+        "Biosynthesis of various plant secondary metabolites",
+        "Biosynthesis of various plant secondary metabolites",
+        "KEGG:00999"
+    ],
+    "KEGG:00997": [
+        "Biosynthesis of various other secondary metabolites",
+        "Biosynthesis of various other secondary metabolites",
+        "KEGG:00997"
+    ],
+    "KEGG:09111": [
+        "Xenobiotics biodegradation and metabolism",
+        "Xenobiotics biodegradation and metabolism",
+        "KEGG:09111"
+    ],
+    "KEGG:00362": [
+        "Benzoate degradation",
+        "Benzoate degradation",
+        "KEGG:00362"
+    ],
+    "KEGG:00627": [
+        "Aminobenzoate degradation",
+        "Aminobenzoate degradation",
+        "KEGG:00627"
+    ],
+    "KEGG:00364": [
+        "Fluorobenzoate degradation",
+        "Fluorobenzoate degradation",
+        "KEGG:00364"
+    ],
+    "KEGG:00625": [
+        "Chloroalkane and chloroalkene degradation",
+        "Chloroalkane and chloroalkene degradation",
+        "KEGG:00625"
+    ],
+    "KEGG:00361": [
+        "Chlorocyclohexane and chlorobenzene degradation",
+        "Chlorocyclohexane and chlorobenzene degradation",
+        "KEGG:00361"
+    ],
+    "KEGG:00623": [
+        "Toluene degradation",
+        "Toluene degradation",
+        "KEGG:00623"
+    ],
+    "KEGG:00622": [
+        "Xylene degradation",
+        "Xylene degradation",
+        "KEGG:00622"
+    ],
+    "KEGG:00633": [
+        "Nitrotoluene degradation",
+        "Nitrotoluene degradation",
+        "KEGG:00633"
+    ],
+    "KEGG:00642": [
+        "Ethylbenzene degradation",
+        "Ethylbenzene degradation",
+        "KEGG:00642"
+    ],
+    "KEGG:00643": [
+        "Styrene degradation",
+        "Styrene degradation",
+        "KEGG:00643"
+    ],
+    "KEGG:00791": [
+        "Atrazine degradation",
+        "Atrazine degradation",
+        "KEGG:00791"
+    ],
+    "KEGG:00930": [
+        "Caprolactam degradation",
+        "Caprolactam degradation",
+        "KEGG:00930"
+    ],
+    "KEGG:00363": [
+        "Bisphenol degradation",
+        "Bisphenol degradation",
+        "KEGG:00363"
+    ],
+    "KEGG:00621": [
+        "Dioxin degradation",
+        "Dioxin degradation",
+        "KEGG:00621"
+    ],
+    "KEGG:00626": [
+        "Naphthalene degradation",
+        "Naphthalene degradation",
+        "KEGG:00626"
+    ],
+    "KEGG:00624": [
+        "Polycyclic aromatic hydrocarbon degradation",
+        "Polycyclic aromatic hydrocarbon degradation",
+        "KEGG:00624"
+    ],
+    "KEGG:00365": [
+        "Furfural degradation",
+        "Furfural degradation",
+        "KEGG:00365"
+    ],
+    "KEGG:00984": [
+        "Steroid degradation",
+        "Steroid degradation",
+        "KEGG:00984"
+    ],
+    "KEGG:00980": [
+        "Metabolism of xenobiotics by cytochrome P450 [PATH:hsa00980]",
+        "Metabolism of xenobiotics by cytochrome P450 [PATH:hsa00980]",
+        "KEGG:00980"
+    ],
+    "KEGG:00982": [
+        "Drug metabolism - cytochrome P450 [PATH:hsa00982]",
+        "Drug metabolism - cytochrome P450 [PATH:hsa00982]",
+        "KEGG:00982"
+    ],
+    "KEGG:00983": [
+        "Drug metabolism - other enzymes [PATH:hsa00983]",
+        "Drug metabolism - other enzymes [PATH:hsa00983]",
+        "KEGG:00983"
+    ],
+    "KEGG:09112": [
+        "Not included in regular maps",
+        "Not included in regular maps",
+        "KEGG:09112"
+    ],
+    "KEGG:09113": [
+        "Global maps only",
+        "Global maps only",
+        "KEGG:09113"
+    ],
+    "KEGG:09120": [
+        "Genetic Information Processing",
+        "Genetic Information Processing",
+        "KEGG:09120"
+    ],
+    "KEGG:09121": [
+        "Transcription",
+        "Transcription",
+        "KEGG:09121"
+    ],
+    "KEGG:03020": [
+        "RNA polymerase [PATH:hsa03020]",
+        "RNA polymerase [PATH:hsa03020]",
+        "KEGG:03020"
+    ],
+    "KEGG:03022": [
+        "Basal transcription factors [PATH:hsa03022]",
+        "Basal transcription factors [PATH:hsa03022]",
+        "KEGG:03022"
+    ],
+    "KEGG:03040": [
+        "Spliceosome [PATH:hsa03040]",
+        "Spliceosome [PATH:hsa03040]",
+        "KEGG:03040"
+    ],
+    "KEGG:09122": [
+        "Translation",
+        "Translation",
+        "KEGG:09122"
+    ],
+    "KEGG:03010": [
+        "Ribosome [PATH:hsa03010]",
+        "Ribosome [PATH:hsa03010]",
+        "KEGG:03010"
+    ],
+    "KEGG:00970": [
+        "Aminoacyl-tRNA biosynthesis [PATH:hsa00970]",
+        "Aminoacyl-tRNA biosynthesis [PATH:hsa00970]",
+        "KEGG:00970"
+    ],
+    "KEGG:03013": [
+        "Nucleocytoplasmic transport [PATH:hsa03013]",
+        "Nucleocytoplasmic transport [PATH:hsa03013]",
+        "KEGG:03013"
+    ],
+    "KEGG:03015": [
+        "mRNA surveillance pathway [PATH:hsa03015]",
+        "mRNA surveillance pathway [PATH:hsa03015]",
+        "KEGG:03015"
+    ],
+    "KEGG:03008": [
+        "Ribosome biogenesis in eukaryotes [PATH:hsa03008]",
+        "Ribosome biogenesis in eukaryotes [PATH:hsa03008]",
+        "KEGG:03008"
+    ],
+    "KEGG:09123": [
+        "Folding, sorting and degradation",
+        "Folding, sorting and degradation",
+        "KEGG:09123"
+    ],
+    "KEGG:03060": [
+        "Protein export [PATH:hsa03060]",
+        "Protein export [PATH:hsa03060]",
+        "KEGG:03060"
+    ],
+    "KEGG:04141": [
+        "Protein processing in endoplasmic reticulum [PATH:hsa04141]",
+        "Protein processing in endoplasmic reticulum [PATH:hsa04141]",
+        "KEGG:04141"
+    ],
+    "KEGG:04130": [
+        "SNARE interactions in vesicular transport [PATH:hsa04130]",
+        "SNARE interactions in vesicular transport [PATH:hsa04130]",
+        "KEGG:04130"
+    ],
+    "KEGG:04120": [
+        "Ubiquitin mediated proteolysis [PATH:hsa04120]",
+        "Ubiquitin mediated proteolysis [PATH:hsa04120]",
+        "KEGG:04120"
+    ],
+    "KEGG:04122": [
+        "Sulfur relay system [PATH:hsa04122]",
+        "Sulfur relay system [PATH:hsa04122]",
+        "KEGG:04122"
+    ],
+    "KEGG:03050": [
+        "Proteasome [PATH:hsa03050]",
+        "Proteasome [PATH:hsa03050]",
+        "KEGG:03050"
+    ],
+    "KEGG:03018": [
+        "RNA degradation [PATH:hsa03018]",
+        "RNA degradation [PATH:hsa03018]",
+        "KEGG:03018"
+    ],
+    "KEGG:09124": [
+        "Replication and repair",
+        "Replication and repair",
+        "KEGG:09124"
+    ],
+    "KEGG:03030": [
+        "DNA replication [PATH:hsa03030]",
+        "DNA replication [PATH:hsa03030]",
+        "KEGG:03030"
+    ],
+    "KEGG:03410": [
+        "Base excision repair [PATH:hsa03410]",
+        "Base excision repair [PATH:hsa03410]",
+        "KEGG:03410"
+    ],
+    "KEGG:03420": [
+        "Nucleotide excision repair [PATH:hsa03420]",
+        "Nucleotide excision repair [PATH:hsa03420]",
+        "KEGG:03420"
+    ],
+    "KEGG:03430": [
+        "Mismatch repair [PATH:hsa03430]",
+        "Mismatch repair [PATH:hsa03430]",
+        "KEGG:03430"
+    ],
+    "KEGG:03440": [
+        "Homologous recombination [PATH:hsa03440]",
+        "Homologous recombination [PATH:hsa03440]",
+        "KEGG:03440"
+    ],
+    "KEGG:03450": [
+        "Non-homologous end-joining [PATH:hsa03450]",
+        "Non-homologous end-joining [PATH:hsa03450]",
+        "KEGG:03450"
+    ],
+    "KEGG:03460": [
+        "Fanconi anemia pathway [PATH:hsa03460]",
+        "Fanconi anemia pathway [PATH:hsa03460]",
+        "KEGG:03460"
+    ],
+    "KEGG:09126": [
+        "Chromosome",
+        "Chromosome",
+        "KEGG:09126"
+    ],
+    "KEGG:03082": [
+        "ATP-dependent chromatin remodeling [PATH:hsa03082]",
+        "ATP-dependent chromatin remodeling [PATH:hsa03082]",
+        "KEGG:03082"
+    ],
+    "KEGG:03083": [
+        "Polycomb repressive complex [PATH:hsa03083]",
+        "Polycomb repressive complex [PATH:hsa03083]",
+        "KEGG:03083"
+    ],
+    "KEGG:09125": [
+        "Information processing in viruses",
+        "Information processing in viruses",
+        "KEGG:09125"
+    ],
+    "KEGG:03230": [
+        "Viral genome structure",
+        "Viral genome structure",
+        "KEGG:03230"
+    ],
+    "KEGG:03240": [
+        "Viral replication",
+        "Viral replication",
+        "KEGG:03240"
+    ],
+    "KEGG:03250": [
+        "Viral life cycle - HIV-1 [PATH:hsa03250]",
+        "Viral life cycle - HIV-1 [PATH:hsa03250]",
+        "KEGG:03250"
+    ],
+    "KEGG:03260": [
+        "Virion - Human immunodeficiency virus [PATH:hsa03260]",
+        "Virion - Human immunodeficiency virus [PATH:hsa03260]",
+        "KEGG:03260"
+    ],
+    "KEGG:03271": [
+        "Virion - Rotavirus [PATH:hsa03271]",
+        "Virion - Rotavirus [PATH:hsa03271]",
+        "KEGG:03271"
+    ],
+    "KEGG:03262": [
+        "Virion - Coronavirus",
+        "Virion - Coronavirus",
+        "KEGG:03262"
+    ],
+    "KEGG:03261": [
+        "Virion - Influenza virus",
+        "Virion - Influenza virus",
+        "KEGG:03261"
+    ],
+    "KEGG:03263": [
+        "Virion - Enterovirus",
+        "Virion - Enterovirus",
+        "KEGG:03263"
+    ],
+    "KEGG:03264": [
+        "Virion - Flavivirus [PATH:hsa03264]",
+        "Virion - Flavivirus [PATH:hsa03264]",
+        "KEGG:03264"
+    ],
+    "KEGG:03265": [
+        "Virion - Ebolavirus, Lyssavirus and Morbillivirus [PATH:hsa03265]",
+        "Virion - Ebolavirus, Lyssavirus and Morbillivirus [PATH:hsa03265]",
+        "KEGG:03265"
+    ],
+    "KEGG:03266": [
+        "Virion - Herpesvirus [PATH:hsa03266]",
+        "Virion - Herpesvirus [PATH:hsa03266]",
+        "KEGG:03266"
+    ],
+    "KEGG:03268": [
+        "Virion - Orthopoxvirus",
+        "Virion - Orthopoxvirus",
+        "KEGG:03268"
+    ],
+    "KEGG:03267": [
+        "Virion - Adenovirus [PATH:hsa03267]",
+        "Virion - Adenovirus [PATH:hsa03267]",
+        "KEGG:03267"
+    ],
+    "KEGG:03259": [
+        "Virion - Bacteriophages T4 and T7",
+        "Virion - Bacteriophages T4 and T7",
+        "KEGG:03259"
+    ],
+    "KEGG:03258": [
+        "Virion - Bacteriophage lambda",
+        "Virion - Bacteriophage lambda",
+        "KEGG:03258"
+    ],
+    "KEGG:09130": [
+        "Environmental Information Processing",
+        "Environmental Information Processing",
+        "KEGG:09130"
+    ],
+    "KEGG:09131": [
+        "Membrane transport",
+        "Membrane transport",
+        "KEGG:09131"
+    ],
+    "KEGG:02010": [
+        "ABC transporters [PATH:hsa02010]",
+        "ABC transporters [PATH:hsa02010]",
+        "KEGG:02010"
+    ],
+    "KEGG:02060": [
+        "Phosphotransferase system (PTS)",
+        "Phosphotransferase system (PTS)",
+        "KEGG:02060"
+    ],
+    "KEGG:03070": [
+        "Bacterial secretion system",
+        "Bacterial secretion system",
+        "KEGG:03070"
+    ],
+    "KEGG:09132": [
+        "Signal transduction",
+        "Signal transduction",
+        "KEGG:09132"
+    ],
+    "KEGG:02020": [
+        "Two-component system",
+        "Two-component system",
+        "KEGG:02020"
+    ],
+    "KEGG:04010": [
+        "MAPK signaling pathway [PATH:hsa04010]",
+        "MAPK signaling pathway [PATH:hsa04010]",
+        "KEGG:04010"
+    ],
+    "KEGG:04013": [
+        "MAPK signaling pathway - fly",
+        "MAPK signaling pathway - fly",
+        "KEGG:04013"
+    ],
+    "KEGG:04016": [
+        "MAPK signaling pathway - plant",
+        "MAPK signaling pathway - plant",
+        "KEGG:04016"
+    ],
+    "KEGG:04011": [
+        "MAPK signaling pathway - yeast",
+        "MAPK signaling pathway - yeast",
+        "KEGG:04011"
+    ],
+    "KEGG:04012": [
+        "ErbB signaling pathway [PATH:hsa04012]",
+        "ErbB signaling pathway [PATH:hsa04012]",
+        "KEGG:04012"
+    ],
+    "KEGG:04014": [
+        "Ras signaling pathway [PATH:hsa04014]",
+        "Ras signaling pathway [PATH:hsa04014]",
+        "KEGG:04014"
+    ],
+    "KEGG:04015": [
+        "Rap1 signaling pathway [PATH:hsa04015]",
+        "Rap1 signaling pathway [PATH:hsa04015]",
+        "KEGG:04015"
+    ],
+    "KEGG:04310": [
+        "Wnt signaling pathway [PATH:hsa04310]",
+        "Wnt signaling pathway [PATH:hsa04310]",
+        "KEGG:04310"
+    ],
+    "KEGG:04330": [
+        "Notch signaling pathway [PATH:hsa04330]",
+        "Notch signaling pathway [PATH:hsa04330]",
+        "KEGG:04330"
+    ],
+    "KEGG:04340": [
+        "Hedgehog signaling pathway [PATH:hsa04340]",
+        "Hedgehog signaling pathway [PATH:hsa04340]",
+        "KEGG:04340"
+    ],
+    "KEGG:04341": [
+        "Hedgehog signaling pathway - fly",
+        "Hedgehog signaling pathway - fly",
+        "KEGG:04341"
+    ],
+    "KEGG:04350": [
+        "TGF-beta signaling pathway [PATH:hsa04350]",
+        "TGF-beta signaling pathway [PATH:hsa04350]",
+        "KEGG:04350"
+    ],
+    "KEGG:04390": [
+        "Hippo signaling pathway [PATH:hsa04390]",
+        "Hippo signaling pathway [PATH:hsa04390]",
+        "KEGG:04390"
+    ],
+    "KEGG:04391": [
+        "Hippo signaling pathway - fly",
+        "Hippo signaling pathway - fly",
+        "KEGG:04391"
+    ],
+    "KEGG:04392": [
+        "Hippo signaling pathway - multiple species [PATH:hsa04392]",
+        "Hippo signaling pathway - multiple species [PATH:hsa04392]",
+        "KEGG:04392"
+    ],
+    "KEGG:04370": [
+        "VEGF signaling pathway [PATH:hsa04370]",
+        "VEGF signaling pathway [PATH:hsa04370]",
+        "KEGG:04370"
+    ],
+    "KEGG:04371": [
+        "Apelin signaling pathway [PATH:hsa04371]",
+        "Apelin signaling pathway [PATH:hsa04371]",
+        "KEGG:04371"
+    ],
+    "KEGG:04630": [
+        "JAK-STAT signaling pathway [PATH:hsa04630]",
+        "JAK-STAT signaling pathway [PATH:hsa04630]",
+        "KEGG:04630"
+    ],
+    "KEGG:04064": [
+        "NF-kappa B signaling pathway [PATH:hsa04064]",
+        "NF-kappa B signaling pathway [PATH:hsa04064]",
+        "KEGG:04064"
+    ],
+    "KEGG:04668": [
+        "TNF signaling pathway [PATH:hsa04668]",
+        "TNF signaling pathway [PATH:hsa04668]",
+        "KEGG:04668"
+    ],
+    "KEGG:04066": [
+        "HIF-1 signaling pathway [PATH:hsa04066]",
+        "HIF-1 signaling pathway [PATH:hsa04066]",
+        "KEGG:04066"
+    ],
+    "KEGG:04068": [
+        "FoxO signaling pathway [PATH:hsa04068]",
+        "FoxO signaling pathway [PATH:hsa04068]",
+        "KEGG:04068"
+    ],
+    "KEGG:04020": [
+        "Calcium signaling pathway [PATH:hsa04020]",
+        "Calcium signaling pathway [PATH:hsa04020]",
+        "KEGG:04020"
+    ],
+    "KEGG:04070": [
+        "Phosphatidylinositol signaling system [PATH:hsa04070]",
+        "Phosphatidylinositol signaling system [PATH:hsa04070]",
+        "KEGG:04070"
+    ],
+    "KEGG:04072": [
+        "Phospholipase D signaling pathway [PATH:hsa04072]",
+        "Phospholipase D signaling pathway [PATH:hsa04072]",
+        "KEGG:04072"
+    ],
+    "KEGG:04071": [
+        "Sphingolipid signaling pathway [PATH:hsa04071]",
+        "Sphingolipid signaling pathway [PATH:hsa04071]",
+        "KEGG:04071"
+    ],
+    "KEGG:04024": [
+        "cAMP signaling pathway [PATH:hsa04024]",
+        "cAMP signaling pathway [PATH:hsa04024]",
+        "KEGG:04024"
+    ],
+    "KEGG:04022": [
+        "cGMP-PKG signaling pathway [PATH:hsa04022]",
+        "cGMP-PKG signaling pathway [PATH:hsa04022]",
+        "KEGG:04022"
+    ],
+    "KEGG:04151": [
+        "PI3K-Akt signaling pathway [PATH:hsa04151]",
+        "PI3K-Akt signaling pathway [PATH:hsa04151]",
+        "KEGG:04151"
+    ],
+    "KEGG:04152": [
+        "AMPK signaling pathway [PATH:hsa04152]",
+        "AMPK signaling pathway [PATH:hsa04152]",
+        "KEGG:04152"
+    ],
+    "KEGG:04150": [
+        "mTOR signaling pathway [PATH:hsa04150]",
+        "mTOR signaling pathway [PATH:hsa04150]",
+        "KEGG:04150"
+    ],
+    "KEGG:04075": [
+        "Plant hormone signal transduction",
+        "Plant hormone signal transduction",
+        "KEGG:04075"
+    ],
+    "KEGG:09133": [
+        "Signaling molecules and interaction",
+        "Signaling molecules and interaction",
+        "KEGG:09133"
+    ],
+    "KEGG:04080": [
+        "Neuroactive ligand-receptor interaction [PATH:hsa04080]",
+        "Neuroactive ligand-receptor interaction [PATH:hsa04080]",
+        "KEGG:04080"
+    ],
+    "KEGG:04060": [
+        "Cytokine-cytokine receptor interaction [PATH:hsa04060]",
+        "Cytokine-cytokine receptor interaction [PATH:hsa04060]",
+        "KEGG:04060"
+    ],
+    "KEGG:04061": [
+        "Viral protein interaction with cytokine and cytokine receptor [PATH:hsa04061]",
+        "Viral protein interaction with cytokine and cytokine receptor [PATH:hsa04061]",
+        "KEGG:04061"
+    ],
+    "KEGG:04512": [
+        "ECM-receptor interaction [PATH:hsa04512]",
+        "ECM-receptor interaction [PATH:hsa04512]",
+        "KEGG:04512"
+    ],
+    "KEGG:04514": [
+        "Cell adhesion molecules [PATH:hsa04514]",
+        "Cell adhesion molecules [PATH:hsa04514]",
+        "KEGG:04514"
+    ],
+    "KEGG:09140": [
+        "Cellular Processes",
+        "Cellular Processes",
+        "KEGG:09140"
+    ],
+    "KEGG:09141": [
+        "Transport and catabolism",
+        "Transport and catabolism",
+        "KEGG:09141"
+    ],
+    "KEGG:04144": [
+        "Endocytosis [PATH:hsa04144]",
+        "Endocytosis [PATH:hsa04144]",
+        "KEGG:04144"
+    ],
+    "KEGG:04145": [
+        "Phagosome [PATH:hsa04145]",
+        "Phagosome [PATH:hsa04145]",
+        "KEGG:04145"
+    ],
+    "KEGG:04142": [
+        "Lysosome [PATH:hsa04142]",
+        "Lysosome [PATH:hsa04142]",
+        "KEGG:04142"
+    ],
+    "KEGG:04146": [
+        "Peroxisome [PATH:hsa04146]",
+        "Peroxisome [PATH:hsa04146]",
+        "KEGG:04146"
+    ],
+    "KEGG:04140": [
+        "Autophagy - animal [PATH:hsa04140]",
+        "Autophagy - animal [PATH:hsa04140]",
+        "KEGG:04140"
+    ],
+    "KEGG:04138": [
+        "Autophagy - yeast",
+        "Autophagy - yeast",
+        "KEGG:04138"
+    ],
+    "KEGG:04136": [
+        "Autophagy - other [PATH:hsa04136]",
+        "Autophagy - other [PATH:hsa04136]",
+        "KEGG:04136"
+    ],
+    "KEGG:04137": [
+        "Mitophagy - animal [PATH:hsa04137]",
+        "Mitophagy - animal [PATH:hsa04137]",
+        "KEGG:04137"
+    ],
+    "KEGG:04139": [
+        "Mitophagy - yeast",
+        "Mitophagy - yeast",
+        "KEGG:04139"
+    ],
+    "KEGG:04148": [
+        "Efferocytosis [PATH:hsa04148]",
+        "Efferocytosis [PATH:hsa04148]",
+        "KEGG:04148"
+    ],
+    "KEGG:09143": [
+        "Cell growth and death",
+        "Cell growth and death",
+        "KEGG:09143"
+    ],
+    "KEGG:04110": [
+        "Cell cycle [PATH:hsa04110]",
+        "Cell cycle [PATH:hsa04110]",
+        "KEGG:04110"
+    ],
+    "KEGG:04111": [
+        "Cell cycle - yeast",
+        "Cell cycle - yeast",
+        "KEGG:04111"
+    ],
+    "KEGG:04112": [
+        "Cell cycle - Caulobacter",
+        "Cell cycle - Caulobacter",
+        "KEGG:04112"
+    ],
+    "KEGG:04113": [
+        "Meiosis - yeast",
+        "Meiosis - yeast",
+        "KEGG:04113"
+    ],
+    "KEGG:04114": [
+        "Oocyte meiosis [PATH:hsa04114]",
+        "Oocyte meiosis [PATH:hsa04114]",
+        "KEGG:04114"
+    ],
+    "KEGG:04210": [
+        "Apoptosis [PATH:hsa04210]",
+        "Apoptosis [PATH:hsa04210]",
+        "KEGG:04210"
+    ],
+    "KEGG:04214": [
+        "Apoptosis - fly",
+        "Apoptosis - fly",
+        "KEGG:04214"
+    ],
+    "KEGG:04215": [
+        "Apoptosis - multiple species [PATH:hsa04215]",
+        "Apoptosis - multiple species [PATH:hsa04215]",
+        "KEGG:04215"
+    ],
+    "KEGG:04216": [
+        "Ferroptosis [PATH:hsa04216]",
+        "Ferroptosis [PATH:hsa04216]",
+        "KEGG:04216"
+    ],
+    "KEGG:04217": [
+        "Necroptosis [PATH:hsa04217]",
+        "Necroptosis [PATH:hsa04217]",
+        "KEGG:04217"
+    ],
+    "KEGG:04115": [
+        "p53 signaling pathway [PATH:hsa04115]",
+        "p53 signaling pathway [PATH:hsa04115]",
+        "KEGG:04115"
+    ],
+    "KEGG:04218": [
+        "Cellular senescence [PATH:hsa04218]",
+        "Cellular senescence [PATH:hsa04218]",
+        "KEGG:04218"
+    ],
+    "KEGG:09144": [
+        "Cellular community - eukaryotes",
+        "Cellular community - eukaryotes",
+        "KEGG:09144"
+    ],
+    "KEGG:04510": [
+        "Focal adhesion [PATH:hsa04510]",
+        "Focal adhesion [PATH:hsa04510]",
+        "KEGG:04510"
+    ],
+    "KEGG:04520": [
+        "Adherens junction [PATH:hsa04520]",
+        "Adherens junction [PATH:hsa04520]",
+        "KEGG:04520"
+    ],
+    "KEGG:04530": [
+        "Tight junction [PATH:hsa04530]",
+        "Tight junction [PATH:hsa04530]",
+        "KEGG:04530"
+    ],
+    "KEGG:04540": [
+        "Gap junction [PATH:hsa04540]",
+        "Gap junction [PATH:hsa04540]",
+        "KEGG:04540"
+    ],
+    "KEGG:04550": [
+        "Signaling pathways regulating pluripotency of stem cells [PATH:hsa04550]",
+        "Signaling pathways regulating pluripotency of stem cells [PATH:hsa04550]",
+        "KEGG:04550"
+    ],
+    "KEGG:09145": [
+        "Cellular community - prokaryotes",
+        "Cellular community - prokaryotes",
+        "KEGG:09145"
+    ],
+    "KEGG:02024": [
+        "Quorum sensing",
+        "Quorum sensing",
+        "KEGG:02024"
+    ],
+    "KEGG:05111": [
+        "Biofilm formation - Vibrio cholerae",
+        "Biofilm formation - Vibrio cholerae",
+        "KEGG:05111"
+    ],
+    "KEGG:02025": [
+        "Biofilm formation - Pseudomonas aeruginosa",
+        "Biofilm formation - Pseudomonas aeruginosa",
+        "KEGG:02025"
+    ],
+    "KEGG:02026": [
+        "Biofilm formation - Escherichia coli",
+        "Biofilm formation - Escherichia coli",
+        "KEGG:02026"
+    ],
+    "KEGG:09142": [
+        "Cell motility",
+        "Cell motility",
+        "KEGG:09142"
+    ],
+    "KEGG:02030": [
+        "Bacterial chemotaxis",
+        "Bacterial chemotaxis",
+        "KEGG:02030"
+    ],
+    "KEGG:02040": [
+        "Flagellar assembly",
+        "Flagellar assembly",
+        "KEGG:02040"
+    ],
+    "KEGG:04814": [
+        "Motor proteins [PATH:hsa04814]",
+        "Motor proteins [PATH:hsa04814]",
+        "KEGG:04814"
+    ],
+    "KEGG:04820": [
+        "Cytoskeleton in muscle cells [PATH:hsa04820]",
+        "Cytoskeleton in muscle cells [PATH:hsa04820]",
+        "KEGG:04820"
+    ],
+    "KEGG:04810": [
+        "Regulation of actin cytoskeleton [PATH:hsa04810]",
+        "Regulation of actin cytoskeleton [PATH:hsa04810]",
+        "KEGG:04810"
+    ],
+    "KEGG:09150": [
+        "Organismal Systems",
+        "Organismal Systems",
+        "KEGG:09150"
+    ],
+    "KEGG:09151": [
+        "Immune system",
+        "Immune system",
+        "KEGG:09151"
+    ],
+    "KEGG:04640": [
+        "Hematopoietic cell lineage [PATH:hsa04640]",
+        "Hematopoietic cell lineage [PATH:hsa04640]",
+        "KEGG:04640"
+    ],
+    "KEGG:04610": [
+        "Complement and coagulation cascades [PATH:hsa04610]",
+        "Complement and coagulation cascades [PATH:hsa04610]",
+        "KEGG:04610"
+    ],
+    "KEGG:04611": [
+        "Platelet activation [PATH:hsa04611]",
+        "Platelet activation [PATH:hsa04611]",
+        "KEGG:04611"
+    ],
+    "KEGG:04613": [
+        "Neutrophil extracellular trap formation [PATH:hsa04613]",
+        "Neutrophil extracellular trap formation [PATH:hsa04613]",
+        "KEGG:04613"
+    ],
+    "KEGG:04620": [
+        "Toll-like receptor signaling pathway [PATH:hsa04620]",
+        "Toll-like receptor signaling pathway [PATH:hsa04620]",
+        "KEGG:04620"
+    ],
+    "KEGG:04624": [
+        "Toll and Imd signaling pathway",
+        "Toll and Imd signaling pathway",
+        "KEGG:04624"
+    ],
+    "KEGG:04621": [
+        "NOD-like receptor signaling pathway [PATH:hsa04621]",
+        "NOD-like receptor signaling pathway [PATH:hsa04621]",
+        "KEGG:04621"
+    ],
+    "KEGG:04622": [
+        "RIG-I-like receptor signaling pathway [PATH:hsa04622]",
+        "RIG-I-like receptor signaling pathway [PATH:hsa04622]",
+        "KEGG:04622"
+    ],
+    "KEGG:04623": [
+        "Cytosolic DNA-sensing pathway [PATH:hsa04623]",
+        "Cytosolic DNA-sensing pathway [PATH:hsa04623]",
+        "KEGG:04623"
+    ],
+    "KEGG:04625": [
+        "C-type lectin receptor signaling pathway [PATH:hsa04625]",
+        "C-type lectin receptor signaling pathway [PATH:hsa04625]",
+        "KEGG:04625"
+    ],
+    "KEGG:04650": [
+        "Natural killer cell mediated cytotoxicity [PATH:hsa04650]",
+        "Natural killer cell mediated cytotoxicity [PATH:hsa04650]",
+        "KEGG:04650"
+    ],
+    "KEGG:04612": [
+        "Antigen processing and presentation [PATH:hsa04612]",
+        "Antigen processing and presentation [PATH:hsa04612]",
+        "KEGG:04612"
+    ],
+    "KEGG:04660": [
+        "T cell receptor signaling pathway [PATH:hsa04660]",
+        "T cell receptor signaling pathway [PATH:hsa04660]",
+        "KEGG:04660"
+    ],
+    "KEGG:04658": [
+        "Th1 and Th2 cell differentiation [PATH:hsa04658]",
+        "Th1 and Th2 cell differentiation [PATH:hsa04658]",
+        "KEGG:04658"
+    ],
+    "KEGG:04659": [
+        "Th17 cell differentiation [PATH:hsa04659]",
+        "Th17 cell differentiation [PATH:hsa04659]",
+        "KEGG:04659"
+    ],
+    "KEGG:04657": [
+        "IL-17 signaling pathway [PATH:hsa04657]",
+        "IL-17 signaling pathway [PATH:hsa04657]",
+        "KEGG:04657"
+    ],
+    "KEGG:04662": [
+        "B cell receptor signaling pathway [PATH:hsa04662]",
+        "B cell receptor signaling pathway [PATH:hsa04662]",
+        "KEGG:04662"
+    ],
+    "KEGG:04664": [
+        "Fc epsilon RI signaling pathway [PATH:hsa04664]",
+        "Fc epsilon RI signaling pathway [PATH:hsa04664]",
+        "KEGG:04664"
+    ],
+    "KEGG:04666": [
+        "Fc gamma R-mediated phagocytosis [PATH:hsa04666]",
+        "Fc gamma R-mediated phagocytosis [PATH:hsa04666]",
+        "KEGG:04666"
+    ],
+    "KEGG:04670": [
+        "Leukocyte transendothelial migration [PATH:hsa04670]",
+        "Leukocyte transendothelial migration [PATH:hsa04670]",
+        "KEGG:04670"
+    ],
+    "KEGG:04672": [
+        "Intestinal immune network for IgA production [PATH:hsa04672]",
+        "Intestinal immune network for IgA production [PATH:hsa04672]",
+        "KEGG:04672"
+    ],
+    "KEGG:04062": [
+        "Chemokine signaling pathway [PATH:hsa04062]",
+        "Chemokine signaling pathway [PATH:hsa04062]",
+        "KEGG:04062"
+    ],
+    "KEGG:09152": [
+        "Endocrine system",
+        "Endocrine system",
+        "KEGG:09152"
+    ],
+    "KEGG:04911": [
+        "Insulin secretion [PATH:hsa04911]",
+        "Insulin secretion [PATH:hsa04911]",
+        "KEGG:04911"
+    ],
+    "KEGG:04910": [
+        "Insulin signaling pathway [PATH:hsa04910]",
+        "Insulin signaling pathway [PATH:hsa04910]",
+        "KEGG:04910"
+    ],
+    "KEGG:04922": [
+        "Glucagon signaling pathway [PATH:hsa04922]",
+        "Glucagon signaling pathway [PATH:hsa04922]",
+        "KEGG:04922"
+    ],
+    "KEGG:04923": [
+        "Regulation of lipolysis in adipocytes [PATH:hsa04923]",
+        "Regulation of lipolysis in adipocytes [PATH:hsa04923]",
+        "KEGG:04923"
+    ],
+    "KEGG:04920": [
+        "Adipocytokine signaling pathway [PATH:hsa04920]",
+        "Adipocytokine signaling pathway [PATH:hsa04920]",
+        "KEGG:04920"
+    ],
+    "KEGG:03320": [
+        "PPAR signaling pathway [PATH:hsa03320]",
+        "PPAR signaling pathway [PATH:hsa03320]",
+        "KEGG:03320"
+    ],
+    "KEGG:04929": [
+        "GnRH secretion [PATH:hsa04929]",
+        "GnRH secretion [PATH:hsa04929]",
+        "KEGG:04929"
+    ],
+    "KEGG:04912": [
+        "GnRH signaling pathway [PATH:hsa04912]",
+        "GnRH signaling pathway [PATH:hsa04912]",
+        "KEGG:04912"
+    ],
+    "KEGG:04913": [
+        "Ovarian steroidogenesis [PATH:hsa04913]",
+        "Ovarian steroidogenesis [PATH:hsa04913]",
+        "KEGG:04913"
+    ],
+    "KEGG:04915": [
+        "Estrogen signaling pathway [PATH:hsa04915]",
+        "Estrogen signaling pathway [PATH:hsa04915]",
+        "KEGG:04915"
+    ],
+    "KEGG:04914": [
+        "Progesterone-mediated oocyte maturation [PATH:hsa04914]",
+        "Progesterone-mediated oocyte maturation [PATH:hsa04914]",
+        "KEGG:04914"
+    ],
+    "KEGG:04917": [
+        "Prolactin signaling pathway [PATH:hsa04917]",
+        "Prolactin signaling pathway [PATH:hsa04917]",
+        "KEGG:04917"
+    ],
+    "KEGG:04921": [
+        "Oxytocin signaling pathway [PATH:hsa04921]",
+        "Oxytocin signaling pathway [PATH:hsa04921]",
+        "KEGG:04921"
+    ],
+    "KEGG:04926": [
+        "Relaxin signaling pathway [PATH:hsa04926]",
+        "Relaxin signaling pathway [PATH:hsa04926]",
+        "KEGG:04926"
+    ],
+    "KEGG:04935": [
+        "Growth hormone synthesis, secretion and action [PATH:hsa04935]",
+        "Growth hormone synthesis, secretion and action [PATH:hsa04935]",
+        "KEGG:04935"
+    ],
+    "KEGG:04918": [
+        "Thyroid hormone synthesis [PATH:hsa04918]",
+        "Thyroid hormone synthesis [PATH:hsa04918]",
+        "KEGG:04918"
+    ],
+    "KEGG:04919": [
+        "Thyroid hormone signaling pathway [PATH:hsa04919]",
+        "Thyroid hormone signaling pathway [PATH:hsa04919]",
+        "KEGG:04919"
+    ],
+    "KEGG:04928": [
+        "Parathyroid hormone synthesis, secretion and action [PATH:hsa04928]",
+        "Parathyroid hormone synthesis, secretion and action [PATH:hsa04928]",
+        "KEGG:04928"
+    ],
+    "KEGG:04916": [
+        "Melanogenesis [PATH:hsa04916]",
+        "Melanogenesis [PATH:hsa04916]",
+        "KEGG:04916"
+    ],
+    "KEGG:04924": [
+        "Renin secretion [PATH:hsa04924]",
+        "Renin secretion [PATH:hsa04924]",
+        "KEGG:04924"
+    ],
+    "KEGG:04614": [
+        "Renin-angiotensin system [PATH:hsa04614]",
+        "Renin-angiotensin system [PATH:hsa04614]",
+        "KEGG:04614"
+    ],
+    "KEGG:04925": [
+        "Aldosterone synthesis and secretion [PATH:hsa04925]",
+        "Aldosterone synthesis and secretion [PATH:hsa04925]",
+        "KEGG:04925"
+    ],
+    "KEGG:04927": [
+        "Cortisol synthesis and secretion [PATH:hsa04927]",
+        "Cortisol synthesis and secretion [PATH:hsa04927]",
+        "KEGG:04927"
+    ],
+    "KEGG:09153": [
+        "Circulatory system",
+        "Circulatory system",
+        "KEGG:09153"
+    ],
+    "KEGG:04260": [
+        "Cardiac muscle contraction [PATH:hsa04260]",
+        "Cardiac muscle contraction [PATH:hsa04260]",
+        "KEGG:04260"
+    ],
+    "KEGG:04261": [
+        "Adrenergic signaling in cardiomyocytes [PATH:hsa04261]",
+        "Adrenergic signaling in cardiomyocytes [PATH:hsa04261]",
+        "KEGG:04261"
+    ],
+    "KEGG:04270": [
+        "Vascular smooth muscle contraction [PATH:hsa04270]",
+        "Vascular smooth muscle contraction [PATH:hsa04270]",
+        "KEGG:04270"
+    ],
+    "KEGG:09154": [
+        "Digestive system",
+        "Digestive system",
+        "KEGG:09154"
+    ],
+    "KEGG:04970": [
+        "Salivary secretion [PATH:hsa04970]",
+        "Salivary secretion [PATH:hsa04970]",
+        "KEGG:04970"
+    ],
+    "KEGG:04971": [
+        "Gastric acid secretion [PATH:hsa04971]",
+        "Gastric acid secretion [PATH:hsa04971]",
+        "KEGG:04971"
+    ],
+    "KEGG:04972": [
+        "Pancreatic secretion [PATH:hsa04972]",
+        "Pancreatic secretion [PATH:hsa04972]",
+        "KEGG:04972"
+    ],
+    "KEGG:04976": [
+        "Bile secretion [PATH:hsa04976]",
+        "Bile secretion [PATH:hsa04976]",
+        "KEGG:04976"
+    ],
+    "KEGG:04973": [
+        "Carbohydrate digestion and absorption [PATH:hsa04973]",
+        "Carbohydrate digestion and absorption [PATH:hsa04973]",
+        "KEGG:04973"
+    ],
+    "KEGG:04974": [
+        "Protein digestion and absorption [PATH:hsa04974]",
+        "Protein digestion and absorption [PATH:hsa04974]",
+        "KEGG:04974"
+    ],
+    "KEGG:04975": [
+        "Fat digestion and absorption [PATH:hsa04975]",
+        "Fat digestion and absorption [PATH:hsa04975]",
+        "KEGG:04975"
+    ],
+    "KEGG:04979": [
+        "Cholesterol metabolism [PATH:hsa04979]",
+        "Cholesterol metabolism [PATH:hsa04979]",
+        "KEGG:04979"
+    ],
+    "KEGG:04977": [
+        "Vitamin digestion and absorption [PATH:hsa04977]",
+        "Vitamin digestion and absorption [PATH:hsa04977]",
+        "KEGG:04977"
+    ],
+    "KEGG:04980": [
+        "Cobalamin transport and metabolism [PATH:hsa04980]",
+        "Cobalamin transport and metabolism [PATH:hsa04980]",
+        "KEGG:04980"
+    ],
+    "KEGG:04978": [
+        "Mineral absorption [PATH:hsa04978]",
+        "Mineral absorption [PATH:hsa04978]",
+        "KEGG:04978"
+    ],
+    "KEGG:09155": [
+        "Excretory system",
+        "Excretory system",
+        "KEGG:09155"
+    ],
+    "KEGG:04962": [
+        "Vasopressin-regulated water reabsorption [PATH:hsa04962]",
+        "Vasopressin-regulated water reabsorption [PATH:hsa04962]",
+        "KEGG:04962"
+    ],
+    "KEGG:04960": [
+        "Aldosterone-regulated sodium reabsorption [PATH:hsa04960]",
+        "Aldosterone-regulated sodium reabsorption [PATH:hsa04960]",
+        "KEGG:04960"
+    ],
+    "KEGG:04961": [
+        "Endocrine and other factor-regulated calcium reabsorption [PATH:hsa04961]",
+        "Endocrine and other factor-regulated calcium reabsorption [PATH:hsa04961]",
+        "KEGG:04961"
+    ],
+    "KEGG:04964": [
+        "Proximal tubule bicarbonate reclamation [PATH:hsa04964]",
+        "Proximal tubule bicarbonate reclamation [PATH:hsa04964]",
+        "KEGG:04964"
+    ],
+    "KEGG:04966": [
+        "Collecting duct acid secretion [PATH:hsa04966]",
+        "Collecting duct acid secretion [PATH:hsa04966]",
+        "KEGG:04966"
+    ],
+    "KEGG:09156": [
+        "Nervous system",
+        "Nervous system",
+        "KEGG:09156"
+    ],
+    "KEGG:04724": [
+        "Glutamatergic synapse [PATH:hsa04724]",
+        "Glutamatergic synapse [PATH:hsa04724]",
+        "KEGG:04724"
+    ],
+    "KEGG:04727": [
+        "GABAergic synapse [PATH:hsa04727]",
+        "GABAergic synapse [PATH:hsa04727]",
+        "KEGG:04727"
+    ],
+    "KEGG:04725": [
+        "Cholinergic synapse [PATH:hsa04725]",
+        "Cholinergic synapse [PATH:hsa04725]",
+        "KEGG:04725"
+    ],
+    "KEGG:04728": [
+        "Dopaminergic synapse [PATH:hsa04728]",
+        "Dopaminergic synapse [PATH:hsa04728]",
+        "KEGG:04728"
+    ],
+    "KEGG:04726": [
+        "Serotonergic synapse [PATH:hsa04726]",
+        "Serotonergic synapse [PATH:hsa04726]",
+        "KEGG:04726"
+    ],
+    "KEGG:04720": [
+        "Long-term potentiation [PATH:hsa04720]",
+        "Long-term potentiation [PATH:hsa04720]",
+        "KEGG:04720"
+    ],
+    "KEGG:04730": [
+        "Long-term depression [PATH:hsa04730]",
+        "Long-term depression [PATH:hsa04730]",
+        "KEGG:04730"
+    ],
+    "KEGG:04723": [
+        "Retrograde endocannabinoid signaling [PATH:hsa04723]",
+        "Retrograde endocannabinoid signaling [PATH:hsa04723]",
+        "KEGG:04723"
+    ],
+    "KEGG:04721": [
+        "Synaptic vesicle cycle [PATH:hsa04721]",
+        "Synaptic vesicle cycle [PATH:hsa04721]",
+        "KEGG:04721"
+    ],
+    "KEGG:04722": [
+        "Neurotrophin signaling pathway [PATH:hsa04722]",
+        "Neurotrophin signaling pathway [PATH:hsa04722]",
+        "KEGG:04722"
+    ],
+    "KEGG:09157": [
+        "Sensory system",
+        "Sensory system",
+        "KEGG:09157"
+    ],
+    "KEGG:04744": [
+        "Phototransduction [PATH:hsa04744]",
+        "Phototransduction [PATH:hsa04744]",
+        "KEGG:04744"
+    ],
+    "KEGG:04745": [
+        "Phototransduction - fly",
+        "Phototransduction - fly",
+        "KEGG:04745"
+    ],
+    "KEGG:04740": [
+        "Olfactory transduction [PATH:hsa04740]",
+        "Olfactory transduction [PATH:hsa04740]",
+        "KEGG:04740"
+    ],
+    "KEGG:04742": [
+        "Taste transduction [PATH:hsa04742]",
+        "Taste transduction [PATH:hsa04742]",
+        "KEGG:04742"
+    ],
+    "KEGG:04750": [
+        "Inflammatory mediator regulation of TRP channels [PATH:hsa04750]",
+        "Inflammatory mediator regulation of TRP channels [PATH:hsa04750]",
+        "KEGG:04750"
+    ],
+    "KEGG:09158": [
+        "Development and regeneration",
+        "Development and regeneration",
+        "KEGG:09158"
+    ],
+    "KEGG:04320": [
+        "Dorso-ventral axis formation",
+        "Dorso-ventral axis formation",
+        "KEGG:04320"
+    ],
+    "KEGG:04360": [
+        "Axon guidance [PATH:hsa04360]",
+        "Axon guidance [PATH:hsa04360]",
+        "KEGG:04360"
+    ],
+    "KEGG:04361": [
+        "Axon regeneration",
+        "Axon regeneration",
+        "KEGG:04361"
+    ],
+    "KEGG:04380": [
+        "Osteoclast differentiation [PATH:hsa04380]",
+        "Osteoclast differentiation [PATH:hsa04380]",
+        "KEGG:04380"
+    ],
+    "KEGG:09149": [
+        "Aging",
+        "Aging",
+        "KEGG:09149"
+    ],
+    "KEGG:04211": [
+        "Longevity regulating pathway [PATH:hsa04211]",
+        "Longevity regulating pathway [PATH:hsa04211]",
+        "KEGG:04211"
+    ],
+    "KEGG:04212": [
+        "Longevity regulating pathway - worm",
+        "Longevity regulating pathway - worm",
+        "KEGG:04212"
+    ],
+    "KEGG:04213": [
+        "Longevity regulating pathway - multiple species [PATH:hsa04213]",
+        "Longevity regulating pathway - multiple species [PATH:hsa04213]",
+        "KEGG:04213"
+    ],
+    "KEGG:09159": [
+        "Environmental adaptation",
+        "Environmental adaptation",
+        "KEGG:09159"
+    ],
+    "KEGG:04710": [
+        "Circadian rhythm [PATH:hsa04710]",
+        "Circadian rhythm [PATH:hsa04710]",
+        "KEGG:04710"
+    ],
+    "KEGG:04713": [
+        "Circadian entrainment [PATH:hsa04713]",
+        "Circadian entrainment [PATH:hsa04713]",
+        "KEGG:04713"
+    ],
+    "KEGG:04711": [
+        "Circadian rhythm - fly",
+        "Circadian rhythm - fly",
+        "KEGG:04711"
+    ],
+    "KEGG:04712": [
+        "Circadian rhythm - plant",
+        "Circadian rhythm - plant",
+        "KEGG:04712"
+    ],
+    "KEGG:04714": [
+        "Thermogenesis [PATH:hsa04714]",
+        "Thermogenesis [PATH:hsa04714]",
+        "KEGG:04714"
+    ],
+    "KEGG:04626": [
+        "Plant-pathogen interaction",
+        "Plant-pathogen interaction",
+        "KEGG:04626"
+    ],
+    "KEGG:09160": [
+        "Human Diseases",
+        "Human Diseases",
+        "KEGG:09160"
+    ],
+    "KEGG:09161": [
+        "Cancer: overview",
+        "Cancer: overview",
+        "KEGG:09161"
+    ],
+    "KEGG:05200": [
+        "Pathways in cancer [PATH:hsa05200]",
+        "Pathways in cancer [PATH:hsa05200]",
+        "KEGG:05200"
+    ],
+    "KEGG:05202": [
+        "Transcriptional misregulation in cancer [PATH:hsa05202]",
+        "Transcriptional misregulation in cancer [PATH:hsa05202]",
+        "KEGG:05202"
+    ],
+    "KEGG:05206": [
+        "MicroRNAs in cancer [PATH:hsa05206]",
+        "MicroRNAs in cancer [PATH:hsa05206]",
+        "KEGG:05206"
+    ],
+    "KEGG:05205": [
+        "Proteoglycans in cancer [PATH:hsa05205]",
+        "Proteoglycans in cancer [PATH:hsa05205]",
+        "KEGG:05205"
+    ],
+    "KEGG:05204": [
+        "Chemical carcinogenesis - DNA adducts [PATH:hsa05204]",
+        "Chemical carcinogenesis - DNA adducts [PATH:hsa05204]",
+        "KEGG:05204"
+    ],
+    "KEGG:05207": [
+        "Chemical carcinogenesis - receptor activation [PATH:hsa05207]",
+        "Chemical carcinogenesis - receptor activation [PATH:hsa05207]",
+        "KEGG:05207"
+    ],
+    "KEGG:05208": [
+        "Chemical carcinogenesis - reactive oxygen species [PATH:hsa05208]",
+        "Chemical carcinogenesis - reactive oxygen species [PATH:hsa05208]",
+        "KEGG:05208"
+    ],
+    "KEGG:05203": [
+        "Viral carcinogenesis [PATH:hsa05203]",
+        "Viral carcinogenesis [PATH:hsa05203]",
+        "KEGG:05203"
+    ],
+    "KEGG:05230": [
+        "Central carbon metabolism in cancer [PATH:hsa05230]",
+        "Central carbon metabolism in cancer [PATH:hsa05230]",
+        "KEGG:05230"
+    ],
+    "KEGG:05231": [
+        "Choline metabolism in cancer [PATH:hsa05231]",
+        "Choline metabolism in cancer [PATH:hsa05231]",
+        "KEGG:05231"
+    ],
+    "KEGG:05235": [
+        "PD-L1 expression and PD-1 checkpoint pathway in cancer [PATH:hsa05235]",
+        "PD-L1 expression and PD-1 checkpoint pathway in cancer [PATH:hsa05235]",
+        "KEGG:05235"
+    ],
+    "KEGG:09162": [
+        "Cancer: specific types",
+        "Cancer: specific types",
+        "KEGG:09162"
+    ],
+    "KEGG:05210": [
+        "Colorectal cancer [PATH:hsa05210]",
+        "Colorectal cancer [PATH:hsa05210]",
+        "KEGG:05210"
+    ],
+    "KEGG:05212": [
+        "Pancreatic cancer [PATH:hsa05212]",
+        "Pancreatic cancer [PATH:hsa05212]",
+        "KEGG:05212"
+    ],
+    "KEGG:05225": [
+        "Hepatocellular carcinoma [PATH:hsa05225]",
+        "Hepatocellular carcinoma [PATH:hsa05225]",
+        "KEGG:05225"
+    ],
+    "KEGG:05226": [
+        "Gastric cancer [PATH:hsa05226]",
+        "Gastric cancer [PATH:hsa05226]",
+        "KEGG:05226"
+    ],
+    "KEGG:05214": [
+        "Glioma [PATH:hsa05214]",
+        "Glioma [PATH:hsa05214]",
+        "KEGG:05214"
+    ],
+    "KEGG:05216": [
+        "Thyroid cancer [PATH:hsa05216]",
+        "Thyroid cancer [PATH:hsa05216]",
+        "KEGG:05216"
+    ],
+    "KEGG:05221": [
+        "Acute myeloid leukemia [PATH:hsa05221]",
+        "Acute myeloid leukemia [PATH:hsa05221]",
+        "KEGG:05221"
+    ],
+    "KEGG:05220": [
+        "Chronic myeloid leukemia [PATH:hsa05220]",
+        "Chronic myeloid leukemia [PATH:hsa05220]",
+        "KEGG:05220"
+    ],
+    "KEGG:05217": [
+        "Basal cell carcinoma [PATH:hsa05217]",
+        "Basal cell carcinoma [PATH:hsa05217]",
+        "KEGG:05217"
+    ],
+    "KEGG:05218": [
+        "Melanoma [PATH:hsa05218]",
+        "Melanoma [PATH:hsa05218]",
+        "KEGG:05218"
+    ],
+    "KEGG:05211": [
+        "Renal cell carcinoma [PATH:hsa05211]",
+        "Renal cell carcinoma [PATH:hsa05211]",
+        "KEGG:05211"
+    ],
+    "KEGG:05219": [
+        "Bladder cancer [PATH:hsa05219]",
+        "Bladder cancer [PATH:hsa05219]",
+        "KEGG:05219"
+    ],
+    "KEGG:05215": [
+        "Prostate cancer [PATH:hsa05215]",
+        "Prostate cancer [PATH:hsa05215]",
+        "KEGG:05215"
+    ],
+    "KEGG:05213": [
+        "Endometrial cancer [PATH:hsa05213]",
+        "Endometrial cancer [PATH:hsa05213]",
+        "KEGG:05213"
+    ],
+    "KEGG:05224": [
+        "Breast cancer [PATH:hsa05224]",
+        "Breast cancer [PATH:hsa05224]",
+        "KEGG:05224"
+    ],
+    "KEGG:05222": [
+        "Small cell lung cancer [PATH:hsa05222]",
+        "Small cell lung cancer [PATH:hsa05222]",
+        "KEGG:05222"
+    ],
+    "KEGG:05223": [
+        "Non-small cell lung cancer [PATH:hsa05223]",
+        "Non-small cell lung cancer [PATH:hsa05223]",
+        "KEGG:05223"
+    ],
+    "KEGG:09172": [
+        "Infectious disease: viral",
+        "Infectious disease: viral",
+        "KEGG:09172"
+    ],
+    "KEGG:05166": [
+        "Human T-cell leukemia virus 1 infection [PATH:hsa05166]",
+        "Human T-cell leukemia virus 1 infection [PATH:hsa05166]",
+        "KEGG:05166"
+    ],
+    "KEGG:05170": [
+        "Human immunodeficiency virus 1 infection [PATH:hsa05170]",
+        "Human immunodeficiency virus 1 infection [PATH:hsa05170]",
+        "KEGG:05170"
+    ],
+    "KEGG:05161": [
+        "Hepatitis B [PATH:hsa05161]",
+        "Hepatitis B [PATH:hsa05161]",
+        "KEGG:05161"
+    ],
+    "KEGG:05160": [
+        "Hepatitis C [PATH:hsa05160]",
+        "Hepatitis C [PATH:hsa05160]",
+        "KEGG:05160"
+    ],
+    "KEGG:05171": [
+        "Coronavirus disease - COVID-19 [PATH:hsa05171]",
+        "Coronavirus disease - COVID-19 [PATH:hsa05171]",
+        "KEGG:05171"
+    ],
+    "KEGG:05164": [
+        "Influenza A [PATH:hsa05164]",
+        "Influenza A [PATH:hsa05164]",
+        "KEGG:05164"
+    ],
+    "KEGG:05162": [
+        "Measles [PATH:hsa05162]",
+        "Measles [PATH:hsa05162]",
+        "KEGG:05162"
+    ],
+    "KEGG:05168": [
+        "Herpes simplex virus 1 infection [PATH:hsa05168]",
+        "Herpes simplex virus 1 infection [PATH:hsa05168]",
+        "KEGG:05168"
+    ],
+    "KEGG:05163": [
+        "Human cytomegalovirus infection [PATH:hsa05163]",
+        "Human cytomegalovirus infection [PATH:hsa05163]",
+        "KEGG:05163"
+    ],
+    "KEGG:05167": [
+        "Kaposi sarcoma-associated herpesvirus infection [PATH:hsa05167]",
+        "Kaposi sarcoma-associated herpesvirus infection [PATH:hsa05167]",
+        "KEGG:05167"
+    ],
+    "KEGG:05169": [
+        "Epstein-Barr virus infection [PATH:hsa05169]",
+        "Epstein-Barr virus infection [PATH:hsa05169]",
+        "KEGG:05169"
+    ],
+    "KEGG:05165": [
+        "Human papillomavirus infection [PATH:hsa05165]",
+        "Human papillomavirus infection [PATH:hsa05165]",
+        "KEGG:05165"
+    ],
+    "KEGG:09171": [
+        "Infectious disease: bacterial",
+        "Infectious disease: bacterial",
+        "KEGG:09171"
+    ],
+    "KEGG:05110": [
+        "Vibrio cholerae infection [PATH:hsa05110]",
+        "Vibrio cholerae infection [PATH:hsa05110]",
+        "KEGG:05110"
+    ],
+    "KEGG:05120": [
+        "Epithelial cell signaling in Helicobacter pylori infection [PATH:hsa05120]",
+        "Epithelial cell signaling in Helicobacter pylori infection [PATH:hsa05120]",
+        "KEGG:05120"
+    ],
+    "KEGG:05130": [
+        "Pathogenic Escherichia coli infection [PATH:hsa05130]",
+        "Pathogenic Escherichia coli infection [PATH:hsa05130]",
+        "KEGG:05130"
+    ],
+    "KEGG:05132": [
+        "Salmonella infection [PATH:hsa05132]",
+        "Salmonella infection [PATH:hsa05132]",
+        "KEGG:05132"
+    ],
+    "KEGG:05131": [
+        "Shigellosis [PATH:hsa05131]",
+        "Shigellosis [PATH:hsa05131]",
+        "KEGG:05131"
+    ],
+    "KEGG:05135": [
+        "Yersinia infection [PATH:hsa05135]",
+        "Yersinia infection [PATH:hsa05135]",
+        "KEGG:05135"
+    ],
+    "KEGG:05133": [
+        "Pertussis [PATH:hsa05133]",
+        "Pertussis [PATH:hsa05133]",
+        "KEGG:05133"
+    ],
+    "KEGG:05134": [
+        "Legionellosis [PATH:hsa05134]",
+        "Legionellosis [PATH:hsa05134]",
+        "KEGG:05134"
+    ],
+    "KEGG:05150": [
+        "Staphylococcus aureus infection [PATH:hsa05150]",
+        "Staphylococcus aureus infection [PATH:hsa05150]",
+        "KEGG:05150"
+    ],
+    "KEGG:05152": [
+        "Tuberculosis [PATH:hsa05152]",
+        "Tuberculosis [PATH:hsa05152]",
+        "KEGG:05152"
+    ],
+    "KEGG:05100": [
+        "Bacterial invasion of epithelial cells [PATH:hsa05100]",
+        "Bacterial invasion of epithelial cells [PATH:hsa05100]",
+        "KEGG:05100"
+    ],
+    "KEGG:09174": [
+        "Infectious disease: parasitic",
+        "Infectious disease: parasitic",
+        "KEGG:09174"
+    ],
+    "KEGG:05146": [
+        "Amoebiasis [PATH:hsa05146]",
+        "Amoebiasis [PATH:hsa05146]",
+        "KEGG:05146"
+    ],
+    "KEGG:05144": [
+        "Malaria [PATH:hsa05144]",
+        "Malaria [PATH:hsa05144]",
+        "KEGG:05144"
+    ],
+    "KEGG:05145": [
+        "Toxoplasmosis [PATH:hsa05145]",
+        "Toxoplasmosis [PATH:hsa05145]",
+        "KEGG:05145"
+    ],
+    "KEGG:05140": [
+        "Leishmaniasis [PATH:hsa05140]",
+        "Leishmaniasis [PATH:hsa05140]",
+        "KEGG:05140"
+    ],
+    "KEGG:05142": [
+        "Chagas disease [PATH:hsa05142]",
+        "Chagas disease [PATH:hsa05142]",
+        "KEGG:05142"
+    ],
+    "KEGG:05143": [
+        "African trypanosomiasis [PATH:hsa05143]",
+        "African trypanosomiasis [PATH:hsa05143]",
+        "KEGG:05143"
+    ],
+    "KEGG:09163": [
+        "Immune disease",
+        "Immune disease",
+        "KEGG:09163"
+    ],
+    "KEGG:05310": [
+        "Asthma [PATH:hsa05310]",
+        "Asthma [PATH:hsa05310]",
+        "KEGG:05310"
+    ],
+    "KEGG:05322": [
+        "Systemic lupus erythematosus [PATH:hsa05322]",
+        "Systemic lupus erythematosus [PATH:hsa05322]",
+        "KEGG:05322"
+    ],
+    "KEGG:05323": [
+        "Rheumatoid arthritis [PATH:hsa05323]",
+        "Rheumatoid arthritis [PATH:hsa05323]",
+        "KEGG:05323"
+    ],
+    "KEGG:05320": [
+        "Autoimmune thyroid disease [PATH:hsa05320]",
+        "Autoimmune thyroid disease [PATH:hsa05320]",
+        "KEGG:05320"
+    ],
+    "KEGG:05321": [
+        "Inflammatory bowel disease [PATH:hsa05321]",
+        "Inflammatory bowel disease [PATH:hsa05321]",
+        "KEGG:05321"
+    ],
+    "KEGG:05330": [
+        "Allograft rejection [PATH:hsa05330]",
+        "Allograft rejection [PATH:hsa05330]",
+        "KEGG:05330"
+    ],
+    "KEGG:05332": [
+        "Graft-versus-host disease [PATH:hsa05332]",
+        "Graft-versus-host disease [PATH:hsa05332]",
+        "KEGG:05332"
+    ],
+    "KEGG:05340": [
+        "Primary immunodeficiency [PATH:hsa05340]",
+        "Primary immunodeficiency [PATH:hsa05340]",
+        "KEGG:05340"
+    ],
+    "KEGG:09164": [
+        "Neurodegenerative disease",
+        "Neurodegenerative disease",
+        "KEGG:09164"
+    ],
+    "KEGG:05010": [
+        "Alzheimer disease [PATH:hsa05010]",
+        "Alzheimer disease [PATH:hsa05010]",
+        "KEGG:05010"
+    ],
+    "KEGG:05012": [
+        "Parkinson disease [PATH:hsa05012]",
+        "Parkinson disease [PATH:hsa05012]",
+        "KEGG:05012"
+    ],
+    "KEGG:05014": [
+        "Amyotrophic lateral sclerosis [PATH:hsa05014]",
+        "Amyotrophic lateral sclerosis [PATH:hsa05014]",
+        "KEGG:05014"
+    ],
+    "KEGG:05016": [
+        "Huntington disease [PATH:hsa05016]",
+        "Huntington disease [PATH:hsa05016]",
+        "KEGG:05016"
+    ],
+    "KEGG:05017": [
+        "Spinocerebellar ataxia [PATH:hsa05017]",
+        "Spinocerebellar ataxia [PATH:hsa05017]",
+        "KEGG:05017"
+    ],
+    "KEGG:05020": [
+        "Prion disease [PATH:hsa05020]",
+        "Prion disease [PATH:hsa05020]",
+        "KEGG:05020"
+    ],
+    "KEGG:05022": [
+        "Pathways of neurodegeneration - multiple diseases [PATH:hsa05022]",
+        "Pathways of neurodegeneration - multiple diseases [PATH:hsa05022]",
+        "KEGG:05022"
+    ],
+    "KEGG:09165": [
+        "Substance dependence",
+        "Substance dependence",
+        "KEGG:09165"
+    ],
+    "KEGG:05030": [
+        "Cocaine addiction [PATH:hsa05030]",
+        "Cocaine addiction [PATH:hsa05030]",
+        "KEGG:05030"
+    ],
+    "KEGG:05031": [
+        "Amphetamine addiction [PATH:hsa05031]",
+        "Amphetamine addiction [PATH:hsa05031]",
+        "KEGG:05031"
+    ],
+    "KEGG:05032": [
+        "Morphine addiction [PATH:hsa05032]",
+        "Morphine addiction [PATH:hsa05032]",
+        "KEGG:05032"
+    ],
+    "KEGG:05033": [
+        "Nicotine addiction [PATH:hsa05033]",
+        "Nicotine addiction [PATH:hsa05033]",
+        "KEGG:05033"
+    ],
+    "KEGG:05034": [
+        "Alcoholism [PATH:hsa05034]",
+        "Alcoholism [PATH:hsa05034]",
+        "KEGG:05034"
+    ],
+    "KEGG:09166": [
+        "Cardiovascular disease",
+        "Cardiovascular disease",
+        "KEGG:09166"
+    ],
+    "KEGG:05417": [
+        "Lipid and atherosclerosis [PATH:hsa05417]",
+        "Lipid and atherosclerosis [PATH:hsa05417]",
+        "KEGG:05417"
+    ],
+    "KEGG:05418": [
+        "Fluid shear stress and atherosclerosis [PATH:hsa05418]",
+        "Fluid shear stress and atherosclerosis [PATH:hsa05418]",
+        "KEGG:05418"
+    ],
+    "KEGG:05410": [
+        "Hypertrophic cardiomyopathy [PATH:hsa05410]",
+        "Hypertrophic cardiomyopathy [PATH:hsa05410]",
+        "KEGG:05410"
+    ],
+    "KEGG:05412": [
+        "Arrhythmogenic right ventricular cardiomyopathy [PATH:hsa05412]",
+        "Arrhythmogenic right ventricular cardiomyopathy [PATH:hsa05412]",
+        "KEGG:05412"
+    ],
+    "KEGG:05414": [
+        "Dilated cardiomyopathy [PATH:hsa05414]",
+        "Dilated cardiomyopathy [PATH:hsa05414]",
+        "KEGG:05414"
+    ],
+    "KEGG:05415": [
+        "Diabetic cardiomyopathy [PATH:hsa05415]",
+        "Diabetic cardiomyopathy [PATH:hsa05415]",
+        "KEGG:05415"
+    ],
+    "KEGG:05416": [
+        "Viral myocarditis [PATH:hsa05416]",
+        "Viral myocarditis [PATH:hsa05416]",
+        "KEGG:05416"
+    ],
+    "KEGG:09167": [
+        "Endocrine and metabolic disease",
+        "Endocrine and metabolic disease",
+        "KEGG:09167"
+    ],
+    "KEGG:04930": [
+        "Type II diabetes mellitus [PATH:hsa04930]",
+        "Type II diabetes mellitus [PATH:hsa04930]",
+        "KEGG:04930"
+    ],
+    "KEGG:04940": [
+        "Type I diabetes mellitus [PATH:hsa04940]",
+        "Type I diabetes mellitus [PATH:hsa04940]",
+        "KEGG:04940"
+    ],
+    "KEGG:04950": [
+        "Maturity onset diabetes of the young [PATH:hsa04950]",
+        "Maturity onset diabetes of the young [PATH:hsa04950]",
+        "KEGG:04950"
+    ],
+    "KEGG:04936": [
+        "Alcoholic liver disease [PATH:hsa04936]",
+        "Alcoholic liver disease [PATH:hsa04936]",
+        "KEGG:04936"
+    ],
+    "KEGG:04932": [
+        "Non-alcoholic fatty liver disease [PATH:hsa04932]",
+        "Non-alcoholic fatty liver disease [PATH:hsa04932]",
+        "KEGG:04932"
+    ],
+    "KEGG:04931": [
+        "Insulin resistance [PATH:hsa04931]",
+        "Insulin resistance [PATH:hsa04931]",
+        "KEGG:04931"
+    ],
+    "KEGG:04933": [
+        "AGE-RAGE signaling pathway in diabetic complications [PATH:hsa04933]",
+        "AGE-RAGE signaling pathway in diabetic complications [PATH:hsa04933]",
+        "KEGG:04933"
+    ],
+    "KEGG:04934": [
+        "Cushing syndrome [PATH:hsa04934]",
+        "Cushing syndrome [PATH:hsa04934]",
+        "KEGG:04934"
+    ],
+    "KEGG:09175": [
+        "Drug resistance: antimicrobial",
+        "Drug resistance: antimicrobial",
+        "KEGG:09175"
+    ],
+    "KEGG:01501": [
+        "beta-Lactam resistance",
+        "beta-Lactam resistance",
+        "KEGG:01501"
+    ],
+    "KEGG:01502": [
+        "Vancomycin resistance",
+        "Vancomycin resistance",
+        "KEGG:01502"
+    ],
+    "KEGG:01503": [
+        "Cationic antimicrobial peptide (CAMP) resistance",
+        "Cationic antimicrobial peptide (CAMP) resistance",
+        "KEGG:01503"
+    ],
+    "KEGG:09176": [
+        "Drug resistance: antineoplastic",
+        "Drug resistance: antineoplastic",
+        "KEGG:09176"
+    ],
+    "KEGG:01521": [
+        "EGFR tyrosine kinase inhibitor resistance [PATH:hsa01521]",
+        "EGFR tyrosine kinase inhibitor resistance [PATH:hsa01521]",
+        "KEGG:01521"
+    ],
+    "KEGG:01524": [
+        "Platinum drug resistance [PATH:hsa01524]",
+        "Platinum drug resistance [PATH:hsa01524]",
+        "KEGG:01524"
+    ],
+    "KEGG:01523": [
+        "Antifolate resistance [PATH:hsa01523]",
+        "Antifolate resistance [PATH:hsa01523]",
+        "KEGG:01523"
+    ],
+    "KEGG:01522": [
+        "Endocrine resistance [PATH:hsa01522]",
+        "Endocrine resistance [PATH:hsa01522]",
+        "KEGG:01522"
+    ],
+    "KEGG:09180": [
+        "Brite Hierarchies",
+        "Brite Hierarchies",
+        "KEGG:09180"
+    ],
+    "KEGG:09181": [
+        "Protein families: metabolism",
+        "Protein families: metabolism",
+        "KEGG:09181"
+    ],
+    "KEGG:01000": [
+        "Enzymes [BR:hsa01000]",
+        "Enzymes [BR:hsa01000]",
+        "KEGG:01000"
+    ],
+    "KEGG:01001": [
+        "Protein kinases [BR:hsa01001]",
+        "Protein kinases [BR:hsa01001]",
+        "KEGG:01001"
+    ],
+    "KEGG:01009": [
+        "Protein phosphatases and associated proteins [BR:hsa01009]",
+        "Protein phosphatases and associated proteins [BR:hsa01009]",
+        "KEGG:01009"
+    ],
+    "KEGG:01002": [
+        "Peptidases and inhibitors [BR:hsa01002]",
+        "Peptidases and inhibitors [BR:hsa01002]",
+        "KEGG:01002"
+    ],
+    "KEGG:01003": [
+        "Glycosyltransferases [BR:hsa01003]",
+        "Glycosyltransferases [BR:hsa01003]",
+        "KEGG:01003"
+    ],
+    "KEGG:01005": [
+        "Lipopolysaccharide biosynthesis proteins",
+        "Lipopolysaccharide biosynthesis proteins",
+        "KEGG:01005"
+    ],
+    "KEGG:01011": [
+        "Peptidoglycan biosynthesis and degradation proteins",
+        "Peptidoglycan biosynthesis and degradation proteins",
+        "KEGG:01011"
+    ],
+    "KEGG:01004": [
+        "Lipid biosynthesis proteins [BR:hsa01004]",
+        "Lipid biosynthesis proteins [BR:hsa01004]",
+        "KEGG:01004"
+    ],
+    "KEGG:01008": [
+        "Polyketide biosynthesis proteins",
+        "Polyketide biosynthesis proteins",
+        "KEGG:01008"
+    ],
+    "KEGG:01006": [
+        "Prenyltransferases [BR:hsa01006]",
+        "Prenyltransferases [BR:hsa01006]",
+        "KEGG:01006"
+    ],
+    "KEGG:01007": [
+        "Amino acid related enzymes [BR:hsa01007]",
+        "Amino acid related enzymes [BR:hsa01007]",
+        "KEGG:01007"
+    ],
+    "KEGG:00199": [
+        "Cytochrome P450 [BR:hsa00199]",
+        "Cytochrome P450 [BR:hsa00199]",
+        "KEGG:00199"
+    ],
+    "KEGG:00194": [
+        "Photosynthesis proteins",
+        "Photosynthesis proteins",
+        "KEGG:00194"
+    ],
+    "KEGG:09182": [
+        "Protein families: genetic information processing",
+        "Protein families: genetic information processing",
+        "KEGG:09182"
+    ],
+    "KEGG:03000": [
+        "Transcription factors [BR:hsa03000]",
+        "Transcription factors [BR:hsa03000]",
+        "KEGG:03000"
+    ],
+    "KEGG:03021": [
+        "Transcription machinery [BR:hsa03021]",
+        "Transcription machinery [BR:hsa03021]",
+        "KEGG:03021"
+    ],
+    "KEGG:03019": [
+        "Messenger RNA biogenesis [BR:hsa03019]",
+        "Messenger RNA biogenesis [BR:hsa03019]",
+        "KEGG:03019"
+    ],
+    "KEGG:03041": [
+        "Spliceosome [BR:hsa03041]",
+        "Spliceosome [BR:hsa03041]",
+        "KEGG:03041"
+    ],
+    "KEGG:03011": [
+        "Ribosome [BR:hsa03011]",
+        "Ribosome [BR:hsa03011]",
+        "KEGG:03011"
+    ],
+    "KEGG:03009": [
+        "Ribosome biogenesis [BR:hsa03009]",
+        "Ribosome biogenesis [BR:hsa03009]",
+        "KEGG:03009"
+    ],
+    "KEGG:03016": [
+        "Transfer RNA biogenesis [BR:hsa03016]",
+        "Transfer RNA biogenesis [BR:hsa03016]",
+        "KEGG:03016"
+    ],
+    "KEGG:03012": [
+        "Translation factors [BR:hsa03012]",
+        "Translation factors [BR:hsa03012]",
+        "KEGG:03012"
+    ],
+    "KEGG:03110": [
+        "Chaperones and folding catalysts [BR:hsa03110]",
+        "Chaperones and folding catalysts [BR:hsa03110]",
+        "KEGG:03110"
+    ],
+    "KEGG:04131": [
+        "Membrane trafficking [BR:hsa04131]",
+        "Membrane trafficking [BR:hsa04131]",
+        "KEGG:04131"
+    ],
+    "KEGG:04121": [
+        "Ubiquitin system [BR:hsa04121]",
+        "Ubiquitin system [BR:hsa04121]",
+        "KEGG:04121"
+    ],
+    "KEGG:03051": [
+        "Proteasome [BR:hsa03051]",
+        "Proteasome [BR:hsa03051]",
+        "KEGG:03051"
+    ],
+    "KEGG:03032": [
+        "DNA replication proteins [BR:hsa03032]",
+        "DNA replication proteins [BR:hsa03032]",
+        "KEGG:03032"
+    ],
+    "KEGG:03036": [
+        "Chromosome and associated proteins [BR:hsa03036]",
+        "Chromosome and associated proteins [BR:hsa03036]",
+        "KEGG:03036"
+    ],
+    "KEGG:03400": [
+        "DNA repair and recombination proteins [BR:hsa03400]",
+        "DNA repair and recombination proteins [BR:hsa03400]",
+        "KEGG:03400"
+    ],
+    "KEGG:03029": [
+        "Mitochondrial biogenesis [BR:hsa03029]",
+        "Mitochondrial biogenesis [BR:hsa03029]",
+        "KEGG:03029"
+    ],
+    "KEGG:09183": [
+        "Protein families: signaling and cellular processes",
+        "Protein families: signaling and cellular processes",
+        "KEGG:09183"
+    ],
+    "KEGG:02000": [
+        "Transporters [BR:hsa02000]",
+        "Transporters [BR:hsa02000]",
+        "KEGG:02000"
+    ],
+    "KEGG:02044": [
+        "Secretion system [BR:hsa02044]",
+        "Secretion system [BR:hsa02044]",
+        "KEGG:02044"
+    ],
+    "KEGG:02042": [
+        "Bacterial toxins [BR:hsa02042]",
+        "Bacterial toxins [BR:hsa02042]",
+        "KEGG:02042"
+    ],
+    "KEGG:02022": [
+        "Two-component system",
+        "Two-component system",
+        "KEGG:02022"
+    ],
+    "KEGG:02035": [
+        "Bacterial motility proteins",
+        "Bacterial motility proteins",
+        "KEGG:02035"
+    ],
+    "KEGG:03037": [
+        "Cilium and associated proteins [BR:hsa03037]",
+        "Cilium and associated proteins [BR:hsa03037]",
+        "KEGG:03037"
+    ],
+    "KEGG:04812": [
+        "Cytoskeleton proteins [BR:hsa04812]",
+        "Cytoskeleton proteins [BR:hsa04812]",
+        "KEGG:04812"
+    ],
+    "KEGG:04147": [
+        "Exosome [BR:hsa04147]",
+        "Exosome [BR:hsa04147]",
+        "KEGG:04147"
+    ],
+    "KEGG:02048": [
+        "Prokaryotic defense system [BR:hsa02048]",
+        "Prokaryotic defense system [BR:hsa02048]",
+        "KEGG:02048"
+    ],
+    "KEGG:04030": [
+        "G protein-coupled receptors [BR:hsa04030]",
+        "G protein-coupled receptors [BR:hsa04030]",
+        "KEGG:04030"
+    ],
+    "KEGG:04050": [
+        "Cytokine receptors [BR:hsa04050]",
+        "Cytokine receptors [BR:hsa04050]",
+        "KEGG:04050"
+    ],
+    "KEGG:04054": [
+        "Pattern recognition receptors [BR:hsa04054]",
+        "Pattern recognition receptors [BR:hsa04054]",
+        "KEGG:04054"
+    ],
+    "KEGG:03310": [
+        "Nuclear receptors [BR:hsa03310]",
+        "Nuclear receptors [BR:hsa03310]",
+        "KEGG:03310"
+    ],
+    "KEGG:04040": [
+        "Ion channels [BR:hsa04040]",
+        "Ion channels [BR:hsa04040]",
+        "KEGG:04040"
+    ],
+    "KEGG:04031": [
+        "GTP-binding proteins [BR:hsa04031]",
+        "GTP-binding proteins [BR:hsa04031]",
+        "KEGG:04031"
+    ],
+    "KEGG:04052": [
+        "Cytokines and neuropeptides [BR:hsa04052]",
+        "Cytokines and neuropeptides [BR:hsa04052]",
+        "KEGG:04052"
+    ],
+    "KEGG:04515": [
+        "Cell adhesion molecules [BR:hsa04515]",
+        "Cell adhesion molecules [BR:hsa04515]",
+        "KEGG:04515"
+    ],
+    "KEGG:04090": [
+        "CD molecules [BR:hsa04090]",
+        "CD molecules [BR:hsa04090]",
+        "KEGG:04090"
+    ],
+    "KEGG:01504": [
+        "Antimicrobial resistance genes",
+        "Antimicrobial resistance genes",
+        "KEGG:01504"
+    ],
+    "KEGG:00535": [
+        "Proteoglycans [BR:hsa00535]",
+        "Proteoglycans [BR:hsa00535]",
+        "KEGG:00535"
+    ],
+    "KEGG:00536": [
+        "Glycosaminoglycan binding proteins [BR:hsa00536]",
+        "Glycosaminoglycan binding proteins [BR:hsa00536]",
+        "KEGG:00536"
+    ],
+    "KEGG:00537": [
+        "Glycosylphosphatidylinositol (GPI)-anchored proteins [BR:hsa00537]",
+        "Glycosylphosphatidylinositol (GPI)-anchored proteins [BR:hsa00537]",
+        "KEGG:00537"
+    ],
+    "KEGG:04091": [
+        "Lectins [BR:hsa04091]",
+        "Lectins [BR:hsa04091]",
+        "KEGG:04091"
+    ],
+    "KEGG:04990": [
+        "Domain-containing proteins not elsewhere classified [BR:hsa04990]",
+        "Domain-containing proteins not elsewhere classified [BR:hsa04990]",
+        "KEGG:04990"
+    ],
+    "KEGG:09185": [
+        "Viral protein families",
+        "Viral protein families",
+        "KEGG:09185"
+    ],
+    "KEGG:03200": [
+        "Viral proteins",
+        "Viral proteins",
+        "KEGG:03200"
+    ],
+    "KEGG:03210": [
+        "Viral fusion proteins [BR:hsa03210]",
+        "Viral fusion proteins [BR:hsa03210]",
+        "KEGG:03210"
+    ],
+    "KEGG:09184": [
+        "RNA family",
+        "RNA family",
+        "KEGG:09184"
+    ],
+    "KEGG:03100": [
+        "Non-coding RNAs [BR:hsa03100]",
+        "Non-coding RNAs [BR:hsa03100]",
+        "KEGG:03100"
+    ],
+    "KEGG:09190": [
+        "Not Included in Pathway or Brite",
+        "Not Included in Pathway or Brite",
+        "KEGG:09190"
+    ],
+    "KEGG:09191": [
+        "Unclassified: metabolism",
+        "Unclassified: metabolism",
+        "KEGG:09191"
+    ],
+    "KEGG:99980": [
+        "Enzymes with EC numbers",
+        "Enzymes with EC numbers",
+        "KEGG:99980"
+    ],
+    "KEGG:99981": [
+        "Carbohydrate metabolism",
+        "Carbohydrate metabolism",
+        "KEGG:99981"
+    ],
+    "KEGG:99982": [
+        "Energy metabolism",
+        "Energy metabolism",
+        "KEGG:99982"
+    ],
+    "KEGG:99983": [
+        "Lipid metabolism",
+        "Lipid metabolism",
+        "KEGG:99983"
+    ],
+    "KEGG:99984": [
+        "Nucleotide metabolism",
+        "Nucleotide metabolism",
+        "KEGG:99984"
+    ],
+    "KEGG:99985": [
+        "Amino acid metabolism",
+        "Amino acid metabolism",
+        "KEGG:99985"
+    ],
+    "KEGG:99986": [
+        "Glycan metabolism",
+        "Glycan metabolism",
+        "KEGG:99986"
+    ],
+    "KEGG:99987": [
+        "Cofactor metabolism",
+        "Cofactor metabolism",
+        "KEGG:99987"
+    ],
+    "KEGG:99988": [
+        "Secondary metabolism",
+        "Secondary metabolism",
+        "KEGG:99988"
+    ],
+    "KEGG:99999": [
+        "Others",
+        "Others",
+        "KEGG:99999"
+    ],
+    "KEGG:09192": [
+        "Unclassified: genetic information processing",
+        "Unclassified: genetic information processing",
+        "KEGG:09192"
+    ],
+    "KEGG:99973": [
+        "Transcription",
+        "Transcription",
+        "KEGG:99973"
+    ],
+    "KEGG:99974": [
+        "Translation",
+        "Translation",
+        "KEGG:99974"
+    ],
+    "KEGG:99975": [
+        "Protein processing",
+        "Protein processing",
+        "KEGG:99975"
+    ],
+    "KEGG:99976": [
+        "Replication and repair",
+        "Replication and repair",
+        "KEGG:99976"
+    ],
+    "KEGG:99979": [
+        "Viral proteins",
+        "Viral proteins",
+        "KEGG:99979"
+    ],
+    "KEGG:99998": [
+        "Others",
+        "Others",
+        "KEGG:99998"
+    ],
+    "KEGG:09193": [
+        "Unclassified: signaling and cellular processes",
+        "Unclassified: signaling and cellular processes",
+        "KEGG:09193"
+    ],
+    "KEGG:99977": [
+        "Transport",
+        "Transport",
+        "KEGG:99977"
+    ],
+    "KEGG:99978": [
+        "Cell growth",
+        "Cell growth",
+        "KEGG:99978"
+    ],
+    "KEGG:99993": [
+        "Cell motility",
+        "Cell motility",
+        "KEGG:99993"
+    ],
+    "KEGG:99995": [
+        "Signaling proteins",
+        "Signaling proteins",
+        "KEGG:99995"
+    ],
+    "KEGG:99992": [
+        "Structural proteins",
+        "Structural proteins",
+        "KEGG:99992"
+    ],
+    "KEGG:99994": [
+        "Others",
+        "Others",
+        "KEGG:99994"
+    ],
+    "KEGG:09194": [
+        "Poorly characterized",
+        "Poorly characterized",
+        "KEGG:09194"
+    ],
+    "KEGG:99996": [
+        "General function prediction only",
+        "General function prediction only",
+        "KEGG:99996"
+    ],
+    "KEGG:99997": [
+        "Function unknown",
+        "Function unknown",
+        "KEGG:99997"
+    ]
+}
