@@ -1,1046 +1,393 @@
-from ast import Dict
-from time import sleep
-import asyncio
-import threading
-import os
-import re
-from datetime import datetime
-from dotenv import load_dotenv
+#!/usr/bin/env python3
+"""BiOmics Landing Page - NiceGUI Version"""
+
+from nicegui import ui, app
 from pathlib import Path
-from nicegui import app, ui
-from langchain_core.messages import HumanMessage
-from utils.build_config_id import build_config_id
-from graph.state import BrickState
-from graph.builder import build_graph_with_interaction
-from utils.save_dir_name import get_save_dir
-from utils.sandbox_manager import SandboxManager
-from utils.plan_extracter import plan_exetract
-from utils.create_notebook import create_notebook
 
-# 演示按钮配置：按钮文本 -> (文件路径, 问题)
-DEMO_BUTTON_CONFIG = {
-    'Demonstrate cell annotation': ('/home/liyuntian/Biomics_agent/data/adata_new1.h5ad', 'Perform cell type annotation on this dataset'),
-    'Demonstrate cell refinement': ('/home/liyuntian/Biomics_agent/data/adata_new1.h5ad', 'Perform cell type refinement on this dataset'),
-    'Demonstrate differential gene analysis': ('/home/liyuntian/Biomics_agent/data/adata_new1.h5ad', 'Perform differential gene expression analysis on this dataset'),
-    'Demonstrate drug discovery': ('/home/liyuntian/Biomics_agent/data/Neutrophil_adata_sub.h5ad', 'Predict therapeutic drugs for COVID-19 based on this omics data'),
-    'Demonstrate enrichment analysis': ('/home/liyuntian/Biomics_agent/data/adata_new1.h5ad', 'Perform gene enrichment analysis on this dataset'),
-    'Demonstrate GWAS causal SNPs analysis': ('/home/liyuntian/Biomics_agent/data/filtered_mutation.csv', 'Identify causal SNPs associated with type 2 diabetes using this data'),
-    'Demonstrate GWAS phenotype prediction': ('/home/liyuntian/Biomics_agent/data/filtered_mutation.csv', 'Predict associated phenotypes based on SNPs in this data'),
-    'Demonstrate trajectory analysis': ('/home/liyuntian/Biomics_agent/data/processed_wbc_m_group1.h5ad', 'Perform trajectory inference analysis on this dataset'),
-    'Demonstrate proteome analysis': ('/home/liyuntian/Biomics_agent/data/Phosphopeptides_glycopeptides_evidence_TiO2_TMT_HUMAN.h5ad', 'Perform proteome analysis on this dataset'),
-    'Demonstrate gene regulatory network': ('/home/liyuntian/Biomics_agent/data/regulon_0619_modules.tsv', 'Perform gene regulatory network analysis on this dataset'),
-}
+# 导入 app_nicegui_chat 模块，注册 /platform 路由
+import app_nicegui_chat
 
-def build_tree_nodes(data, prefix=''):
-    """将嵌套字典转换为 ui.tree 所需的节点格式"""
-    nodes = []
-    if not isinstance(data, dict):
-        return nodes
-    for key, value in data.items():
-        node_id = f"{prefix}_{key}" if prefix else key
-        if isinstance(value, dict):
-            children = build_tree_nodes(value, node_id)
-            nodes.append({
-                'id': node_id,
-                'label': key,
-                'children': children if children else None
-            })
-        elif isinstance(value, list):
-            preview = str(value[:3]) + '...' if len(value) > 3 else str(value)
-            nodes.append({
-                'id': node_id,
-                'label': f"{key}: {preview}"
-            })
-        else:
-            display_val = str(value)[:50] + '...' if len(str(value)) > 50 else str(value)
-            nodes.append({
-                'id': node_id,
-                'label': f"{key}: {display_val}"
-            })
-    return nodes
+# 静态文件路径
+app_path = Path(__file__).parent
+app.add_static_files('/static', app_path)
 
-# 加载环境变量
-config_file = Path(__file__).parent / 'graph' / 'brick_test_config.env'
-load_dotenv(dotenv_path=str(config_file))
-PROJECT_ROOT = os.getenv('PROJECT_ROOT', os.path.abspath(os.path.dirname(__file__)))
-
-# 添加静态文件目录，使 logo 等资源可访问
-app.add_static_files('/static', PROJECT_ROOT)
-
-ui.query('body').style('margin: 0; padding: 0; overflow: hidden;')
-
-# 添加 iMessage 风格的动画和自定义样式
+# 全局样式
 ui.add_head_html('''
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-@keyframes slideInFade {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-/* 覆盖默认的绿色消息背景，改为灰色 */
-.q-message-text--received {
-    background-color: #e0e0e0 !important;
-    color: #333 !important;
-}
-/* 用户发送的消息改为蓝色 */
-.q-message-text--sent {
-    background-color: #1976d2 !important;
-    color: white !important;
-}
-.q-message-text--sent > div {
-    color: white !important;
-}
-/* 隐藏消息气泡的三角形箭头 */
-.q-message-text:before,
-.q-message-text:after {
-    display: none !important;
-}
-/* 缩小消息框内 Markdown 标题的字体大小 */
-.q-message-text h1 {
-    font-size: 1.25em !important;
-    margin: 0.3em 0 !important;
-}
-.q-message-text h2 {
-    font-size: 1.1em !important;
-    margin: 0.25em 0 !important;
-}
-.q-message-text h3 {
-    font-size: 1em !important;
-    margin: 0.2em 0 !important;
-}
-.q-message-text h4, .q-message-text h5, .q-message-text h6 {
-    font-size: 0.95em !important;
-    margin: 0.15em 0 !important;
-}
-/* 限制 code 组件宽度，防止擑开容器 */
-.nicegui-code, .nicegui-code pre, .q-card pre {
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    white-space: pre-wrap !important;
-    word-break: break-word !important;
-}
-.q-card {
-    max-width: 100% !important;
-    overflow: hidden !important;
-}
-/* 浮动按钮栏动画 */
-@keyframes fadeInFromLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-.floating-btn {
-    opacity: 0;
-    animation: fadeInFromLeft 0.5s ease-out forwards;
-}
-.floating-btn-1 { animation-delay: 3s; }
-.floating-btn-2 { animation-delay: 3.3s; }
-.floating-btn-3 { animation-delay: 3.6s; }
-.floating-btn-4 { animation-delay: 4.2s; }
-.floating-btn-5 { animation-delay: 4.5s; }
-.floating-btn-6 { animation-delay: 4.8s; }
-.floating-btn-7 { animation-delay: 5.1s; }
-.floating-btn-8 { animation-delay: 5.4s; }
-.floating-btn-9 { animation-delay: 5.7s; }
-.floating-btn-10 { animation-delay: 6.0s; }
-.floating-btn-11 { animation-delay: 6.3s; }
-.floating-btn-12 { animation-delay: 6.6s; }
-.floating-btn-13 { animation-delay: 6.9s; }
-/* 上传按钮悬停显示叉号 */
-.upload-btn-container:hover .clear-upload-btn.show {
-    opacity: 1 !important;
-}
-.clear-upload-btn.show {
-    display: block !important;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-.clear-upload-btn:hover {
-    color: #f44336 !important;
-}
-
+    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+    .nicegui-content { padding: 0 !important; }
+    .full-width-section { width: 100vw !important; margin-left: calc(-50vw + 50%) !important; padding-left: calc(50vw - 50%) !important; padding-right: calc(50vw - 50%) !important; }
+    .hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+    .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .nav-link { color: #475569; transition: color 0.2s; }
+    .nav-link:hover { color: #2563eb; }
+    .capability-icon { transition: all 0.3s; }
+    .capability-card-cyan:hover .capability-icon { background-color: #0891b2 !important; color: white !important; }
+    .capability-card-emerald:hover .capability-icon { background-color: #059669 !important; color: white !important; }
+    .capability-card-amber:hover .capability-icon { background-color: #d97706 !important; color: white !important; }
 </style>
-''')
+''', shared=True)
 
-# === 首次打开弹窗 ===
-welcome_dialog = ui.dialog()
+def create_landing_page():
+    # ==================== 导航栏 ====================
+    with ui.header().classes('bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center').style('height: 80px; padding-top: 0; padding-bottom: 0;'):
+        with ui.row().classes('max-w-7xl mx-auto w-full pl-2 pr-6 items-center justify-between'):
+            # Logo
+            with ui.row().classes('items-center gap-2').style('margin-left: -8px;'):
+                ui.html('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="270 410 90 25" style="height: 70px; width: auto;">
+                  <style type="text/css">.st0{fill:none;}.st1{fill:#476179;font-weight:bold;}.st2{font-family:'Arial-BoldMT';}.st3{font-size:9px;}.st4{fill:#FFFFFF;stroke:#476179;stroke-width:0.5;stroke-miterlimit:10;}.st5{fill:none;stroke:#476179;stroke-width:0.5;stroke-miterlimit:10;}.st6{opacity:0.5;fill:#455D7D;}.st7{fill:#476179;stroke:#476179;stroke-width:0.5;stroke-miterlimit:10;}.st9{fill:#FFFFFF;}.st10{fill:none;stroke:#476179;stroke-width:0.1294;stroke-miterlimit:10;}.st11{fill:none;stroke:#FFFFFF;stroke-width:0.1294;stroke-miterlimit:10;}.st12{fill:#476179;stroke:#476179;stroke-width:0.0863;stroke-miterlimit:10;}.st13{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:0.0863;stroke-miterlimit:10;}.st14{fill:#FFFFFF;stroke:#7A75AB;stroke-width:0.0863;stroke-miterlimit:10;}.st15{fill:#476179;stroke:#476179;stroke-width:0.0863;stroke-miterlimit:10;}.st16{fill:#FFFFFF;stroke:#476179;stroke-width:0.0789;stroke-miterlimit:10;}.st17{fill:none;stroke:#FFFFFF;stroke-width:0.0731;stroke-miterlimit:10;}.st20{fill:#FFFFFF;stroke:#476179;stroke-width:0.0863;stroke-miterlimit:10;}</style>
+                  <path class="st0" d="M348.25,429.42h-70.83c-3.48,0-6.3-2.82-6.3-6.3v-3.72c0-3.48,2.82-6.3,6.3-6.3h70.83c3.48,0,6.3,2.82,6.3,6.3v3.72C354.56,426.59,351.73,429.42,348.25,429.42z"/>
+                  <text transform="matrix(1 0 0 1 275.389 424.6138)" class="st1 st2 st3">Bi</text><text transform="matrix(1 0 0 1 298.3929 424.6138)" class="st1 st2 st3">mics</text>
+                  <g><path class="st4" d="M288.91,417.49c0-1.32,1.03-2.41,2.34-2.48c0.05,0,0.1,0,0.15,0s0.1,0,0.14,0c2.68,0.07,4.83,2.27,4.83,4.97s-2.15,4.89-4.83,4.97c1.3-0.07,2.34-1.16,2.34-2.48c0-1.37-1.11-2.49-2.48-2.49C290.02,419.97,288.91,418.86,288.91,417.49"/><path class="st5" d="M291.23,415.01c0.05,0,0.1,0,0.14,0c0.05,0,0.1,0,0.15,0c2.68,0.07,4.83,2.27,4.83,4.97c0,2.7-2.15,4.89-4.83,4.97"/><path class="st7" d="M293.86,422.46c0,1.32-1.03,2.41-2.34,2.48c-0.05,0-0.1,0-0.15,0s-0.1,0-0.14,0c-2.68-0.07-4.83-2.27-4.83-4.97s2.15-4.89,4.83-4.97c-1.3,0.07-2.34,1.16-2.34,2.48c0,1.37,1.11,2.49,2.48,2.49C292.75,419.98,293.86,421.09,293.86,422.46"/><g><line class="st10" x1="288.93" y1="418.28" x2="290.37" y2="419.57"/><line class="st10" x1="292.23" y1="419.18" x2="290.37" y2="419.57"/><line class="st10" x1="294.13" y1="420.76" x2="292.23" y2="419.18"/><line class="st10" x1="292.09" y1="416.58" x2="292.23" y2="419.18"/><line class="st10" x1="288.93" y1="418.28" x2="292.09" y2="416.58"/><line class="st11" x1="290.37" y1="419.57" x2="289.77" y2="422.24"/><line class="st11" x1="294.13" y1="420.76" x2="289.77" y2="422.24"/><path class="st12" d="M293.87,421.08c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C293.67,420.68,293.7,420.93,293.87,421.08z"/><path class="st12" d="M291.83,416.89c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C291.64,416.49,291.66,416.75,291.83,416.89z"/><path class="st13" d="M288.67,418.61c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C288.48,418.21,288.5,418.47,288.67,418.61z"/><path class="st14" d="M291.97,419.49c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C291.77,419.09,291.8,419.35,291.97,419.49z"/><path class="st15" d="M290.11,419.88c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C289.91,419.48,289.94,419.74,290.11,419.88z"/><path class="st13" d="M289.51,422.56c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C289.31,422.16,289.34,422.41,289.51,422.56z"/><path class="st16" d="M288.7,418.58c0.16,0.13,0.39,0.11,0.53-0.05c0.13-0.16,0.11-0.39-0.05-0.53c-0.16-0.13-0.39-0.11-0.53,0.05C288.51,418.22,288.54,418.45,288.7,418.58z"/><path class="st16" d="M289.54,422.53c0.16,0.13,0.39,0.11,0.53-0.05c0.13-0.16,0.11-0.39-0.05-0.53c-0.16-0.13-0.39-0.11-0.53,0.05C289.35,422.16,289.38,422.4,289.54,422.53z"/><path class="st17" d="M293.91,421.03c0.15,0.12,0.37,0.1,0.49-0.05c0.12-0.15,0.1-0.37-0.05-0.49c-0.15-0.12-0.37-0.1-0.49,0.05C293.74,420.69,293.76,420.91,293.91,421.03z"/><path class="st17" d="M291.87,416.84c0.15,0.12,0.37,0.1,0.49-0.05c0.12-0.15,0.1-0.37-0.05-0.49s-0.37-0.1-0.49,0.05C291.71,416.5,291.73,416.72,291.87,416.84z"/></g></g>
+                </svg>''', sanitize=False)            
+            # 按钮
+            ui.button('Try it now', on_click=lambda: ui.navigate.to('/platform')).props('no-caps').classes('bg-black text-white px-6 py-2.5 rounded-full font-semibold hover:bg-slate-800 shadow-md')
 
-with welcome_dialog, ui.card().style('min-width: 400px; padding: 24px;'):
-    with ui.row().style('width: 100%; justify-content: space-between; align-items: center; margin-bottom: 12px;'):
-        ui.label('Welcome to BiOmics Agent - Usage Tips').style('font-size: 18px; font-weight: bold;')
-        ui.button(icon='close', on_click=welcome_dialog.close).props('flat round dense color=red')
-    ui.label('• Session data is ephemeral and will not be retained. Please maintain session continuity and download all output files promptly upon task completion.').style('font-size: 14px; color: #555; margin-bottom: 8px;')
-    ui.label('• Due to limited computational capacity, users are advised to avoid submitting computationally intensive analyses.').style('font-size: 14px; color: #555; margin-bottom: 8px;')
-    ui.label('• You may deploy your own instance of this platform by following the installation guide available in the GitHub repository.').style('font-size: 14px; color: #555;')
-    with ui.row().style('width: 100%; justify-content: flex-end;'):
-        ui.label("   ")
-
-# 每个客户端加载页面时弹出一次
-ui.timer(0.1, lambda: welcome_dialog.open(), once=True)
-
-# === Reset 确认弹窗 ===
-reset_dialog = ui.dialog()
-
-with reset_dialog, ui.card().style('min-width: 300px; padding: 24px;'):
-    ui.label('Confirm Reset').style('font-size: 18px; font-weight: bold; margin-bottom: 16px;')
-    ui.label('Are you sure you want to reset? All current session data will be cleared.').style('font-size: 14px; color: #555; margin-bottom: 20px;')
-    with ui.row().style('width: 100%; justify-content: flex-end; gap: 12px;'):
-        ui.button('Cancel', on_click=reset_dialog.close).props('flat')
-        ui.button('Confirm', on_click=lambda: (reset_dialog.close(), reset_agent())).props('color=negative')
-
-# 主容器:占满整个视口
-with ui.column().style('width: 100vw; height: 100vh; margin: 0; padding: 0;'):
-    
-    # === 加载提示悬浮框（小巧透明圆角，初始隐藏） ===
-    loading_banner = ui.element('div').style(
-        'display: none; position: fixed; bottom: 120px; left: 50%; '
-        'transform: translateX(-50%); '
-        'background: rgba(25, 118, 210, 0.9); color: white; '
-        'padding: 16px 24px; border-radius: 24px; '
-        'box-shadow: 0 4px 12px rgba(0,0,0,0.15); '
-        'backdrop-filter: blur(10px); z-index: 9999;'
-    )
-    with loading_banner:
-        with ui.row().style('align-items: center; gap: 12px;'):
-            ui.spinner(size='sm', color='white')
-            ui.label('Agent running, please wait...').style('color: white; font-weight: 500; font-size: 14px;')
-    
-    # === 顶栏 ===
-    with ui.row().style(
-        'height: 10%; min-height: 60px; width: 100%; '
-        'align-items: center; padding: 0 24px; '
-        'border-bottom: 1px solid #ddd; background: #476179; '
-        'justify-content: space-between;'
-    ):
-        # 左侧：Logo
-        with ui.row().style('align-items: center;'):
-            ui.html('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="270 410 90 25" style="height: 60px; width: auto;">
-              <style type="text/css">.st0{fill:#476179;}.st1{fill:#FFFFFF;}.st2{font-family:'Arial-BoldMT';}.st3{font-size:9px;}.st4{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}.st5{fill:none;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}.st6{opacity:0.5;fill:#455D7D;}.st7{fill:#455D7D;stroke:#FFFFFF;stroke-width:0.5;stroke-miterlimit:10;}.st9{fill:#455D7D;}.st10{fill:none;stroke:#455D7D;stroke-width:0.1294;stroke-miterlimit:10;}.st11{fill:none;stroke:#FFFFFF;stroke-width:0.1294;stroke-miterlimit:10;}.st12{fill:#455D7D;stroke:#455D7D;stroke-width:0.0863;stroke-miterlimit:10;}.st13{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:0.0863;stroke-miterlimit:10;}.st14{fill:#FFFFFF;stroke:#7A75AB;stroke-width:0.0863;stroke-miterlimit:10;}.st15{fill:#455D7D;stroke:#FFFFFF;stroke-width:0.0863;stroke-miterlimit:10;}.st16{fill:#FFFFFF;stroke:#455D7D;stroke-width:0.0789;stroke-miterlimit:10;}.st17{fill:none;stroke:#FFFFFF;stroke-width:0.0731;stroke-miterlimit:10;}.st20{fill:#FFFFFF;stroke:#455D7D;stroke-width:0.0863;stroke-miterlimit:10;}</style>
-              <path class="st0" d="M348.25,429.42h-70.83c-3.48,0-6.3-2.82-6.3-6.3v-3.72c0-3.48,2.82-6.3,6.3-6.3h70.83c3.48,0,6.3,2.82,6.3,6.3v3.72C354.56,426.59,351.73,429.42,348.25,429.42z"/>
-              <text transform="matrix(1 0 0 1 275.389 424.6138)" class="st1 st2 st3">Bi</text><text transform="matrix(1 0 0 1 298.3929 424.6138)" class="st1 st2 st3">mics  Agent</text>
-              <g><path class="st4" d="M288.91,417.49c0-1.32,1.03-2.41,2.34-2.48c0.05,0,0.1,0,0.15,0s0.1,0,0.14,0c2.68,0.07,4.83,2.27,4.83,4.97s-2.15,4.89-4.83,4.97c1.3-0.07,2.34-1.16,2.34-2.48c0-1.37-1.11-2.49-2.48-2.49C290.02,419.97,288.91,418.86,288.91,417.49"/><path class="st5" d="M291.23,415.01c0.05,0,0.1,0,0.14,0c0.05,0,0.1,0,0.15,0c2.68,0.07,4.83,2.27,4.83,4.97c0,2.7-2.15,4.89-4.83,4.97"/><path class="st7" d="M293.86,422.46c0,1.32-1.03,2.41-2.34,2.48c-0.05,0-0.1,0-0.15,0s-0.1,0-0.14,0c-2.68-0.07-4.83-2.27-4.83-4.97s2.15-4.89,4.83-4.97c-1.3,0.07-2.34,1.16-2.34,2.48c0,1.37,1.11,2.49,2.48,2.49C292.75,419.98,293.86,421.09,293.86,422.46"/><g><line class="st10" x1="288.93" y1="418.28" x2="290.37" y2="419.57"/><line class="st10" x1="292.23" y1="419.18" x2="290.37" y2="419.57"/><line class="st10" x1="294.13" y1="420.76" x2="292.23" y2="419.18"/><line class="st10" x1="292.09" y1="416.58" x2="292.23" y2="419.18"/><line class="st10" x1="288.93" y1="418.28" x2="292.09" y2="416.58"/><line class="st11" x1="290.37" y1="419.57" x2="289.77" y2="422.24"/><line class="st11" x1="294.13" y1="420.76" x2="289.77" y2="422.24"/><path class="st12" d="M293.87,421.08c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C293.67,420.68,293.7,420.93,293.87,421.08z"/><path class="st12" d="M291.83,416.89c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C291.64,416.49,291.66,416.75,291.83,416.89z"/><path class="st13" d="M288.67,418.61c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C288.48,418.21,288.5,418.47,288.67,418.61z"/><path class="st14" d="M291.97,419.49c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C291.77,419.09,291.8,419.35,291.97,419.49z"/><path class="st15" d="M290.11,419.88c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57c-0.17-0.14-0.43-0.12-0.57,0.06C289.91,419.48,289.94,419.74,290.11,419.88z"/><path class="st13" d="M289.51,422.56c0.17,0.14,0.43,0.12,0.57-0.06c0.14-0.17,0.12-0.43-0.06-0.57s-0.43-0.12-0.57,0.06C289.31,422.16,289.34,422.41,289.51,422.56z"/><path class="st16" d="M288.7,418.58c0.16,0.13,0.39,0.11,0.53-0.05c0.13-0.16,0.11-0.39-0.05-0.53c-0.16-0.13-0.39-0.11-0.53,0.05C288.51,418.22,288.54,418.45,288.7,418.58z"/><path class="st16" d="M289.54,422.53c0.16,0.13,0.39,0.11,0.53-0.05c0.13-0.16,0.11-0.39-0.05-0.53c-0.16-0.13-0.39-0.11-0.53,0.05C289.35,422.16,289.38,422.4,289.54,422.53z"/><path class="st17" d="M293.91,421.03c0.15,0.12,0.37,0.1,0.49-0.05c0.12-0.15,0.1-0.37-0.05-0.49c-0.15-0.12-0.37-0.1-0.49,0.05C293.74,420.69,293.76,420.91,293.91,421.03z"/><path class="st17" d="M291.87,416.84c0.15,0.12,0.37,0.1,0.49-0.05c0.12-0.15,0.1-0.37-0.05-0.49s-0.37-0.1-0.49,0.05C291.71,416.5,291.73,416.72,291.87,416.84z"/></g></g>
-            </svg>''', sanitize=False)
-        
-        # 右侧：按钮组
-        with ui.row().style('gap: 20px; margin-right: 40px;'):
-            ui.button('Paper', icon='article', on_click=lambda: ui.navigate.to('https://www.biorxiv.org/content/10.64898/2026.01.17.699830v1', new_tab=True)).props('outline no-caps').style('border-color: #333; background-color: #fff !important;').classes('text-black')
-            with ui.button(icon='', on_click=lambda: ui.navigate.to('https://github.com/BGIResearch/BiOmics', new_tab=True)).props('outline').style('border-color: #333; background-color: #fff !important; padding-left: 1px;').classes('text-black'):
-                ui.html('<svg height="20" width="20" viewBox="0 0 16 16" style="fill: #333;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>', sanitize=False).style('margin: -4px;')
-                ui.label('Github').style('margin-left: 15px; color: #333; text-transform: none;')
-            ui.button('Contact Us', icon='mail', on_click=lambda: ui.navigate.to('mailto:fangshuangsang@genomics.cn')).props('outline no-caps').style('border-color: #333; background-color: #fff !important;').classes('text-black')
-
-    # === 中间区域===
-    with ui.element('div').style(
-        'height: 75%; width: 100%; margin: 0 auto; display: flex; flex-direction: row;'
-    ):
-        
-        # 左侧:对话区
-        with ui.element('div').style(
-            'width: 50%; height: 100%; padding: 16px; '
-            'border-right: 1px solid #ddd; display: flex; flex-direction: column;'
-        ):
-            ui.label('💬 BiOmics Chat').style('font-size: 18px; font-weight: 600; margin-bottom: 8px;')
-            biomics_chat = ui.scroll_area().style('width: 100%; flex: 1;')
-
-
-        
-        # 右侧:代码区
-        with ui.element('div').style(
-            'width: 50%; height: 100%; padding: 16px; display: flex; flex-direction: column;'
-        ):
-            ui.label('✨ BiOmics Co-pilot').style('font-size: 18px; font-weight: 600; margin-bottom: 8px;')
-            biomics_co_pilot = ui.scroll_area().style('width: 100%; flex: 1; ')
-
-
-    # === 浮动按钮栏（透明，位于对话栏上方） ===
-    floating_btn_bar = ui.element('div').style(
-        'position: fixed; bottom: 100px; left: 50px; right: 50px; '
-        'background: transparent; z-index: 100; '
-        'display: flex; flex-wrap: wrap; gap: 10px; '
-        'justify-content: flex-start; align-items: center;'
-    )
-    with floating_btn_bar:
-        # 浅绿色问题按钮
-        ui.button('What is PKD1 Gene?', on_click=lambda: handle_question_button_click('What is PKD1 Gene?')).props('outline no-caps color=teal').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-1')
-        ui.button('What is the relationship between Isl1 and type 2 diabetes?', on_click=lambda: handle_question_button_click('What is the relationship between Isl1 and type 2 diabetes?')).props('outline no-caps color=teal').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-2')
-        ui.button('What disease is most related to the HTT gene?', on_click=lambda: handle_question_button_click('What disease is most related to the HTT gene?')).props('outline no-caps color=teal').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-3')
-        # 换行分隔
-        ui.element('div').style('width: 100%; height: 0;')
-        # 蓝色演示按钮
-        ui.button('Perform cell type annotation on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate cell annotation')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-4')
-        ui.button('Perform cell type refinement on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate cell refinement')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-5')
-        ui.button('Perform differential gene expression analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate differential gene analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-6')
-        ui.button('Predict therapeutic drugs for COVID-19 based on this omics data', on_click=lambda: handle_demo_button_click('Demonstrate drug discovery')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-7')
-        ui.button('Perform gene enrichment analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate enrichment analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-8')
-        ui.button('Identify causal SNPs associated with type 2 diabetes using this data', on_click=lambda: handle_demo_button_click('Demonstrate GWAS causal SNPs analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-9')
-        ui.button('Predict associated phenotypes based on SNPs in this data', on_click=lambda: handle_demo_button_click('Demonstrate GWAS phenotype prediction')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-10')
-        ui.button('Perform trajectory inference analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate trajectory analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-11')
-        ui.button('Perform proteome analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate proteome analysis')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-12')
-        ui.button('Perform gene regulatory network analysis on this dataset', on_click=lambda: handle_demo_button_click('Demonstrate gene regulatory network')).props('outline no-caps').style('border-radius: 8px; font-size: 10px; white-space: nowrap;').classes('floating-btn floating-btn-13')
-
-    # === 底部对话栏 ===
-    with ui.row().style(
-        'height: 10%; min-height: 60px; width: 100%; '
-        'align-items: center; padding: 0 24px; gap: 12px;'
-    ):
-        # 左侧:上传图标 + 文件名
-        with ui.row().style('align-items: center; gap: 4px;'):
-            # 隐藏的上传控件
-            file_upload = ui.upload(
-                auto_upload=True,
-            ).style('display: none;')  # 完全隐藏
-            
-            # 上传按钮容器（相对定位，用于放置叉号）
-            upload_btn_container = ui.element('div').style('position: relative; display: inline-block;').classes('upload-btn-container')
-            with upload_btn_container:
-                # 显示的图标按钮，点击时触发上传
-                upload_button = ui.button(icon='file_upload', on_click=lambda: file_upload.run_method('pickFiles')).props('flat round dense')
-                # 叉号按钮（初始隐藏，悬停时显示，简洁小叉号）
-                clear_upload_btn = ui.button(icon='close', on_click=lambda: clear_uploaded_file()).props('flat dense').style(
-                    'display: none; position: absolute; top: -4px; right: -4px; '
-                    'width: 14px; height: 14px; min-width: 14px; min-height: 14px; '
-                    'font-size: 12px; color: #999; padding: 0; opacity: 0;'
-                ).classes('clear-upload-btn')
-            
-            # 文件名标签
-            upload_name_label = ui.label('').style(
-                'font-size: 12px; color: #666; max-width: 200px; '
-                'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'
-            )
-        
-        # 中间:输入框
-        user_input = ui.input(placeholder='Enter bioinformatics analysis task...').style('flex: 1;')
-        
-        # 右侧:发送按钮和重置按钮
-        send_button = ui.button('Send', icon='send').props('outlined')
-        reset_button = ui.button('Reset', icon='restart_alt').props('outlined')
-
-
-UPLOAD_DIR = os.path.join(PROJECT_ROOT, 'data', 'uploaded_file')
-
-async def handle_demo_button_click(button_name: str) -> None:
-    """处理演示按钮点击：隐藏按钮栏、设置文件路径、启动任务"""
-    if button_name not in DEMO_BUTTON_CONFIG:
-        ui.notify(f'Unknown demo: {button_name}', type='warning')
-        return
-    
-    file_path, question = DEMO_BUTTON_CONFIG[button_name]
-    
-    # 隐藏浮动按钮栏
-    floating_btn_bar.style('display: none;')
-    
-    # 设置文件路径到 storage
-    app.storage.client['uploaded_file_path'] = file_path
-    upload_name_label.text = os.path.basename(file_path)
-    upload_button.props('icon=check_circle color=positive')
-    clear_upload_btn.classes(add='show')
-    
-    # 设置问题并启动任务（handle_user_input 会显示 chat_message）
-    user_input.value = question
-    await handle_user_input()
-
-async def handle_question_button_click(question: str) -> None:
-    """处理问题按钮点击：隐藏按钮栏、设置问题、启动任务（无需文件）"""
-    # 隐藏浮动按钮栏
-    floating_btn_bar.style('display: none;')
-    
-    # 设置问题并启动任务
-    user_input.value = question
-    await handle_user_input()
-
-def set_graph_running(is_running: bool) -> None:
-    """统一控制图是否在运行，以及相关控件的可用状态"""
-    app.storage.client['graph_running'] = is_running
-    
-    if is_running:
-        # 禁用输入与上传
-        user_input.props('disable')
-        upload_button.props('disable')
-        
-        # 显示顶部加载横幅
-        loading_banner.style('display: flex;')
-    else:
-        # 恢复输入与上传
-        user_input.props(remove='disable')
-        upload_button.props(remove='disable')
-        
-        # 隐藏顶部加载横幅
-        loading_banner.style('display: none;')
-def save_uploaded_file(e) -> str:
-    """保存上传文件到固定目录，并返回保存路径"""
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-    # NiceGUI 的 UploadEventArguments: 文件名在 e.name，内容在 e.content
-    # 如果 e.name 不存在，尝试从 content 获取
-    try:
-        file_name = e.name
-    except AttributeError:
-        # 如果没有 name 属性，尝试使用默认名
-        file_name = getattr(e, 'filename', 'uploaded_file.h5ad')
-    
-    save_path = os.path.join(UPLOAD_DIR, file_name)
-    with open(save_path, 'wb') as f:
-        f.write(e.content.read())
-    return save_path
-async def handle_file_upload(e) -> None:
-    """上传事件回调：在时间戳文件夹中保存文件并更新图标旁文字"""
-    
-    # 如果图正在运行，禁止上传
-    if app.storage.client.get('graph_running', False):
-        ui.notify('Current task is running, cannot upload file now', type='warning')
-        return
-    
-    # 检查文件格式
-    file_name = e.file.name
-    allowed_extensions = ['.h5ad', '.csv', '.tsv']
-    if not any(file_name.lower().endswith(ext) for ext in allowed_extensions):
-        ui.notify('Only h5ad, csv, tsv files are supported', type='negative')
-        return
-    
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-    
-    # 检查文件大小（500MB限制）
-    file_content = await e.file.read()  # 必须 await
-    file_size = len(file_content)
-    max_size = 500 * 1024 * 1024
-    if file_size > max_size:
-        ui.notify(f'File size exceeds 500MB limit (current: {file_size / (1024*1024):.1f}MB)', type='negative')
-        return
-    
-    # 创建以时间戳命名的子文件夹
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    upload_subfolder = os.path.join(UPLOAD_DIR, f'upload_{timestamp}')
-    os.makedirs(upload_subfolder, exist_ok=True)
-    
-    # 保存文件到时间戳文件夹
-    save_path = os.path.join(upload_subfolder, file_name)
-    with open(save_path, 'wb') as f:
-        f.write(file_content)
-    
-    # 更新右侧的小文字为文件名
-    upload_name_label.text = os.path.basename(save_path)
-    # 把路径存到 client storage，后续 start_graph 时可以使用
-    app.storage.client['uploaded_file_path'] = save_path
-    # 图标变成绿色打勾，提示上传成功
-    upload_button.props('icon=check_circle color=positive')
-    clear_upload_btn.classes(add='show')
-    ui.notify(f'File uploaded: {os.path.basename(save_path)}', type='positive')
-
-def clear_uploaded_file():
-    """清除已上传的文件，恢复上传按钮状态"""
-    upload_button.props('icon=file_upload')
-    upload_button.props(remove='color')
-    upload_name_label.text = ''
-    app.storage.client['uploaded_file_path'] = ''
-    file_upload.reset()
-    clear_upload_btn.classes(remove='show')
-def agent_update_chat(event) -> None:
-    agent_name = event.get('agent')   
-    agent_thought = ""
-    agent_output = ""
-    
-    # 添加动画样式：模仿 iMessage
-    message_animation = '''
-        opacity: 0;
-        animation: slideInFade 0.4s ease-out forwards;
-    '''
-    
-    if agent_name=="supervisor":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=[agent_thought, agent_output], name="BiOmics Agent").style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)  # 滚动到底部
-    elif agent_name=="env_checker":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-            with ui.chat_message(name=agent_name):
-                ui.markdown(agent_output)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="data_analyzer":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-            with ui.chat_message(name=agent_name).style(message_animation):
-                ui.label(agent_output).style('color: #476179; font-weight: bold;')
-            
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="analyze_planner":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-            with ui.chat_message(name=agent_name).style(message_animation):
-                ui.label(agent_output).style('color: #476179; font-weight: bold;')
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="planner":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="plan_executor":
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_output, name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="coder":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="code_runner":
-        pf = event.get('process_flag')
-        if pf==1:
-            ui.chat_message(text="Code execution completed.Ready to process the next step.", name=agent_name).style(message_animation)
-        else:
-            ui.chat_message(text="Code execution failed.Ready to debug.", name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="code_debugger":
-        agent_thought = event.get('thought')
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_thought, name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="responder":
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_output, name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    elif agent_name=="notebook_searcher":
-        pass
-    elif agent_name=="general_responder":
-        agent_output = event.get('output')
-        with biomics_chat:
-            ui.chat_message(text=agent_output, name=agent_name).style(message_animation)
-        biomics_chat.scroll_to(percent=1.0)
-    else:
-        print("未获取到", agent_name)
-def agent_update_copilot(event) -> None:
-    agent_name = event.get('agent')   
-    if agent_name=="supervisor":
-        pass
-    elif agent_name=="env_checker":
-        di = event.get('data_info')
-        if event.get("status")=="AWAITING_CONFIRMATION":
-            with biomics_co_pilot:
-                with ui.card().style('width: 100%;'):
-                    ui.label('Env Checker waiting for confirmation:')
-                    ui.label('Please input your comfirmation in the box below')
-        elif event.get("status")=="VALIDATED":
-            with biomics_co_pilot:
-                with ui.card().style('width: 100%;'):
-                    ui.label('Env Checker checked the data.')
-                    if di:
-                        if isinstance(di, dict):
-                            tree_nodes = build_tree_nodes(di.get('data_info', di))
-                            ui.tree(tree_nodes, label_key='label', children_key='children').props('default-expand-all')
-                        else:
-                            ui.markdown(di)
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="data_analyzer":
-        data_report = event.get('data_repo')
-        with biomics_co_pilot:
-            with ui.card().style('width: 100%;'):
-                ui.label('Data Analyzer generated a report:')
-                ui.markdown(data_report)
-
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="analyze_planner":
-        a_plan = event.get('a_plan')
-        with biomics_co_pilot:
-            with ui.card().style('width: 100%;'):
-                ui.label('Analyze Planner generated a plan:')
-                ui.markdown(a_plan)
-
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="planner":
-        plan = event.get('output')
-        plan = plan_exetract(plan)
-        with biomics_co_pilot:
-            with ui.card().style('width: 100%;'):
-                ui.label('Plan Check List').style('font-size: 16px; font-weight: bold; margin-bottom: 12px;')
-                for idx, step in enumerate(plan, 1):
-                    with ui.row().style('width: 100%; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;'):
-                        ui.label(str(idx)).style('width: 24px; height: 24px; background: #1976d2; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;')
-                        ui.label(step).style('flex: 1; margin: 0 12px;')
-                        ui.icon('radio_button_unchecked').style('color: #bbb; font-size: 20px;')
-
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="plan_executor":
-        step_num = event.get("step_num")
-        current_step = event.get("current_step")
-        current_plan = event.get("current_plan")
-        is_end = current_step >= step_num
-        with biomics_co_pilot:
-            if not is_end:
-                with ui.card().style('width: 100%;'):
-                    ui.label(f'Executing Step {current_step}').style('font-size: 16px; font-weight: bold; margin-bottom: 12px;')
-                    for idx, step in enumerate(current_plan, 1):
-                        step_name = step.get('type', str(step)) if isinstance(step, dict) else str(step)
-                        with ui.row().style('width: 100%; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;'):
-                            ui.label(str(idx)).style('width: 24px; height: 24px; background: #1976d2; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;')
-                            if idx < current_step:
-                                ui.label(step_name).style('flex: 1; margin: 0 12px; color: #333;')
-                            elif idx == current_step:
-                                ui.label(step_name).style('flex: 1; margin: 0 12px; color: #1976d2; font-weight: bold;')
-                            else:
-                                ui.label(step_name).style('flex: 1; margin: 0 12px; color: #bbb;')
-                            if idx < current_step:
-                                ui.icon('check_circle').style('color: #4caf50; font-size: 20px;')
-                            else:
-                                ui.icon('radio_button_unchecked').style('color: #bbb; font-size: 20px;')
-            else:
-                with ui.card().style('width: 100%;'):
-                    ui.label('Plan Execution Completed').style('font-size: 16px; font-weight: bold; margin-bottom: 12px;')
-                    for idx, step in enumerate(current_plan, 1):
-                        step_name = step.get('type', str(step)) if isinstance(step, dict) else str(step)
-                        with ui.row().style('width: 100%; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;'):
-                            ui.label(str(idx)).style('width: 24px; height: 24px; background: #1976d2; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;')
-                            ui.label(step_name).style('flex: 1; margin: 0 12px; color: #333;')
-                            ui.icon('check_circle').style('color: #4caf50; font-size: 20px;')
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="coder":
-        code = event.get('output')
-        with biomics_co_pilot:
-            with ui.card().style('width: 100%;'):
-                ui.label('Coder generated code:')
-                ui.code(code)
-
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="code_runner":
-        res = event.get('complete_output')
-        save_dir = event.get('save_dir')
-        if res:
-            with biomics_co_pilot:
-                with ui.card().style('width: 100%; max-width: 100%; overflow: hidden;'):
-                    ui.label('Code Runner Output:').style('font-weight: bold;')
-                    # stdout
-                    stdout = res.get('stdout', [])
-                    if stdout:
-                        stdout_text = ''.join(stdout)
-                        ui.code(stdout_text, language='text').style('background: #f5f5f5; width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
-                    # stderr
-                    stderr = res.get('stderr', [])
-                    if stderr:
-                        stderr_text = ''.join(stderr)
-                        ui.code(stderr_text, language='text').style('background: #fff3cd; color: #856404; width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
-                    # result (expression return value)
-                    result_val = res.get('result')
-                    if result_val:
-                        ui.label('Out:').style('color: #d63384; font-weight: bold;')
-                        ui.code(str(result_val), language='python').style('width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
-                    # images
-                    images = res.get('images', [])
-                    import base64
-                    for idx, img in enumerate(images):
-                        img_type = img.get('type', 'png')
-                        img_data = img.get('data', '')
-                        if img_data:
-                            ui.image(f'data:image/{img_type};base64,{img_data}').style('width: 400px; height: auto;')
-                            # 保存图片到 save_dir
-                            if save_dir:
-                                os.makedirs(save_dir, exist_ok=True)
-                                img_path = os.path.join(save_dir, f'output_{idx}.{img_type}')
-                                with open(img_path, 'wb') as f:
-                                    f.write(base64.b64decode(img_data))
-                                print(f'[INFO] 图片已保存: {img_path}')
-                    # error
-                    error = res.get('error')
-                    if error:
-                        ui.label('Error:').style('color: #dc3545; font-weight: bold;')
-                        # 清除 ANSI 转义码
-                        clean_error = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]|\[\d+(?:;\d+)*m', '', error)
-                        ui.code(clean_error, language='text').style('background: #f8d7da; color: #721c24; width: 100%; max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-break: break-all;')
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="code_debugger":
-        code = event.get('output')
-        with biomics_co_pilot:
-            with ui.card().style('width: 100%;'):
-                ui.label('Code Debugger generated code:')
-                ui.code(code)
-
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="responder":
-        sid = event.get('sandbox_id')
-        sd = event.get('save_dir')
-        notebook_cells = event.get('notebook_cells')
-        rt = event.get('relation_frame')
-        print("rt", rt)
-        if sid:
-            sandbox_manager = SandboxManager()
-            sandbox_manager.close_sandbox(sid)
-            print(f"[INFO] 沙箱已关闭: {sid}")
-        
-        create_notebook(notebook_cells, os.path.join(sd, 'analysis.ipynb'))
-        print(f"[INFO] Notebook 已保存: {os.path.join(sd, 'analysis.ipynb')}")
-        
-
-        if rt:
-            import pandas as pd
-            # 从字典转回 DataFrame
-            df = pd.DataFrame(rt) if isinstance(rt, list) else rt
-            # 只保留指定属性的列（列名格式：Path N 属性）
-            allowed_attrs = ['name', 'id', 'type', 'info source', 'original relation', 'relation']
-            filtered_cols = [col for col in df.columns if any(col.lower().endswith(attr) for attr in allowed_attrs)]
-            if filtered_cols:
-                df = df[filtered_cols]
-            with biomics_co_pilot:
-                with ui.card().style('width: 100%;'):
-                    ui.label('Relation Frame:').style('font-weight: bold;')
-                    ui.label('The column names of the Relation Frame are in the form of Path X Attributes, where X denotes the sequence of the query path. Even numbers represent nodes, while odd numbers represent edges. For instance, in the query results of a one-hop traversal, 0 stands for source nodes, 1 for relations, and 2 for target nodes.').style('font-size: 12px; color: gray; margin-bottom: 8px;')
-                    ui.aggrid.from_pandas(df, options={
-                        'defaultColDef': {'minWidth': 120, 'resizable': True, 'wrapText': True, 'autoHeight': True},
-                        'rowHeight': 40,
-                    }).classes('w-full').style('height: 400px;')
-        # 压缩保存目录并提供下载按钮
-        if sd and os.path.isdir(sd):
-            import shutil
-            zip_path = shutil.make_archive(sd, 'zip', sd)
-            print(f"[INFO] 已压缩: {zip_path}")
-            with biomics_co_pilot:
-                with ui.card().style('width: 100%;'):
-                    ui.label('Task completed, results saved').style('font-weight: bold;')
-                    ui.button('Download Results', icon='download', on_click=lambda: ui.download(zip_path)).props('color=primary')
-        biomics_co_pilot.scroll_to(percent=1.0)
-    elif agent_name=="notebook_searcher":
-        pass
-    elif agent_name=="general_responder":
-
-        biomics_co_pilot.scroll_to(percent=1.0)
-    else:
-        print("未获取到", agent_name)
-def start_graph(question: str, file_path: str, config: dict, save_dir: str = None):
-    state_data = {
-        "question": question,
-        "messages": [HumanMessage(content=question)],
-    }
-    if file_path:
-        state_data["data_path"] = file_path
-    if save_dir:
-        state_data["save_dir"] = save_dir
-    initial_state = BrickState(**state_data)
-    graph = build_graph_with_interaction(interrupt_after=["env_checker","data_analyzer","analyze_planner"],interrupt_before=[])
-    initial_state_dict = initial_state.model_dump()
-    events = graph.stream(initial_state_dict, config=config, stream_mode="values")
-    return events, graph
-def process_events(graph, events, config, cancel_event: threading.Event = None):
-    """循环消费 events，直到遇到中断或 FINISHED
-    返回值: (waiting_kind, graph, sandbox_id) 元组
-    - waiting_kind: None / 'update_data_info' / 'update_data_repo'
-    - graph: 更新后的 graph 实例
-    - sandbox_id: 当前会话的沙箱ID
-    """
-    sandbox_id = None
-    for event in events:
-        # 检查是否被取消
-        if cancel_event and cancel_event.is_set():
-            print("[DEBUG] process_events 被取消")
-            return (None, graph, sandbox_id)
-        
-        status = event.get("status")
-        # 提取 sandbox_id 并立即保存到 storage
-        if event.get('sandbox_id'):
-            sandbox_id = event.get('sandbox_id')
-            app.storage.client['sandbox_id'] = sandbox_id
-            print(f"[DEBUG] sandbox_id 已保存: {sandbox_id}")
-        agent_update_chat(event)  # 统一更新界面
-        agent_update_copilot(event)
-        if status == "AWAITING_CONFIRMATION":
-            # env_checker 需要 update_data_info：在 UI 上提示，并记录"等待类型"
-            print("[DEBUG] process_events 返回 waiting_kind = 'update_data_info'")
-            return ('update_data_info', graph, sandbox_id)
-        
-        elif status == "Revise":
-            # data_analyzer 需要 update_data_repo
-            print("[DEBUG] process_events 返回 waiting_kind = 'update_data_repo'")
-            return ('update_data_repo', graph, sandbox_id)
-        
-        elif status == "ASK_USER":
-            print("[DEBUG] process_events 返回 waiting_kind = 'ask_user'")
-            return ('ask_user', graph, sandbox_id)
-            
-        elif status == "VALIDATED":
-            # 根据项目记忆：VALIDATED 也需要手动继续 stream
-            events = graph.stream(None, config=config, stream_mode="values")
-            first_event = next(events, None)
-            return process_events(graph, events, config, cancel_event)
-
-        elif status == "NOT_FINISHED":
-            continue
-
-        elif status == "FINISHED":
-            user_question = event.get("question")
-            if event.get("agent")=='general_responder':
-                with biomics_chat:
-                    with ui.card().style('width: 100%;'):
-                        with ui.row().props('no-wrap').style('align-items: center;'):
-                            ui.label(f"Your question '{user_question}' is outside our capability scope. Try tasks like cell annotation or gene enrichment?")
-                        with ui.row().props('no-wrap').style('align-items: center;'):
-                            ui.button('Ask Again', on_click=lambda: reset_button.run_method('click')).props('flat round dense')
-            elif event.get('agent')=='responder':
-                with biomics_chat:
-                    with ui.card():
-                        with ui.row().props('no-wrap').style('align-items: center;'):
-                            ui.label(f"Your task '{user_question}' is completed. This session will end.")
-                        with ui.row().props('no-wrap').style('align-items: center;'):
-                            ui.button('Ask Again', on_click=lambda: reset_button.run_method('click')).props('flat round dense')
-            return (None, graph, sandbox_id)
-    
-    # 如果 events 消费完没有任何特殊状态，返回 None
-    return (None, graph, sandbox_id)
-async def handle_user_input():
-    """统一处理用户输入：
-    - 没有等待状态时，作为新问题启动一条图
-    - 等待状态为 AWAITING_CONFIRMATION / Revise 时，作为反馈或修改继续图
-    """
-
-    text = (user_input.value or '').strip()
-    if not text:
-        ui.notify('Please enter content', type='warning')
-        return
-    with biomics_chat:
-        ui.chat_message(text=text, name='user', sent=True).style('margin-left: auto; max-width: 80%;')
-    biomics_chat.scroll_to(percent=1.0)  # 用户消息也滚动到底部
-    # 清空输入框（防止重复发送）
-    user_input.value = ''
-
-    # 如果有后台任务还在跑，先等它完成（确保 waiting_kind 已经被正确设置）
-    current_task = app.storage.client.get('background_task')
-    if current_task and not current_task.done():
-        try:
-            await current_task
-        except:
-            pass  # 忽略后台任务异常
-    
-    # 读取当前会话状态：是否在等待某类中断输入
-    waiting_kind = app.storage.client.get('waiting_kind')
-    is_running = app.storage.client.get('graph_running', False)
-    print(f"[DEBUG] handle_user_input 读取状态: waiting_kind={waiting_kind}, is_running={is_running}")
-
-    # ============= 情况一：当前没有等待中断输入，视为"新问题" =============
-    if not waiting_kind:
-        if is_running:
-            ui.notify('A task is currently running, please wait before asking', type='warning')
-            return
-        # 为本次会话生成 config（使用独立 thread_id）
-        thread_id = build_config_id()
-        config = {"configurable": {"thread_id": thread_id}, "recursion_limit": 200}
-    
-        try:
-            # 隐藏浮动按钮栏
-            floating_btn_bar.style('display: none;')
+    # ==================== 1. Hero Section (Intro + Quick Start) ====================
+    with ui.element('section').props('id="paradigm"').classes('text-white py-24 px-6 w-screen').style('margin-left: calc(-50vw + 50%); box-sizing: border-box; position: relative; overflow: hidden; background: linear-gradient(135deg, #0a1929 0%, #1a3a52 50%, #0f2942 100%);'):
+        # 添加生物信息学科技风背景
+        ui.html('''
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden;">
+                <!-- 光晕效果 -->
+                <div style="position: absolute; width: 500px; height: 500px; top: -10%; left: -10%; 
+                     background: radial-gradient(circle, #60a5fa 0%, transparent 70%); 
+                     border-radius: 50%; filter: blur(80px); opacity: 0.15;
+                     animation: float-glow1 20s ease-in-out infinite;"></div>
+                <div style="position: absolute; width: 400px; height: 400px; top: 30%; right: -5%; 
+                     background: radial-gradient(circle, #22d3ee 0%, transparent 70%); 
+                     border-radius: 50%; filter: blur(80px); opacity: 0.15;
+                     animation: float-glow2 20s ease-in-out infinite; animation-delay: 3s;"></div>
+                <div style="position: absolute; width: 350px; height: 350px; bottom: -5%; left: 20%; 
+                     background: radial-gradient(circle, #34d399 0%, transparent 70%); 
+                     border-radius: 50%; filter: blur(80px); opacity: 0.15;
+                     animation: float-glow3 20s ease-in-out infinite; animation-delay: 6s;"></div>
                 
-            set_graph_running(True)
-
-            # 启动一次图（如果有上传文件，则使用上传的文件路径）
-            uploaded_file = app.storage.client.get('uploaded_file_path', '')
-            events, graph = start_graph(
-                question=text,
-                file_path=uploaded_file,
-                config=config,
-                save_dir=thread_id,
-            )
-
-            # 存储 graph 和 config，方便中断后继续使用
-            app.storage.client['graph'] = graph
-            app.storage.client['config'] = config
-
-            # 创建取消事件，用于中断后台任务
-            cancel_event = threading.Event()
-            app.storage.client['cancel_event'] = cancel_event
-
-            # 交给统一的事件处理逻辑（后台线程执行，避免阻塞UI）
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
-            app.storage.client['background_task'] = task
-            result = await task
-            
-            # 后台线程返回的状态，由主线程设置到 app.storage.client
-            if result:
-                waiting_kind, graph, sandbox_id = result
-                app.storage.client['graph'] = graph
-                app.storage.client['config'] = config
-                app.storage.client['sandbox_id'] = sandbox_id
-                if waiting_kind:
-                    app.storage.client['waiting_kind'] = waiting_kind
-                    set_graph_running(False)
-                    print(f"[DEBUG] 主线程设置 waiting_kind = {waiting_kind}")
-                else:
-                    set_graph_running(False)
-
-        except Exception as e:
-            error_msg = f"❌ Failed to start task: {e}"
-            with biomics_chat:
-                ui.chat_message(text=error_msg, name='System')
-            ui.notify(error_msg, type='negative')
-        finally:
-            # 是否置回 False，要看 process_events 是否进入等待状态
-            # 这里仅在没有等待标记时重置
-            if not app.storage.client.get('waiting_kind'):
-                set_graph_running(False)
-
-        return
-
-    # ============= 情况二：正在等待中断节点输入（AWAITING_CONFIRMATION / Revise） =============
-    # 等待输入时，不允许新的问题，text 被视为对方案的“确认/修改”反馈
-    try:
-        graph = app.storage.client.get('graph')
-        config = app.storage.client.get('config')
-        if graph is None or config is None:
-            ui.notify('Internal state lost, please restart session', type='negative')
-            return
-
-
-        if waiting_kind == 'update_data_info':
-            print("[DEBUG] 进入 update_data_info 分支")
-            graph.update_state(config=config, values={'update_data_info': text})
-            app.storage.client['waiting_kind'] = None
-            set_graph_running(True)
-            events = graph.stream(None, config=config, stream_mode='values')
-            first_event = next(events, None)
-            cancel_event = threading.Event()
-            app.storage.client['cancel_event'] = cancel_event
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
-            app.storage.client['background_task'] = task
-            result = await task
-            
-            # 后台线程返回的状态，由主线程设置
-            if result:
-                waiting_kind, graph, sandbox_id = result
-                app.storage.client['graph'] = graph
-                app.storage.client['config'] = config
-                app.storage.client['sandbox_id'] = sandbox_id
-                if waiting_kind:
-                    app.storage.client['waiting_kind'] = waiting_kind
-                    set_graph_running(False)
-                else:
-                    set_graph_running(False)
-
-        elif waiting_kind == 'update_data_repo':
-            print("[DEBUG] 进入 update_data_repo 分支")
-            graph.update_state(config=config, values={'update_data_repo': text})
-            app.storage.client['waiting_kind'] = None
-            set_graph_running(True)
-            events = graph.stream(None, config=config, stream_mode='values')
-            first_event = next(events, None)
-            cancel_event = threading.Event()
-            app.storage.client['cancel_event'] = cancel_event
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
-            app.storage.client['background_task'] = task
-            result = await task
-            
-            # 后台线程返回的状态，由主线程设置
-            if result:
-                waiting_kind, graph, sandbox_id = result
-                app.storage.client['graph'] = graph
-                app.storage.client['config'] = config
-                app.storage.client['sandbox_id'] = sandbox_id
-                if waiting_kind:
-                    app.storage.client['waiting_kind'] = waiting_kind
-                    set_graph_running(False)
-                else:
-                    set_graph_running(False)
-
-        elif waiting_kind == 'ask_user':
-            print("[DEBUG] 进入 ask_user 分支")
-            graph.update_state(config=config, values={'user_update_detail': text})
-            app.storage.client['waiting_kind'] = None
-            set_graph_running(True)
-            events = graph.stream(None, config=config, stream_mode='values')
-            first_event = next(events, None)
-            cancel_event = threading.Event()
-            app.storage.client['cancel_event'] = cancel_event
-            task = asyncio.create_task(asyncio.to_thread(process_events, graph, events, config, cancel_event))
-            app.storage.client['background_task'] = task
-            result = await task
-            
-            # 后台线程返回的状态，由主线程设置
-            if result:
-                waiting_kind, graph, sandbox_id = result
-                app.storage.client['graph'] = graph
-                app.storage.client['config'] = config
-                app.storage.client['sandbox_id'] = sandbox_id
-                if waiting_kind:
-                    app.storage.client['waiting_kind'] = waiting_kind
-                    set_graph_running(False)
-                else:
-                    set_graph_running(False)
-        else:
-            ui.notify(f'Unknown waiting state: {waiting_kind}', type='negative')
-            return
-
-    except Exception as e:
-        error_msg = f"❌ Failed to continue task: {e}"
-        with biomics_chat:
-            ui.chat_message(text=error_msg, name='系统')
-        ui.notify(error_msg, type='negative')
-    finally:
-        # 与上面一致，仅当没有新的等待状态时，认为任务结束
-        if not app.storage.client.get('waiting_kind'):
-            set_graph_running(False)
-def reset_agent():
-    """清空界面并重置会话相关的 session 状态"""
-
-    biomics_chat.clear()
-    biomics_co_pilot.clear()
-
-    # 1. 通过 cancel_event 中断后台任务
-    cancel_event = app.storage.client.get('cancel_event')
-    if cancel_event:
-        cancel_event.set()
-        print("[DEBUG] 已设置 cancel_event，通知后台任务停止")
-
-    # 2. 关闭会话对应的 sandbox
-    sandbox_id = app.storage.client.get('sandbox_id')
-    if sandbox_id:
-        try:
-            sandbox_manager = SandboxManager()
-            sandbox_manager.close_sandbox(sandbox_id)
-            print(f"[INFO] 沙箱已关闭: {sandbox_id}")
-        except Exception as e:
-            print(f"[WARN] 关闭沙箱失败: {e}")
-    else:
-        print("[INFO] 无沙箱 ID，无需关闭沙箱")
+                <!-- DNA 图标 -->
+                <i class="fas fa-dna" style="position: absolute; top: 15%; left: 8%; font-size: 80px; 
+                   color: #60a5fa; opacity: 0.12; animation: dna-rotate1 20s linear infinite;"></i>
+                <i class="fas fa-dna" style="position: absolute; bottom: 20%; right: 12%; font-size: 70px; 
+                   color: #34d399; opacity: 0.12; animation: dna-rotate2 20s linear infinite; animation-delay: 5s;"></i>
+                
+                <!-- 基因序列代码流 -->
+                <div style="position: absolute; top: 20%; right: 5%; font-family: 'Courier New', monospace;
+                     font-size: 12px; color: #34d399; opacity: 0.4; line-height: 1.8;
+                     animation: fade-sequence 5s ease-in-out infinite;">
+                    ATCG TAGC GCTA<br>
+                    CGAT ATGC TACG<br>
+                    TAGC CGTA GCTA<br>
+                    ATCG TACG GCAT<br>
+                    GCTA ATCG TAGC
+                </div>
+                
+                <!-- 分子结构 -->
+                <svg style="position: absolute; bottom: 15%; left: 12%; width: 150px; height: 150px; opacity: 0.12;">
+                    <line x1="50" y1="40" x2="75" y2="75" stroke="#60a5fa" stroke-width="1" opacity="0.5"/>
+                    <line x1="75" y1="75" x2="100" y2="50" stroke="#60a5fa" stroke-width="1" opacity="0.5"/>
+                    <line x1="75" y1="75" x2="90" y2="110" stroke="#60a5fa" stroke-width="1" opacity="0.5"/>
+                    <line x1="75" y1="75" x2="40" y2="100" stroke="#60a5fa" stroke-width="1" opacity="0.5"/>
+                    <line x1="40" y1="100" x2="60" y2="130" stroke="#60a5fa" stroke-width="1" opacity="0.5"/>
+                    <line x1="90" y1="110" x2="110" y2="130" stroke="#60a5fa" stroke-width="1" opacity="0.5"/>
+                    <circle cx="50" cy="40" r="4" fill="#60a5fa" style="animation: pulse-atom 2s ease-in-out infinite;" />
+                    <circle cx="75" cy="75" r="5" fill="#34d399" style="animation: pulse-atom 2s ease-in-out infinite; animation-delay: 0.3s" />
+                    <circle cx="100" cy="50" r="4" fill="#22d3ee" style="animation: pulse-atom 2s ease-in-out infinite; animation-delay: 0.6s" />
+                    <circle cx="90" cy="110" r="4" fill="#fbbf24" style="animation: pulse-atom 2s ease-in-out infinite; animation-delay: 0.9s" />
+                    <circle cx="40" cy="100" r="4" fill="#60a5fa" style="animation: pulse-atom 2s ease-in-out infinite; animation-delay: 1.2s" />
+                    <circle cx="60" cy="130" r="3" fill="#34d399" style="animation: pulse-atom 2s ease-in-out infinite; animation-delay: 1.5s" />
+                    <circle cx="110" cy="130" r="3" fill="#22d3ee" style="animation: pulse-atom 2s ease-in-out infinite; animation-delay: 1.8s" />
+                </svg>
+                
+                <!-- 六边形网络 -->
+                <svg style="position: absolute; bottom: 20%; right: 8%; width: 180px; height: 180px; opacity: 0.08;">
+                    <polygon points="90,30 120,50 120,90 90,110 60,90 60,50" stroke="#60a5fa" stroke-width="1" fill="none" style="animation: glow-hex 3s ease-in-out infinite;" />
+                    <polygon points="30,30 50,40 50,60 30,70 10,60 10,40" stroke="#60a5fa" stroke-width="1" fill="none" style="animation: glow-hex 3s ease-in-out infinite; animation-delay: 0.5s" />
+                    <polygon points="150,30 170,40 170,60 150,70 130,60 130,40" stroke="#60a5fa" stroke-width="1" fill="none" style="animation: glow-hex 3s ease-in-out infinite; animation-delay: 1s" />
+                    <polygon points="30,110 50,120 50,140 30,150 10,140 10,120" stroke="#60a5fa" stroke-width="1" fill="none" style="animation: glow-hex 3s ease-in-out infinite; animation-delay: 1.5s" />
+                    <polygon points="150,110 170,120 170,140 150,150 130,140 130,120" stroke="#60a5fa" stroke-width="1" fill="none" style="animation: glow-hex 3s ease-in-out infinite; animation-delay: 2s" />
+                    <line x1="60" y1="50" x2="50" y2="60" stroke="#60a5fa" stroke-width="0.5" opacity="0.4"/>
+                    <line x1="120" y1="50" x2="130" y2="60" stroke="#60a5fa" stroke-width="0.5" opacity="0.4"/>
+                    <line x1="60" y1="90" x2="50" y2="120" stroke="#60a5fa" stroke-width="0.5" opacity="0.4"/>
+                    <line x1="120" y1="90" x2="130" y2="120" stroke="#60a5fa" stroke-width="0.5" opacity="0.4"/>
+                </svg>
+                
+                <!-- 数据节点网络 -->
+                <svg style="position: absolute; top: 30%; left: 25%; width: 250px; height: 200px; opacity: 0.1;">
+                    <line x1="60" y1="50" x2="120" y2="80" stroke="#60a5fa" stroke-width="0.5" opacity="0.6"/>
+                    <line x1="120" y1="80" x2="180" y2="60" stroke="#60a5fa" stroke-width="0.5" opacity="0.6"/>
+                    <line x1="120" y1="80" x2="150" y2="140" stroke="#60a5fa" stroke-width="0.5" opacity="0.6"/>
+                    <line x1="60" y1="50" x2="90" y2="120" stroke="#60a5fa" stroke-width="0.5" opacity="0.6"/>
+                    <line x1="90" y1="120" x2="150" y2="140" stroke="#60a5fa" stroke-width="0.5" opacity="0.6"/>
+                    <circle cx="60" cy="50" r="3" fill="#34d399" style="animation: node-pulse 3s ease-in-out infinite;" />
+                    <circle cx="120" cy="80" r="3.5" fill="#34d399" style="animation: node-pulse 3s ease-in-out infinite; animation-delay: 0.4s" />
+                    <circle cx="180" cy="60" r="2.5" fill="#34d399" style="animation: node-pulse 3s ease-in-out infinite; animation-delay: 0.8s" />
+                    <circle cx="150" cy="140" r="3" fill="#34d399" style="animation: node-pulse 3s ease-in-out infinite; animation-delay: 1.2s" />
+                    <circle cx="90" cy="120" r="2.5" fill="#34d399" style="animation: node-pulse 3s ease-in-out infinite; animation-delay: 1.6s" />
+                </svg>
+                
+                <style>
+                    @keyframes float-glow1 {
+                        0%, 100% { transform: translate(0, 0) scale(1); }
+                        33% { transform: translate(30px, -30px) scale(1.1); }
+                        66% { transform: translate(-20px, 20px) scale(0.9); }
+                    }
+                    @keyframes float-glow2 {
+                        0%, 100% { transform: translate(0, 0) scale(1); }
+                        33% { transform: translate(30px, -30px) scale(1.1); }
+                        66% { transform: translate(-20px, 20px) scale(0.9); }
+                    }
+                    @keyframes float-glow3 {
+                        0%, 100% { transform: translate(0, 0) scale(1); }
+                        33% { transform: translate(30px, -30px) scale(1.1); }
+                        66% { transform: translate(-20px, 20px) scale(0.9); }
+                    }
+                    @keyframes dna-rotate1 {
+                        0%, 100% { opacity: 0.08; transform: rotate(0deg) scale(1); }
+                        50% { opacity: 0.15; transform: rotate(180deg) scale(1.1); }
+                    }
+                    @keyframes dna-rotate2 {
+                        0%, 100% { opacity: 0.08; transform: rotate(0deg) scale(1); }
+                        50% { opacity: 0.15; transform: rotate(180deg) scale(1.1); }
+                    }
+                    @keyframes fade-sequence {
+                        0%, 100% { opacity: 0.2; }
+                        50% { opacity: 0.6; }
+                    }
+                    @keyframes pulse-atom {
+                        0%, 100% { r: 4; opacity: 0.6; }
+                        50% { r: 6; opacity: 1; }
+                    }
+                    @keyframes glow-hex {
+                        0%, 100% { opacity: 0.3; }
+                        50% { opacity: 0.8; stroke-width: 2; }
+                    }
+                    @keyframes node-pulse {
+                        0%, 100% { r: 2; opacity: 0.4; }
+                        50% { r: 3.5; opacity: 1; }
+                    }
+                </style>
+            </div>
+        ''', sanitize=False)
         
+        with ui.column().classes('max-w-7xl mx-auto text-center items-center w-full').style('position: relative; z-index: 1;'):
+            # 标签
+            ui.element('div').classes('inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold tracking-wide uppercase').props('innerHTML="Future of Bioinformatics"')
+            
+            # 标题
+            ui.html('''
+                <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                    From Disjointed to <span class="text-blue-400">Seamless</span><br>Analysis-Interpretation
+                </h1>
+            ''', sanitize=False)
+            
+            # 描述
+            ui.label('Empowering researchers with a Knowledge-Aware paradigm that bridges the gap between raw omics data and biological discovery through autonomous AI interpretation.').classes('text-xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed') 
+            # Quick Start 按钮组
+            with ui.row().classes('grid lg:grid-cols-2 gap-8 mt-16 w-full max-w-4xl'):
+                # 第一个按钮组：工作相关文件链接
+                with ui.column().classes('glass-card p-8 rounded-2xl text-left'):
+                    ui.label('Resources').classes('text-xl font-bold text-white mb-2')
+                    ui.label('Access documentation, code, and datasets.').classes('text-slate-400 text-sm mb-6')
+                    
+                    with ui.column().classes('gap-3 w-full'):
+                        ui.button('Read the Paper', icon='article', on_click=lambda: ui.navigate.to('https://www.biorxiv.org/content/10.64898/2026.01.17.699830v1', new_tab=True)).props('no-caps flat').classes('w-full justify-start text-left text-white bg-white/10 hover:bg-white/20')
+                        ui.button('View Source Code', icon='code', on_click=lambda: ui.navigate.to('https://github.com/BGIResearch/BiOmics', new_tab=True)).props('no-caps flat').classes('w-full justify-start text-left text-white bg-white/10 hover:bg-white/20')
+                        ui.button('Download Datasets', icon='download', on_click=lambda: ui.navigate.to('/datasets')).props('no-caps flat').classes('w-full justify-start text-left text-white bg-white/10 hover:bg-white/20')
+                        ui.button('Analyze Your Own Data', icon='upload_file', on_click=lambda: ui.navigate.to('/platform')).props('no-caps flat').classes('w-full justify-start text-left text-white bg-white/10 hover:bg-white/20')
+                
+                # 第二个按钮组：产品可以做的工作
+                with ui.column().classes('glass-card p-8 rounded-2xl text-left'):
+                    ui.label('Examples').classes('text-xl font-bold text-white mb-2')
+                    ui.label('Explore example analyses powered by BiOmics-Agent.').classes('text-slate-400 text-sm mb-6')
+                    
+                    with ui.column().classes('gap-3 w-full'):
+                        ui.button('Cell type annotation', icon='label', on_click=lambda: ui.navigate.to('/platform?demo=Demonstrate%20cell%20annotation')).props('no-caps flat').classes('w-full justify-start text-left text-white bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/30')
+                        ui.button('Differential gene analysis', icon='compare_arrows', on_click=lambda: ui.navigate.to('/platform?demo=Demonstrate%20differential%20gene%20analysis')).props('no-caps flat').classes('w-full justify-start text-left text-white bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/30')
+                        ui.button('Proteome analysis', icon='hub', on_click=lambda: ui.navigate.to('/platform?demo=Demonstrate%20proteome%20analysis')).props('no-caps flat').classes('w-full justify-start text-left text-white bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/30')
+                        ui.button('Gene regulatory network', icon='account_tree', on_click=lambda: ui.navigate.to('/platform?demo=Demonstrate%20gene%20regulatory%20network')).props('no-caps flat').classes('w-full justify-start text-left text-white bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/30')
 
-    # 3. 重置上传按钮和文件名标签
-    upload_button.props('icon=file_upload')
-    upload_button.props(remove='color')
-    upload_name_label.text = ''
-    app.storage.client['uploaded_file_path'] = ''
-    file_upload.reset()  # 重置上传控件，允许重新上传
-    clear_upload_btn.classes(remove='show')  # 隐藏叉号按钮
+    # ==================== 2. Demo Video Section ====================
+    with ui.element('section').props('id="demo"').classes('bg-gradient-to-b from-slate-100 to-white py-24 px-6 w-screen').style('margin-left: calc(-50vw + 50%); box-sizing: border-box;'):
+        with ui.column().classes('max-w-5xl mx-auto text-center items-center w-full'):
+            ui.label('See BiOmics-Agent in Action').classes('text-4xl font-bold text-slate-900 mb-4')
+            ui.label('Watch how BiOmics-Agent autonomously transforms raw omics data into actionable biological insights.').classes('text-slate-500 mb-12 max-w-2xl')
+            
+            with ui.element('div').classes('w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-200'):
+                ui.html('''
+                    <video controls class="w-full" style="max-height: 600px;">
+                        <source src="/static/Supplementary%20Video%201.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                ''', sanitize=False)
+            
+            ui.label('Note: This demonstration video is presented at 2.5× playback speed to efficiently convey the complete workflow within a concise viewing time.').classes('text-slate-500 text-sm mt-4 leading-relaxed max-w-3xl')
+            ui.label('The full-speed analysis showcases the autonomous nature of BiOmics-Agent from data input to biological discovery.').classes('text-slate-400 text-sm mt-2 italic')
 
-    # 4. 清理会话状态
-    set_graph_running(False)
-    app.storage.client['waiting_kind'] = None
-    app.storage.client['thread_id'] = ''
-    app.storage.client['graph'] = None
-    app.storage.client['config'] = None
-    app.storage.client['background_task'] = None
-    app.storage.client['cancel_event'] = None
-    app.storage.client['sandbox_id'] = None
+    # ==================== 3. Capabilities Section ====================
+    with ui.element('section').props('id="capabilities"').classes('py-24 px-6 max-w-7xl mx-auto'):
+        with ui.row().classes('flex flex-col md:flex-row items-end justify-between mb-16 gap-4 w-full'):
+            with ui.column().classes('max-w-2xl'):
+                ui.label('Triadic Core Capabilities').classes('text-3xl font-bold text-slate-900 mb-4')
+                ui.label('Our unified embedding space allows for precise retrieval, traceable reasoning, and novel hypothesis prediction.').classes('text-slate-600')
+            ui.element('div').classes('h-px flex-grow bg-slate-200 mx-8 hidden md:block mb-4')
+        
+        capabilities = [
+            ('fa-fingerprint', 'cyan', 'Retrieving', 'Precise biomedical knowledge', 'Long-chain relation retrieval from BiOmics-KG to identify and rank valuable biological findings.'),
+            ('fa-project-diagram', 'emerald', 'Reasoning', 'Evidence-based discovery', 'Explicit reasoning space providing traceable causal discovery and autonomous scientific validation.'),
+            ('fa-lightbulb', 'amber', 'Predicting', 'Novel unified embedding', 'Link prediction within a unified embedding space to forecast previously unknown biological relations.'),
+        ]
+        
+        with ui.row().classes('grid md:grid-cols-3 gap-10 w-full'):
+            for icon, color, title, subtitle, desc in capabilities:
+                with ui.column().classes(f'capability-card-{color} group'):
+                    ui.html(f'''
+                        <div class="capability-icon w-16 h-16 bg-{color}-50 text-{color}-600 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                            <i class="fas {icon}"></i>
+                        </div>
+                    ''', sanitize=False)
+                    ui.label(title).classes('text-xl font-bold mb-3 text-slate-800')
+                    ui.label(subtitle).classes('text-slate-600 mb-4 italic text-sm')
+                    ui.label(desc).classes('text-slate-500 text-sm leading-relaxed')
+
+    # ==================== 4. Framework Overview Section ====================
+    with ui.element('section').props('id="framework"').classes('bg-slate-50 py-24 px-6 w-screen').style('margin-left: calc(-50vw + 50%); box-sizing: border-box;'):
+        with ui.column().classes('max-w-7xl mx-auto w-full items-center'):
+            # 标题
+            ui.label('BiOmics Framework').classes('text-4xl font-bold text-slate-900 mb-4 text-center')
+            ui.label('A tripartite architecture unifying Knowledge, Tools, and Agents for biological interpretation.').classes('text-slate-500 mb-12 text-center max-w-3xl')
+            
+            # 展示图片
+            with ui.element('div').classes('w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-200 mb-16'):
+                ui.image('/static/Figure1.png').classes('w-full')
+            
+            # 三大组件介绍
+            with ui.row().classes('grid md:grid-cols-3 gap-8 w-full items-stretch'):
+                # BiOmics-KG
+                with ui.card().classes('p-8 bg-white border border-slate-200 rounded-2xl shadow-lg hover:shadow-xl transition-shadow h-full'):
+                    with ui.row().classes('items-center gap-3 mb-4'):
+                        ui.icon('hub').classes('text-blue-600').style('font-size: 32px;')
+                        ui.label('BiOmics-KG').classes('text-2xl font-bold text-slate-800')
+                    ui.label('A foundational knowledge memory of 350 million daily-updated relations to ground inference and mitigate stochastic hallucinations.').classes('text-slate-600 mb-4 leading-relaxed')
+                    with ui.column().classes('gap-2 text-sm text-slate-500'):
+                        ui.label('• 6M+ Publications with daily PubMed updates')
+                        ui.label('• 23+ Ontologies (GO, HPO, Cell Ontology)')
+                        ui.label('• 89+ Public Databases (DrugBank, HMDB, ClinGen)')
+                
+                # BiOmics-BRICK
+                with ui.card().classes('p-8 bg-white border border-slate-200 rounded-2xl shadow-lg hover:shadow-xl transition-shadow h-full'):
+                    with ui.row().classes('items-center gap-3 mb-4'):
+                        ui.icon('build').classes('text-amber-600').style('font-size: 32px;')
+                        ui.label('BiOmics-BRICK').classes('text-2xl font-bold text-slate-800')
+                    ui.label('A modular, pluggable toolchain to overcome bioinformatic interoperability bottlenecks with unified infrastructure.').classes('text-slate-600 mb-4 leading-relaxed')
+                    with ui.column().classes('gap-2 text-sm text-slate-500'):
+                        ui.label('• Query Graph & Rank Graph for retrieval')
+                        ui.label('• Embedding & Reasoning for inference')
+                        ui.label('• Preprocessing & Visualization modules')
+                
+                # BiOmics-Agent
+                with ui.card().classes('p-8 bg-white border border-slate-200 rounded-2xl shadow-lg hover:shadow-xl transition-shadow h-full'):
+                    with ui.row().classes('items-center gap-3 mb-4'):
+                        ui.icon('smart_toy').classes('text-emerald-600').style('font-size: 32px;')
+                        ui.label('BiOmics-Agent').classes('text-2xl font-bold text-slate-800')
+                    ui.label('The logical orchestrator for high-order autonomous path planning and hypothesis generation from data to interpretation.').classes('text-slate-600 mb-4 leading-relaxed')
+                    with ui.column().classes('gap-2 text-sm text-slate-500'):
+                        ui.label('• Planning: Task decomposition & analysis design')
+                        ui.label('• Coding & Execution: Automated preprocessing')
+                        ui.label('• Interpretation: Evidence-backed reasoning')
+
+    # ==================== Citation Section ====================
+    with ui.element('section').props('id="citation"').classes('bg-white py-20 px-6 w-screen border-t border-slate-200').style('margin-left: calc(-50vw + 50%); box-sizing: border-box;'):
+        with ui.column().classes('max-w-4xl mx-auto w-full items-center'):
+            # 标题
+            ui.label('Cite Our Work').classes('text-3xl font-bold text-slate-900 mb-4 text-center')
+            ui.label('If you find BiOmics useful in your research, please consider citing our paper:').classes('text-slate-500 mb-8 text-center')
+            
+            # 论文信息卡片
+            with ui.card().classes('w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-6'):
+                ui.label('BiOmics: A Foundational Agent for Grounded and Autonomous Multi-omics Interpretation').classes('text-slate-800 font-semibold text-lg mb-2')
+                ui.label('Cao Lei, Li Yuntian, Qin Hua, Shang Yanbang, Zhang Yilin, Jovanovic Bogdan, Djokic Lazar, Xia Tianyi, Hu Luni, Hou Haiyang, Ning Xingxing, Lin Li\'ang, Qiu Hao, Deng Ziqing, Li Yuxiang, Zhang Yong, Fang Shuangsang').classes('text-slate-500 text-sm mb-2')
+                with ui.row().classes('gap-4 text-sm'):
+                    ui.label('bioRxiv 2026').classes('text-blue-600')
+                    ui.label('DOI: 10.64898/2026.01.17.699830').classes('text-slate-400')
+            
+            # BibTeX 引用框
+            ui.label('BibTeX').classes('text-slate-800 font-semibold mb-3 self-start')
+            bibtex_text = '''@article {Cao2026.01.17.699830,
+    author = {Cao, Lei and Li, Yuntian and Qin, Hua and Shang, Yanbang and Zhang, Yilin and Jovanovic, Bogdan and Djokic, Lazar and Xia, Tianyi and Hu, Luni and Hou, Haiyang and Ning, Xingxing and Lin, Li'ang and Qiu, Hao and Deng, Ziqing and Li, Yuxiang and Zhang, Yong and Fang, Shuangsang},
+    title = {BiOmics: A Foundational Agent for Grounded and Autonomous Multi-omics Interpretation},
+    year = {2026},
+    doi = {10.64898/2026.01.17.699830},
+    publisher = {Cold Spring Harbor Laboratory},
+    journal = {bioRxiv}
+}'''
+            with ui.element('div').classes('w-full bg-slate-100 rounded-xl p-4 border border-slate-200'):
+                ui.code(bibtex_text, language='bibtex').classes('text-sm')
+            
+            # 复制按钮
+            with ui.row().classes('mt-4 gap-4'):
+                ui.button('Copy BibTeX', icon='content_copy', on_click=lambda: ui.clipboard.write(bibtex_text)).props('no-caps').classes('bg-blue-600 text-white hover:bg-blue-700')
+                ui.button('View on bioRxiv', icon='open_in_new', on_click=lambda: ui.navigate.to('https://www.biorxiv.org/content/10.64898/2026.01.17.699830v1', new_tab=True)).props('no-caps outline').classes('text-slate-700')
+
+    # ==================== Footer ====================
+    with ui.element('footer').classes('bg-slate-50 py-12 border-t border-slate-200 w-screen').style('margin-left: calc(-50vw + 50%); box-sizing: border-box;'):
+        with ui.row().classes('max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm w-full'):
+            with ui.row().classes('items-center gap-2 mb-4 md:mb-0'):
+                ui.label('BiOmics').classes('font-bold text-slate-800')
+                ui.label('Framework & Agent Platform')
+            
+            with ui.row().classes('gap-6'):
+                ui.label('© 2026 Analysis-Interpretation Paradigm')
+                ui.link('Contact Us', 'mailto:fangshuangsang@genomics.cn').classes('hover:text-blue-600')
+
+
+# 创建页面
+@ui.page('/')
+def landing_page():
+    create_landing_page()
+
+@ui.page('/datasets')
+def datasets_page():
+    """数据下载页面"""
+    # 数据文件目录
+    DATA_DIR = '/home/liyuntian/Biomics_agent/data'
     
-    # 5. 重新显示浮动按钮栏
-    floating_btn_bar.style('display: flex;')
+    with ui.column().classes('max-w-5xl mx-auto py-16 px-6 w-full'):
+        # 返回按钮
+        ui.button('Back to Home', icon='arrow_back', on_click=lambda: ui.navigate.to('/')).props('no-caps flat').classes('mb-8')
+        
+        # 标题
+        ui.label('Download Datasets').classes('text-4xl font-bold text-slate-900 mb-4')
+        ui.label('Download the datasets used in our demonstration analyses. Each dataset is paired with a specific analysis task.').classes('text-slate-500 mb-12')
+        
+        # 数据集列表
+        datasets = [
+            ('Cell Type Annotation', 'adata_new1.h5ad', 'Perform cell type annotation on this dataset', 'Single-cell RNA-seq data for cell type identification'),
+            ('Cell Type Refinement', 'adata_new1.h5ad', 'Perform cell type refinement on this dataset', 'Same dataset for refining cell type labels'),
+            ('Differential Gene Analysis', 'adata_new1.h5ad', 'Perform differential gene expression analysis on this dataset', 'Identify differentially expressed genes between conditions'),
+            ('Drug Discovery', 'Neutrophil_adata_sub.h5ad', 'Predict therapeutic drugs for COVID-19 based on this omics data', 'Neutrophil subset data for drug target prediction'),
+            ('Enrichment Analysis', 'adata_new1.h5ad', 'Perform gene enrichment analysis on this dataset', 'Gene set enrichment analysis'),
+            ('GWAS Causal SNPs', 'filtered_mutation.csv', 'Identify causal SNPs associated with type 2 diabetes using this data', 'Filtered SNP mutation data for GWAS analysis'),
+            ('GWAS Phenotype Prediction', 'filtered_mutation.csv', 'Predict associated phenotypes based on SNPs in this data', 'Same mutation data for phenotype prediction'),
+            ('Trajectory Analysis', 'processed_wbc_m_group1.h5ad', 'Perform trajectory inference analysis on this dataset', 'White blood cell data for developmental trajectory'),
+            ('Proteome Analysis', 'Phosphopeptides_glycopeptides_evidence_TiO2_TMT_HUMAN.h5ad', 'Perform proteome analysis on this dataset', 'Phosphopeptide and glycopeptide proteomics data'),
+            ('Gene Regulatory Network', 'regulon_0619_modules.tsv', 'Perform gene regulatory network analysis on this dataset', 'Regulon modules for GRN inference'),
+        ]
+        
+        with ui.column().classes('gap-4 w-full'):
+            for task, filename, query, description in datasets:
+                with ui.card().classes('w-full p-6'):
+                    with ui.row().classes('items-start justify-between w-full gap-4'):
+                        with ui.column().classes('flex-grow gap-1'):
+                            ui.label(task).classes('text-lg font-bold text-slate-800')
+                            ui.label(description).classes('text-slate-500 text-sm')
+                            with ui.row().classes('items-center gap-2 mt-2'):
+                                ui.icon('insert_drive_file').classes('text-blue-500')
+                                ui.label(filename).classes('text-blue-600 font-mono text-sm')
+                        # 为每个文件创建下载按钮
+                        file_path = f'{DATA_DIR}/{filename}'
+                        ui.button('Download', icon='download', on_click=lambda fp=file_path, fn=filename: ui.download(fp, fn)).props('no-caps outline').classes('flex-shrink-0')
+        
 
 
 if __name__ in {"__main__", "__mp_main__"}:
-    file_upload.on_upload(handle_file_upload)
-    user_input.on('keydown.enter', handle_user_input)
-    send_button.on_click(handle_user_input)
-    reset_button.on_click(reset_dialog.open)
-    ui.run(title='Biomics Agent', favicon='/home/liyuntian/Biomics_agent/BiomicsLOGO.svg', host='0.0.0.0', port=8080)
+    ui.run(title='BiOmics | Seamless Omics Analysis & Interpretation', favicon='/home/liyuntian/Biomics_agent/BiomicsLOGO.svg', host='0.0.0.0', port=8080,  uvicorn_logging_level='debug', proxy_headers=True, forwarded_allow_ips="*")
