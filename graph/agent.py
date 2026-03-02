@@ -23,6 +23,7 @@ AGENT_LLM_MAP: dict[str, LLMType] = {
     "general_responder": "basic",
     "supervisor": "reasoning",
     #"supervisor": "basic"
+    "platform_responder": "basic",
 }
 
 

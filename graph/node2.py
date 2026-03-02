@@ -1212,3 +1212,36 @@ def query_agent(state: BrickState) -> BrickState:
             "agent": "responder"
         }
     )
+
+def platform_responder(state: BrickState) -> BrickState:
+    
+    agent = create_agent(
+        "platform_responder", 
+        "platform_responder", 
+        [], 
+        "platform_responder",
+        state.model_dump()
+    )
+    print("platform_responder invoke message:")
+    result = agent.invoke({"messages": [state.messages[-1]]})
+    
+    print("platform_responder result:")
+
+    
+    if "messages" in result:
+        result = result["messages"][-1].content
+    
+    print("[output]", result)
+    
+    new_message = SystemMessage(content=f"output: {result}")
+    updated_state = state.model_copy(
+        update={
+            "messages": state.messages + [new_message],
+            "output": result,
+            "status": "FINISHED",
+            "agent": "platform_responder"
+        }
+    )
+    
+
+    return updated_state
