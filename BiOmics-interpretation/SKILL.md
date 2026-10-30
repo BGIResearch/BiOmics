@@ -1,5 +1,5 @@
 ---
-name: BiOmics-KG-interpretation
+name: BiOmics-interpretation
 description: "Use when building modular BiOmics-BRICK analyses over BiOmics-KG: compose query, ranking, enrichment, graph adaptation, embedding, plotting, and reasoning bricks for bioinformatics tasks such as cell type annotation, trajectory interpretation, proteomics/PTM-aware PPI analysis, enrichment, drug repositioning, evidence tracing, and knowledge-graph hypothesis generation. Trigger when the user asks to use brick/BiOmics, query biomedical knowledge graph relationships, analyze proteome or post-translational-modification data with KG evidence, or design customizable brick workflows rather than a fixed pipeline."
 ---
 
@@ -13,7 +13,7 @@ Do not treat brick as a single fixed pipeline. Start from the biological questio
 **Linux / macOS**
 
 ```bash
-cd BiOmics-KG-interpretation/scripts
+cd BiOmics-interpretation/scripts
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -34,7 +34,7 @@ Use the smallest safe extension workflow:
 4. Install or refresh the local package in editable mode when needed so the extended `brick` command is available in the current environment:
 
    ```bash
-   cd BiOmics-KG-interpretation/scripts
+   cd BiOmics-interpretation/scripts
    python -m pip install -e .
    ```
 

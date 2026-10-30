@@ -1,4 +1,4 @@
-# BiOmics-KG-interpretation
+# BiOmics-interpretation
 
 An Agent Skill for querying and analyzing the **BiOmics Knowledge Graph (BiOmics-KG)**. Agents use it to invoke the BRICK toolchain for entity-relationship queries, result ranking/enrichment, graph conversion and merging, omics embedding, and visualization.
 
@@ -17,7 +17,7 @@ Typical workflow: `BRICK_qr` → `BRICK_rk` → `BRICK_ga` / `BRICK_emb` → `BR
 ## Skill Architecture
 
 ```
-BiOmics-KG-interpretation/
+BiOmics-interpretation/
 ├── SKILL.md              # Main doc: tool reference, parameters, examples, troubleshooting
 ├── references/           # Domain workflow guides (loaded on demand)
 │   ├── celltype_annotation_cli.md
@@ -40,14 +40,14 @@ BiOmics-KG-interpretation/
 
 ### 1. Install BRICK CLI (required)
 
-The CLI package lives in `BiOmics-KG-interpretation/scripts/` (where `pyproject.toml` is). **Run all install commands from that directory**, not the repo root.
+The CLI package lives in `BiOmics-interpretation/scripts/` (where `pyproject.toml` is). **Run all install commands from that directory**, not the repo root.
 
 #### Recommended: local editable install
 
 **Windows (PowerShell)**
 
 ```powershell
-cd BiOmics-KG-interpretation\scripts
+cd BiOmics-interpretation\scripts
 
 # Use a dedicated venv (recommended; avoids Anaconda dependency conflicts)
 python -m venv .venv
@@ -67,7 +67,7 @@ pip install -e ".[grace]"
 **Linux / macOS**
 
 ```bash
-cd BiOmics-KG-interpretation/scripts
+cd BiOmics-interpretation/scripts
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -100,13 +100,13 @@ pip install .
 **Install with pipx** (isolated global CLI)
 
 ```bash
-pipx install -e /path/to/BiOmics-KG-interpretation/scripts
+pipx install -e /path/to/BiOmics-interpretation/scripts
 ```
 
 **Run without installing**
 
 ```bash
-cd BiOmics-KG-interpretation/scripts
+cd BiOmics-interpretation/scripts
 python cli.py --help
 ```
 
@@ -131,31 +131,31 @@ Core KG query, ranking, and reasoning commands work without `scanpy`; single-cel
 
 ### 2. Add to Your Agent
 
-Copy or symlink the `BiOmics-KG-interpretation/` directory (including `SKILL.md` and subdirectories) into the skills path for your agent.
+Copy or symlink the `BiOmics-interpretation/` directory (including `SKILL.md` and subdirectories) into the skills path for your agent.
 
 #### Cursor
 
 | Scope | Path |
 |-------|------|
-| Personal (all projects) | `~/.cursor/skills/BiOmics-KG-interpretation/` |
-| Project (shared via repo) | `.cursor/skills/BiOmics-KG-interpretation/` |
+| Personal (all projects) | `~/.cursor/skills/BiOmics-interpretation/` |
+| Project (shared via repo) | `.cursor/skills/BiOmics-interpretation/` |
 
 ```bash
 # Project-level example
 mkdir -p .cursor/skills
-cp -r BiOmics-KG-interpretation .cursor/skills/
+cp -r BiOmics-interpretation .cursor/skills/
 ```
 
 #### Hermes
 
 | Scope | Path |
 |-------|------|
-| Default | `~/.hermes/skills/BiOmics-KG-interpretation/` |
+| Default | `~/.hermes/skills/BiOmics-interpretation/` |
 | Team-shared directory | Set `HERMES_OPTIONAL_SKILLS_DIR` to a directory containing this skill |
 
 ```bash
 # Local directory
-cp -r BiOmics-KG-interpretation ~/.hermes/skills/
+cp -r BiOmics-interpretation ~/.hermes/skills/
 
 # Or install from Hub / URL (single-file SKILL.md)
 hermes skills install <hub-path-or-url>
@@ -167,12 +167,12 @@ In a session, search with `/skills search BiOmics` or invoke the skill by name.
 
 | Scope | Path |
 |-------|------|
-| Personal | `~/.claude/skills/BiOmics-KG-interpretation/SKILL.md` |
-| Project | `.claude/skills/BiOmics-KG-interpretation/SKILL.md` |
+| Personal | `~/.claude/skills/BiOmics-interpretation/SKILL.md` |
+| Project | `.claude/skills/BiOmics-interpretation/SKILL.md` |
 
 ```bash
 mkdir -p .claude/skills
-cp -r BiOmics-KG-interpretation .claude/skills/
+cp -r BiOmics-interpretation .claude/skills/
 ```
 
 Claude Code picks up directory changes automatically — no restart needed.
@@ -181,12 +181,12 @@ Claude Code picks up directory changes automatically — no restart needed.
 
 | Scope | Path |
 |-------|------|
-| Project (recommended) | `.agents/skills/BiOmics-KG-interpretation/` |
-| Global | `~/.agents/skills/BiOmics-KG-interpretation/` |
+| Project (recommended) | `.agents/skills/BiOmics-interpretation/` |
+| Global | `~/.agents/skills/BiOmics-interpretation/` |
 
 ```bash
 mkdir -p .agents/skills
-cp -r BiOmics-KG-interpretation .agents/skills/
+cp -r BiOmics-interpretation .agents/skills/
 ```
 
 Codex scans `.agents/skills/` from the current working directory up to the repo root. Restart Codex if the skill does not appear. You can also use `$skill-installer` inside Codex to install published skill packages.
@@ -221,7 +221,7 @@ neighbor graph.
 
 ### Install and run
 
-Run the install command from `BiOmics-KG-interpretation/scripts/`:
+Run the install command from `BiOmics-interpretation/scripts/`:
 
 ```bash
 pip install -e ".[grace]"
@@ -297,7 +297,7 @@ print(graph.uns["KG_Omics_distance"].head())
   biological validation.
 
 For more detail, see
-[`references/grace_embedding.md`](BiOmics-KG-interpretation/references/grace_embedding.md).
+[`references/grace_embedding.md`](BiOmics-interpretation/references/grace_embedding.md).
 
 ## Quick Example
 
@@ -310,4 +310,4 @@ BRICK_rk -i query.csv --rank -o ranked.csv
 BRICK_pl radial -i ranked.csv --top-k 10 -o result.png
 ```
 
-For full parameters and troubleshooting, see [`BiOmics-KG-interpretation/SKILL.md`](BiOmics-KG-interpretation/SKILL.md).
+For full parameters and troubleshooting, see [`BiOmics-interpretation/SKILL.md`](BiOmics-interpretation/SKILL.md).
