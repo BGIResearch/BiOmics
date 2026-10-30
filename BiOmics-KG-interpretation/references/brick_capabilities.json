@@ -1,0 +1,286 @@
+{
+  "schema_version": "1.0",
+  "description": "Lightweight tool cards for the BiOmics-BRICK agent layer. This is intentionally JSON-first and does not require a vector database.",
+  "capabilities": [
+    {
+      "name": "querygraph",
+      "command_prefix": "brick qr",
+      "category": "kg_query",
+      "inputs": [
+        "entity list",
+        "single source entity",
+        "source type",
+        "target type",
+        "optional relation (comma list or '|' OR pattern, e.g. is_a|develop_into)",
+        "optional edge info_source filter",
+        "optional --shortest server-side per-pair shortestPath via /v1/shortest_path (one path per unordered pair; preferred for trajectory use cases)"
+      ],
+      "outputs": [
+        "raw KG edge/path CSV"
+      ],
+      "risk_tags": [
+        "remote_api",
+        "kg_broad_query",
+        "co_mentioned_noise",
+        "optional_multihop"
+      ],
+      "default_validators": [
+        "kg_policy_not_broad",
+        "max_hops_respected",
+        "file_exists",
+        "non_empty_file",
+        "kg_edge_metadata_columns_present",
+        "kg_edge_metadata_required_for_co_mentioned"
+      ],
+      "recommended_followups": [
+        "brick reason normalize",
+        "brick rk --rank",
+        "brick reason evidence"
+      ]
+    },
+    {
+      "name": "normalize_evidence",
+      "command_prefix": "brick reason normalize",
+      "category": "evidence_normalization",
+      "inputs": [
+        "raw KG query CSV"
+      ],
+      "outputs": [
+        "canonical evidence-unit CSV"
+      ],
+      "risk_tags": [
+        "evidence_schema",
+        "co_mentioned_weak_cap"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file",
+        "evidence_strength_present",
+        "manual_review_notes_present",
+        "co_mentioned_weak_cap",
+        "max_hops_respected"
+      ],
+      "recommended_followups": [
+        "brick reason score",
+        "brick reason explain"
+      ]
+    },
+    {
+      "name": "rankgraph_rank",
+      "command_prefix": "brick rk --rank",
+      "category": "ranking",
+      "inputs": [
+        "raw KG query CSV"
+      ],
+      "outputs": [
+        "ranked candidate CSV"
+      ],
+      "risk_tags": [
+        "ranking_metric_direction",
+        "target_prefix_selection"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file"
+      ],
+      "recommended_followups": [
+        "brick reason hypotheses",
+        "brick reason explain"
+      ]
+    },
+    {
+      "name": "rankgraph_enrich",
+      "command_prefix": "brick rk --enrich",
+      "category": "enrichment",
+      "inputs": [
+        "raw or merged KG query CSV"
+      ],
+      "outputs": [
+        "enrichment CSV"
+      ],
+      "risk_tags": [
+        "p_value_interpretation",
+        "multiple_testing"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file"
+      ],
+      "recommended_followups": [
+        "brick pl radial",
+        "brick reason explain"
+      ]
+    },
+    {
+      "name": "graphadapter",
+      "command_prefix": "brick ga",
+      "category": "graph",
+      "inputs": [
+        "CSV",
+        "AnnData",
+        "GraphML/GML/JSON graph",
+        "KG query CSV"
+      ],
+      "outputs": [
+        "graph file",
+        "graph inspection text"
+      ],
+      "risk_tags": [
+        "graph_schema",
+        "node_type_filter"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file"
+      ],
+      "recommended_followups": [
+        "brick ga info",
+        "brick pl static",
+        "brick reason paths"
+      ]
+    },
+    {
+      "name": "embedgraph",
+      "command_prefix": "brick emb",
+      "category": "embedding",
+      "inputs": [
+        "AnnData",
+        "KG association CSV"
+      ],
+      "outputs": [
+        "integrated AnnData",
+        "embedding artifacts"
+      ],
+      "risk_tags": [
+        "large_runtime",
+        "anndata_schema"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file"
+      ],
+      "recommended_followups": [
+        "brick pl",
+        "brick reason explain"
+      ]
+    },
+    {
+      "name": "plotting",
+      "command_prefix": "brick pl",
+      "category": "visualization",
+      "inputs": [
+        "graph file",
+        "enrichment CSV",
+        "TF regulon CSV"
+      ],
+      "outputs": [
+        "PNG",
+        "PDF",
+        "HTML"
+      ],
+      "risk_tags": [
+        "visual_qa"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file"
+      ],
+      "recommended_followups": [
+        "manual visual inspection"
+      ]
+    },
+    {
+      "name": "reasoning",
+      "command_prefix": "brick reason",
+      "category": "reasoning",
+      "inputs": [
+        "evidence-unit CSV",
+        "ranked/enriched hypotheses",
+        "graph file",
+        "reference set"
+      ],
+      "outputs": [
+        "evidence summaries",
+        "scored evidence",
+        "hypotheses",
+        "markdown explanation",
+        "evaluation tables"
+      ],
+      "risk_tags": [
+        "evidence_strength",
+        "manual_review_required",
+        "weak_claim_control"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file",
+        "evidence_strength_present",
+        "manual_review_notes_present"
+      ],
+      "recommended_followups": [
+        "brick agent report",
+        "manual review of weak evidence"
+      ]
+    },
+    {
+      "name": "plan",
+      "command_prefix": "brick plan",
+      "category": "utility",
+      "inputs": [
+        "artifact paths",
+        "task parameters"
+      ],
+      "outputs": [
+        "brick_plan.json",
+        "agent_plan.json",
+        "commands.ps1",
+        "commands.sh",
+        "merged CSV"
+      ],
+      "risk_tags": [
+        "plan_validity",
+        "output_collision"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file",
+        "json_schema_valid"
+      ],
+      "recommended_followups": [
+        "brick agent check-plan",
+        "brick agent run"
+      ]
+    },
+    {
+      "name": "workflow",
+      "command_prefix": "brick workflow",
+      "category": "workflow_scaffold",
+      "inputs": [
+        "genes",
+        "AnnData",
+        "marker directory",
+        "graph",
+        "query CSV"
+      ],
+      "outputs": [
+        "workflow folder",
+        "commands.ps1",
+        "commands.sh",
+        "optional agent_plan.json"
+      ],
+      "risk_tags": [
+        "scaffold_requires_review",
+        "remote_api_optional"
+      ],
+      "default_validators": [
+        "file_exists",
+        "non_empty_file"
+      ],
+      "recommended_followups": [
+        "inspect commands.ps1",
+        "brick agent check-plan",
+        "brick agent run"
+      ]
+    }
+  ]
+}

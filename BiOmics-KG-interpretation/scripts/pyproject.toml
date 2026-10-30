@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "BiOmics-BRICK"
+version = "0.2.0"
+description = "Composable CLI bricks for BiOmics-KG query, ranking, reasoning, and agent orchestration"
+requires-python = ">=3.9"
+dependencies = [
+    "igraph",
+    "leidenalg",
+    "pandas",
+    "requests",
+    "scipy",
+    "networkx",
+    "scanpy",
+    "matplotlib",
+    "pyvis",
+    "pydot",
+    "numpy",
+]
+
+[project.optional-dependencies]
+grace = [
+    "torch>=2.1",
+    "torch-geometric>=2.3",
+]
+
+[project.scripts]
+brick = "cli:main"
+brick-gpu = "gpuenv:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+py-modules = [
+    "__init__",
+    "agent",
+    "agent_checker",
+    "agent_runner",
+    "benchmark_suite_eval",
+    "bioasq_eval",
+    "biohopr_eval",
+    "biohopr_paths",
+    "biomix_eval",
+    "biomix_mcq",
+    "biomix_mcq_gwas_verifier",
+    "biomix_mcq_realkg",
+    "biomni_kg_overlap",
+    "brickplan",
+    "cli",
+    "drugdiscovery",
+    "embedgraph",
+    "gpuenv",
+    "grace",
+    "evaluation_adapters",
+    "evidence_packet",
+    "graphadapter",
+    "kgpolicy",
+    "querygraph",
+    "rankgraph",
+    "reasoning",
+    "renderers",
+    "task_contract",
+    "workflow",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["plotting*"]

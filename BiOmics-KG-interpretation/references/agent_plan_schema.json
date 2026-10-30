@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0",
+  "description": "Deterministic BiOmics-BRICK agent plan contract. P0 only allows safe brick commands and local validators.",
+  "required_top_level_fields": [
+    "schema_version",
+    "task",
+    "workdir",
+    "execution",
+    "steps"
+  ],
+  "execution": {
+    "mode": "dry_run",
+    "executor": "brick",
+    "allow_shell": false,
+    "max_retries": 1,
+    "timeout_seconds": 600
+  },
+  "step_required_fields": [
+    "id",
+    "type",
+    "command",
+    "inputs",
+    "outputs",
+    "depends_on",
+    "validators",
+    "retry_policy",
+    "checkpoint",
+    "allow_failure"
+  ],
+  "allowed_step_types": [
+    "kg_query",
+    "evidence_normalization",
+    "ranking",
+    "enrichment",
+    "graph",
+    "embedding",
+    "visualization",
+    "reasoning",
+    "report",
+    "utility"
+  ],
+  "allowed_command_prefix": [
+    "brick"
+  ],
+  "disallowed_shell_tokens": [
+    ";",
+    "&&",
+    "||",
+    "|",
+    ">",
+    "<",
+    "`",
+    "$("
+  ],
+  "validators": {
+    "plan": [
+      "depends_on_satisfied",
+      "no_output_collision",
+      "kg_policy_not_broad",
+      "relation_alias_resolved",
+      "max_hops_respected"
+    ],
+    "file": [
+      "file_exists",
+      "non_empty_file",
+      "json_schema_valid",
+      "csv_columns_present"
+    ],
+    "kg": [
+      "kg_edge_metadata_columns_present",
+      "kg_edge_metadata_required_for_co_mentioned",
+      "co_mentioned_weak_cap",
+      "max_hops_respected"
+    ],
+    "evidence": [
+      "evidence_strength_present",
+      "manual_review_notes_present",
+      "no_weak_only_strong_claim"
+    ]
+  },
+  "example": {
+    "schema_version": "1.0",
+    "task": "bioasq_kg_reasoning",
+    "question": "Which drugs have evidence for this gene set?",
+    "workdir": "runs/bioasq_case_001",
+    "execution": {
+      "mode": "dry_run",
+      "executor": "brick",
+      "allow_shell": false,
+      "max_retries": 1,
+      "timeout_seconds": 600
+    },
+    "steps": [
+      {
+        "id": "query_kg",
+        "type": "kg_query",
+        "command": [
+          "brick",
+          "qr",
+          "-i",
+          "genes.txt",
+          "--st",
+          "Gene",
+          "--tt",
+          "Chemical",
+          "-r",
+          "pharmaco_effect_on",
+          "--kg-policy",
+          "auto",
+          "--hops",
+          "2",
+          "-o",
+          "runs/bioasq_case_001/kg_edges.csv"
+        ],
+        "inputs": [
+          "genes.txt"
+        ],
+        "outputs": [
+          "runs/bioasq_case_001/kg_edges.csv"
+        ],
+        "depends_on": [],
+        "validators": [
+          "kg_policy_not_broad",
+          "max_hops_respected",
+          "file_exists",
+          "non_empty_file",
+          "kg_edge_metadata_columns_present",
+          "kg_edge_metadata_required_for_co_mentioned"
+        ],
+        "validator_args": {
+          "max_hops_respected": {
+            "max_hops": 3
+          }
+        },
+        "retry_policy": {
+          "max_retries": 1,
+          "retry_on": [
+            "command_failed",
+            "validator_failed"
+          ]
+        },
+        "checkpoint": true,
+        "allow_failure": false
+      }
+    ]
+  }
+}

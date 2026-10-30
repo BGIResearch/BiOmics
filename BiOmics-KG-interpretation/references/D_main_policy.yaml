@@ -1,0 +1,91 @@
+D_main_policy:
+  definition:
+    system: "Hermes/BiOmics skill front reasoning + latest KG + TaskContract + evidence boundary"
+    note: "The unified p2 router is an ablation component, not the final D-group protocol."
+
+  biomix_true_false:
+    freeze: true
+    task_contract: BinaryClaim
+    solver: kg_proposition_verifier
+    fallback: hermes
+    supported_templates:
+      - "Disease ontology identifier for X is DOID:Y"
+      - "X is a Y"
+      - "X is not a Y"
+      - "X is associated with Y"
+      - "X is caused by Y"
+      - "X is subtype of Y"
+      - "X treats Y"
+    use_co_mentioned_as_evidence: false
+    unknown_policy: fallback_hermes
+    guards:
+      plain_identical_rate_invalid: 1.0
+      verifier_hit_rate_warning_below: 0.15
+
+  biomix_mcq:
+    task_contract: ClosedChoice
+    solver: relative_option_scorer
+    fallback: hermes_biomics_if_low_margin
+    scoring: dual_disease_support
+    target_alias_expansion: question_only_disease_surface_aliases
+    hub_penalty: true
+    option_type_normalization: true
+    min_confidence: 1.2
+    margin: 0.25
+    option_anchor: hard
+    use_weak_rows_in_prompt: false
+    weak_rows_role: diagnostic_only
+    default_choice_policy: deterministic_best_when_margin_passes
+
+  bioasq_yesno:
+    task_contract: BinaryClaim
+    solver: direct_first_safe_flip
+    kg_flip_only_if: strong_entail_or_contradict
+    co_mentioned_can_flip: false
+
+  bioasq_factoid:
+    task_contract: ShortEntity
+    solver: direct_first
+    kg_role: canonicalize_and_verify
+    numeric_questions: no_kg_override
+    standardizer: bioasq_v2
+
+  bioasq_list:
+    freeze: true
+    task_contract: EntityList
+    solver: direct_list_plus_recall_expansion
+    kg_role: verify_standardize_and_small_supplement
+    kg_supplement_max: 4
+    max_answers_default: 8
+    standardizer: bioasq_v2
+
+  biohopr:
+    task_contract: PathAnswerSet
+    solver: balanced_path_answer_set
+    preset: balanced
+    query_source: extracted
+    strict_question_only: true
+    answer_policy: native_plus_kg
+    kg_limit: 1000
+    max_answers: 120
+    kg_answer_strength: all
+    path_co_mentioned_policy: allow
+    kg_add_allow_weak: true
+    kg_add_min_score_1hop: 2.0
+    kg_add_min_score_2hop: 4.0
+    path_rerank: true
+    co_mentioned_main_path: score_gated_biohopr_answer_set
+    co_mentioned_fallback: true
+    fallback_requires_type_match: true
+
+  run_level_guards:
+    biomix_true_false:
+      plain_identical_rate_invalid: 1.0
+    biomix_mcq:
+      fallback_native_rate_warning: 0.5
+      fallback_native_rate_invalid: 0.8
+      plain_identical_rate_warning: 0.98
+    bioasq:
+      numeric_question_kg_override: warning
+    biohopr:
+      co_mentioned_main_path_share_warning: 0.05

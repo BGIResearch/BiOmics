@@ -1,0 +1,440 @@
+{
+  "version": 1,
+  "default_edge_fields": [
+    "relation",
+    "original_relation",
+    "info_source",
+    "condition",
+    "relation_confidence"
+  ],
+  "co_mentioned_policy": {
+    "claim_allowed": false,
+    "max_evidence_strength": "weak",
+    "requires_fields": [
+      "original_relation",
+      "info_source",
+      "condition",
+      "relation_confidence"
+    ]
+  },
+  "source_quality_tiers": {
+    "curated_clinical": [
+      "ClinVar",
+      "ClinVar_gene",
+      "OMIM",
+      "MEDGEN",
+      "ORPHANET",
+      "DrugBank",
+      "DrugCentral",
+      "DRUGCENTRAL",
+      "IUPHAR",
+      "PHARMGKB",
+      "ClinicalTrials",
+      "ClinicalTrails",
+      "REPODB"
+    ],
+    "curated_genetic_association": [
+      "GWAS_Catalog",
+      "GWAS_cataog"
+    ],
+    "curated_biological": [
+      "GOA",
+      "GOA_mm",
+      "GENEONTOLOGY",
+      "Reactome",
+      "Reactome_anno",
+      "KEGG",
+      "KEGG_anno",
+      "KEGG_anno_mm",
+      "RHEA",
+      "CORUM",
+      "IntAct",
+      "INTACT",
+      "BioGRID",
+      "BIOGRID",
+      "BioGRID_hs",
+      "BioGRID_mm",
+      "SIGNOR",
+      "UNIPROT",
+      "UNIPROT_human",
+      "UNIPROT_rodents"
+    ],
+    "single_cell_curated": [
+      "CellMarker",
+      "CellMarker_mm",
+      "PanglaoDB",
+      "CellTaxonomy",
+      "CellChat",
+      "CellTalkDB",
+      "CellTalkDB_mm",
+      "SCENIC",
+      "SCENIC_mm"
+    ],
+    "ontology": [
+      "CL",
+      "CLO",
+      "CELLLINEONTOLOGY",
+      "UBERON",
+      "GO",
+      "GO-PLUS",
+      "HPO",
+      "HUMAN PHENOTYPE ONTOLOGY",
+      "MONDO",
+      "DOID",
+      "BTO",
+      "CHEBI",
+      "EFO",
+      "PATO",
+      "NCIT",
+      "SNOMED_CT",
+      "MEDDRA",
+      "MESH",
+      "MPATH",
+      "NBO",
+      "UPHENO",
+      "UPHENO_ALL_WITH_RELATIONS",
+      "XREF",
+      "MA",
+      "EMAPA",
+      "FOODON"
+    ],
+    "integrated_network": [
+      "PrimeKG",
+      "Bioportal",
+      "AGRKB",
+      "AGRKB_Disease",
+      "AGRKB_EXPRESSION",
+      "AGRKB_GENE",
+      "BioSNAP_ChCh-Miner",
+      "BioSNAP_ChChSe-Decagon",
+      "BioSNAP_ChG-Miner",
+      "BioSNAP_ChSe-Decagon",
+      "BioSNAP_DCh-Miner",
+      "BioSNAP_DG-Miner"
+    ],
+    "predicted_or_text_mined": [
+      "StringDB",
+      "STITCH",
+      "StingDB",
+      "StingDB_mm",
+      "SIDER",
+      "PubMed text-mined"
+    ]
+  },
+  "intents": [
+    {
+      "intent": "cell_marker_annotation",
+      "keywords": [
+        "cell type",
+        "celltype",
+        "marker",
+        "annotation",
+        "cluster",
+        "single cell"
+      ],
+      "source_type": "Gene",
+      "target_type": "Cell",
+      "relations": [
+        "produce"
+      ],
+      "primary_info_sources": [
+        "CellMarker",
+        "CellMarker_mm",
+        "PanglaoDB",
+        "CellTaxonomy"
+      ],
+      "fallback_info_sources": [
+        "CL",
+        "CLO",
+        "BTO",
+        "EFO",
+        "NCIT"
+      ],
+      "default_hops": 1,
+      "allow_multihop": false,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "cell_cell_communication",
+      "keywords": [
+        "communication",
+        "ligand",
+        "receptor",
+        "cell-cell",
+        "cellchat",
+        "celltalk"
+      ],
+      "source_type": "Cell",
+      "target_type": "Cell",
+      "relations": [
+        "interact_with",
+        "regulated",
+        "functionally_related_to"
+      ],
+      "primary_info_sources": [
+        "CellChat",
+        "CellTalkDB",
+        "CellTalkDB_mm"
+      ],
+      "fallback_info_sources": [
+        "BioGRID_hs",
+        "IntAct",
+        "StringDB"
+      ],
+      "default_hops": 2,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "drug_target_or_repositioning",
+      "keywords": [
+        "drug",
+        "chemical",
+        "compound",
+        "therapy",
+        "treatment",
+        "inhibitor",
+        "agonist",
+        "antagonist",
+        "repurposing",
+        "repositioning"
+      ],
+      "source_type": "Gene",
+      "target_type": "Chemical",
+      "relations": [
+        "pharmaco_effect_on",
+        "interact_with",
+        "regulated"
+      ],
+      "primary_info_sources": [
+        "DrugBank",
+        "DrugCentral",
+        "DRUGCENTRAL",
+        "IUPHAR",
+        "PHARMGKB",
+        "DrugCentral_hs",
+        "DrugCentral_mm"
+      ],
+      "fallback_info_sources": [
+        "STITCH",
+        "BIOSNAP_ChG-Miner",
+        "BIOSNAP_DG-Miner",
+        "PrimeKG"
+      ],
+      "default_hops": 1,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "disease_gene_or_variant",
+      "keywords": [
+        "disease",
+        "phenotype",
+        "variant",
+        "mutation",
+        "causal",
+        "pathogenic",
+        "symptom",
+        "gwas"
+      ],
+      "source_type": "Gene",
+      "target_type": "Disease",
+      "relations": [
+        "causally_related_to",
+        "disease_relation",
+        "participate_in",
+        "is_a"
+      ],
+      "primary_info_sources": [
+        "ClinVar",
+        "ClinVar_gene",
+        "GWAS_Catalog",
+        "OMIM",
+        "HPO_g2p_anno",
+        "HPO_anno",
+        "MONDO",
+        "DOID",
+        "MEDGEN",
+        "ORPHANET"
+      ],
+      "fallback_info_sources": [
+        "PrimeKG",
+        "AGRKB_Disease",
+        "PHARMGKB"
+      ],
+      "default_hops": 1,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "pathway_function_enrichment",
+      "keywords": [
+        "pathway",
+        "enrichment",
+        "function",
+        "process",
+        "reaction",
+        "go",
+        "reactome",
+        "kegg"
+      ],
+      "source_type": "Gene",
+      "target_type": "Pathway",
+      "relations": [
+        "participate_in",
+        "functionally_related_to",
+        "regulated"
+      ],
+      "primary_info_sources": [
+        "GOA",
+        "GOA_mm",
+        "Reactome_anno",
+        "Reactome",
+        "KEGG_anno",
+        "KEGG_anno_mm",
+        "KEGG",
+        "RHEA",
+        "SMPDB",
+        "PANTHER_PATHWAY"
+      ],
+      "fallback_info_sources": [
+        "GO",
+        "GO-PLUS",
+        "PW",
+        "METACYC"
+      ],
+      "default_hops": 1,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "ppi_or_protein_complex",
+      "keywords": [
+        "ppi",
+        "protein interaction",
+        "interactome",
+        "complex",
+        "binding"
+      ],
+      "source_type": "Protein",
+      "target_type": "Protein",
+      "relations": [
+        "interact_with",
+        "functionally_related_to"
+      ],
+      "primary_info_sources": [
+        "BioGRID_hs",
+        "BioGRID_mm",
+        "IntAct",
+        "CORUM",
+        "SIGNOR"
+      ],
+      "fallback_info_sources": [
+        "StringDB",
+        "StingDB",
+        "StingDB_mm",
+        "PrimeKG"
+      ],
+      "default_hops": 1,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "regulatory_network",
+      "keywords": [
+        "regulate",
+        "regulatory",
+        "tf",
+        "transcription factor",
+        "scenic",
+        "trrust",
+        "phosphorylation",
+        "signaling"
+      ],
+      "source_type": "Gene",
+      "target_type": "Gene",
+      "relations": [
+        "regulated",
+        "causally_related_to",
+        "interact_with"
+      ],
+      "primary_info_sources": [
+        "TRRUST",
+        "SCENIC",
+        "SCENIC_mm",
+        "PhosphoSitePlus",
+        "SIGNOR",
+        "Reactome"
+      ],
+      "fallback_info_sources": [
+        "STITCH",
+        "StringDB",
+        "PrimeKG"
+      ],
+      "default_hops": 1,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    },
+    {
+      "intent": "anatomy_or_trajectory",
+      "keywords": [
+        "tissue",
+        "anatomy",
+        "develop",
+        "development",
+        "trajectory",
+        "differentiate",
+        "differentiation",
+        "spatial"
+      ],
+      "source_type": "Cell",
+      "target_type": "Cell",
+      "relations": [
+        "develope_into",
+        "is_a",
+        "has_part",
+        "spatially_related_to"
+      ],
+      "primary_info_sources": [
+        "CL",
+        "CLO",
+        "UBERON",
+        "EMAPA",
+        "MA",
+        "BTO"
+      ],
+      "fallback_info_sources": [
+        "EFO",
+        "NCIT",
+        "CellTaxonomy"
+      ],
+      "default_hops": 1,
+      "allow_multihop": true,
+      "avoid_relations": [
+        "co_mentioned",
+        "no_relation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+biomix_mcq:
+  solver: hermes_brick_realkg_option_verifier
+  prediction_source: independent
+
+  parse:
+    question_source: dataset_question_text
+    option_source: dataset_question_text
+    gold_access_during_generation: none
+    forbid_external_baseline: true
+    forbid_biomni_primary: true
+    forbid_consensus: true
+    forbid_native_fallback_results: true
+    forbid_gold_aware_standardizer: true
+
+  kg:
+    real_kg_required: true
+    entity_linking: surface_alias_synonym
+    option_as_hypothesis: true
+    max_hops: 2
+    fallback_stop_condition: all_stages
+    allow_shortest_path: true
+    allow_neighbor_query: true
+    allow_relation_query: true
+    reverse_query: true
+    source_priority:
+      - curated_database
+      - ontology
+      - literature
+    weak_relation:
+      co_mentioned: low_weight
+      mentioned: low_weight
+
+  rank:
+    direct_edge_weight: 3.0
+    curated_source_weight: 2.0
+    ontology_relation_weight: 1.5
+    two_hop_path_weight: 1.0
+    co_mentioned_weight: 0.25
+    type_match_weight: 0.8
+    contradiction_penalty: -2.0
+    generic_entity_penalty: -0.8
+
+  decision:
+    final_decider: hermes_with_evidence_table
+    kg_first_if_margin: 0.15
+    hermes_with_evidence_if_low_margin: true
+    no_gold_standardization: true
+    output_format: option_text_only

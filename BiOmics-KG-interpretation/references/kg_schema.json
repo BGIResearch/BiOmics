@@ -1,0 +1,285 @@
+{
+  "version": 1,
+  "source": "BiOmics-KG schema",
+  "node_types": [
+    "Cell",
+    "Cell_Component",
+    "Chemical",
+    "Disease",
+    "Function",
+    "Gene",
+    "Mutation",
+    "Other",
+    "Pathway",
+    "Phenotype",
+    "Process",
+    "Protein",
+    "Species",
+    "Stage",
+    "Tissue"
+  ],
+  "edge_types": [
+    "capable_of",
+    "causally_related_to",
+    "chemical_relation",
+    "chemicals_relation",
+    "compare",
+    "converse_from_to",
+    "develope_into",
+    "develop_into",
+    "disease_relation",
+    "equals_to",
+    "functionally_related_to",
+    "has_part",
+    "interact_with",
+    "is_a",
+    "no_relation",
+    "participate_in",
+    "pharmaco_effect_on",
+    "processly_related_to",
+    "produce",
+    "regulated",
+    "sequentially_related_to",
+    "spatially_related_to",
+    "species_relation",
+    "temporally_related_to",
+    "transport_from_to"
+  ],
+  "queryable_edge_types": [
+    "capable_of",
+    "causally_related_to",
+    "chemical_relation",
+    "chemicals_relation",
+    "compare",
+    "converse_from_to",
+    "develope_into",
+    "develop_into",
+    "disease_relation",
+    "equals_to",
+    "functionally_related_to",
+    "has_part",
+    "interact_with",
+    "is_a",
+    "participate_in",
+    "pharmaco_effect_on",
+    "processly_related_to",
+    "produce",
+    "regulated",
+    "sequentially_related_to",
+    "spatially_related_to",
+    "species_relation",
+    "temporally_related_to",
+    "transport_from_to"
+  ],
+  "blocked_query_edge_types": [
+    "no_relation"
+  ],
+  "weak_evidence_edge_types": [
+    "mentioned",
+    "co_mentioned"
+  ],
+  "weak_trace_edge_types": [
+    "mentioned",
+    "co_mentioned",
+    "no_relation"
+  ],
+  "strong_curated_edge_types": [
+    "causally_related_to",
+    "disease_relation",
+    "pharmaco_effect_on",
+    "regulated",
+    "produce",
+    "participate_in",
+    "interact_with",
+    "functionally_related_to",
+    "is_a"
+  ],
+  "evidence_boundary": {
+    "default_kg_relation_policy": "curated_preferred",
+    "default_weak_evidence_policy": "snippet_supported",
+    "allow_weak_final_types": [
+      "factoid",
+      "list"
+    ],
+    "co_mentioned_max_share": 0.15,
+    "co_mentioned_max_rows_per_question": 3,
+    "evidence_tiers": {
+      "E3": "strong_curated",
+      "E2": "snippet_supported_weak",
+      "E1": "weak_trace",
+      "E0": "drop_or_background"
+    },
+    "weak_trace_answer_role": "weak_trace",
+    "snippet_supported_weak_answer_role": "support_evidence_or_capped_candidate",
+    "strong_curated_answer_role": "candidate_answer",
+    "background_answer_role": "background_context",
+    "drop_answer_role": "dropped",
+    "mcq": {
+      "candidate_side": "source",
+      "option_anchor": "hard",
+      "allow_drop_option": false,
+      "fallback_when_no_strong_evidence": "native_llm"
+    },
+    "list": {
+      "direct_answer_first": true,
+      "max_kg_added_answers": 3,
+      "co_mentioned_only_can_add_answer": false,
+      "snippet_supported_weak_max_added": 3
+    },
+    "factoid": {
+      "snippet_supported_weak_max_added": 1
+    },
+    "path_answer_set": {
+      "co_mentioned_can_be_main_path_edge": false,
+      "fallback_co_mentioned_is_diagnostic_only": true
+    }
+  },
+  "relation_aliases": {
+    "marker_of": [
+      "produce"
+    ],
+    "markers_of": [
+      "produce"
+    ],
+    "regulate": [
+      "regulated"
+    ],
+    "regulates": [
+      "regulated"
+    ],
+    "regulated_by": [
+      "regulated"
+    ],
+    "interact": [
+      "interact_with"
+    ],
+    "interacts": [
+      "interact_with"
+    ],
+    "interacts_with": [
+      "interact_with"
+    ],
+    "drug_effect": [
+      "pharmaco_effect_on"
+    ],
+    "drug_response": [
+      "pharmaco_effect_on"
+    ],
+    "treats": [
+      "pharmaco_effect_on"
+    ],
+    "treatment_for": [
+      "pharmaco_effect_on"
+    ],
+    "part_of": [
+      "has_part"
+    ],
+    "has_disease_phenotype_on": [
+      "disease_relation",
+      "causally_related_to"
+    ],
+    "associated": [],
+    "association": [],
+    "associated_with": [],
+    "related": [],
+    "related_to": [],
+    "linked_to": [],
+    "relevant_to": [],
+    "involved_in": []
+  },
+  "relation_compatibility": {
+    "Gene->Cell": [
+      "produce"
+    ],
+    "Protein->Cell": [
+      "produce"
+    ],
+    "Gene->Disease": [
+      "causally_related_to",
+      "disease_relation",
+      "participate_in",
+      "functionally_related_to"
+    ],
+    "Mutation->Disease": [
+      "causally_related_to",
+      "disease_relation"
+    ],
+    "Gene->Phenotype": [
+      "causally_related_to",
+      "participate_in",
+      "functionally_related_to"
+    ],
+    "Protein->Disease": [
+      "causally_related_to",
+      "disease_relation",
+      "participate_in",
+      "functionally_related_to"
+    ],
+    "Chemical->Disease": [
+      "pharmaco_effect_on",
+      "causally_related_to",
+      "chemical_relation"
+    ],
+    "Chemical->Phenotype": [
+      "pharmaco_effect_on",
+      "causally_related_to",
+      "chemical_relation"
+    ],
+    "Chemical->Protein": [
+      "interact_with",
+      "pharmaco_effect_on",
+      "regulated"
+    ],
+    "Chemical->Gene": [
+      "interact_with",
+      "pharmaco_effect_on",
+      "regulated"
+    ],
+    "Gene->Pathway": [
+      "participate_in",
+      "functionally_related_to"
+    ],
+    "Gene->Function": [
+      "participate_in",
+      "functionally_related_to"
+    ],
+    "Gene->Process": [
+      "participate_in",
+      "functionally_related_to",
+      "regulated"
+    ],
+    "Protein->Protein": [
+      "interact_with",
+      "functionally_related_to"
+    ],
+    "Gene->Gene": [
+      "regulated",
+      "interact_with",
+      "causally_related_to",
+      "functionally_related_to"
+    ],
+    "Cell->Cell": [
+      "develope_into",
+      "develop_into",
+      "spatially_related_to",
+      "temporally_related_to",
+      "sequentially_related_to",
+      "is_a"
+    ],
+    "Tissue->Tissue": [
+      "spatially_related_to",
+      "has_part",
+      "is_a"
+    ],
+    "Species->Species": [
+      "species_relation",
+      "is_a"
+    ],
+    "*->*": [
+      "is_a",
+      "has_part",
+      "equals_to",
+      "functionally_related_to"
+    ]
+  }
+}

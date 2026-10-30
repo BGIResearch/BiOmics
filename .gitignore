@@ -1,22 +1,3 @@
-# 忽略数据文件夹
-data/
-
-# 忽略运行结果文件夹
-run_res/
-
-# 忽略临时文件夹
-tmp/
-
-# 忽略报告文件夹
-reports/
-
-# 忽略notebook缓存
-notebook_cache/
-
-
-# 忽略导出的压缩包（文件太大）
-*.tar.gz
-
 # Python
 __pycache__/
 *.py[cod]
@@ -39,19 +20,13 @@ wheels/
 .installed.cfg
 *.egg
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+.venv-build
 
-# 忽略测试/临时 notebook 文件
-notebooks/t.ipynb
-notebooks/Spatial_Transcriptomics.ipynb
-notebooks/Spatial_Transcriptomics1.ipynb
-notebooks/
-
-# 环境变量（如果包含敏感信息）  
-# .env
-graph/brick_test_config.env
-BRICK/.envcopy
 # IDE
 .vscode/
 .idea/
@@ -63,21 +38,14 @@ BRICK/.envcopy
 .DS_Store
 Thumbs.db
 
-# 日志文件
+# Jupyter
+.ipynb_checkpoints/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Logs
 *.log
-logs/
-# 忽略todo文件
-todo.txt
-BRICK/.env
-# 忽略基因映射相关文件
-gene_mapping_filled.csv
-ncbi_genes_filtered.csv
-ncbi_genes.csv
-project_prompt.mdsystem_prompt.md
-
-# 忽略视频文件
-Supplementary Video 1.mp4
-
-# 忽略用户查询记录
-user_query_question.txt
-
