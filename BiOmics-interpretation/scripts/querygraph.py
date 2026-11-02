@@ -863,10 +863,8 @@ def _query_relation_single_batch(
         "directed": directed,
         "source_entity_type": source_entity_type,
         "target_entity_type": target_entity_type,
-        # The live /v1/relation endpoint expects the edge provenance filter as
-        # "info_source". Sending "relation_info_source" currently triggers a
-        # server-side Cypher type error.
-        "info_source": relation_info_source,
+        # FastAPI exposes the edge provenance filter as relation_info_source.
+        "relation_info_source": relation_info_source,
         "query_attribution": query_attribution,
         "limit_number": limit_number,
         "return_type": return_type

@@ -2,7 +2,7 @@
 
 This guide helps agents choose appropriate data sources for KG/RAG questions. The goal is not to query every database, but to first identify the required entity types, relation types, and evidence strength, then select 2–6 of the most relevant sources.
 
-> BiOmics-KG coverage (from SupplementaryTable1): `11M` nodes, `356M` edges, and `16` node types.
+> BiOmics-KG coverage (from SupplementaryTable1): `14.23M` nodes, `432.17M` relationships counted before edge consolidation, and `16` node types.
 
 ## 0. Data model before querying with BRICK
 
@@ -10,7 +10,7 @@ BiOmics-KG stores database provenance on edges, not on nodes. Entity types and e
 
 - Nodes have no field for filtering by database source. Node types only describe entity categories, such as `Gene`, `Cell`, `Disease`, `Chemical`, `Pathway`, and `Protein`.
 - Database and information sources are stored in edge metadata. Common output columns are `path.1.info_source` and `path.1.info_source_length`.
-- `brick qr` does not currently send an `info_source` query parameter to `/v1/relation`. Filter sources after the query returns by inspecting the CSV or by running `brick reason normalize/score`.
+- `brick qr --info-source` sends `relation_info_source` to `/v1/relation`. Verify the returned `path.1.info_source` values after querying, and use `brick reason normalize/score` for additional offline evidence review.
 - Multi-hop queries are optional. Use `brick qr --hops 2` or `brick qr --hops 3`, with a maximum of 3 hops. Inspect every intermediate node and every edge's source and relation in multi-hop results.
 - `co_mentioned` is weak evidence only. Before using it, inspect `path.1.original_relation`, `path.1.info_source`, `path.1.condition`, and `path.1.relation_confidence`.
 
