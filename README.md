@@ -121,7 +121,7 @@ pip install scanpy   # optional; required for h5ad and single-cell workflows
 Requirements and notes:
 
 - Python ≥ 3.9
-- Network access for `brick qr`; set `BRICK_API_BASE_URL` to your configured KG API endpoint before querying. No default endpoint is assumed.
+- Network access for `brick qr`; the default KG API is `https://biomics.dcs.cloud/api`. Set `BRICK_API_BASE_URL` to override it with a custom endpoint.
 - Optional [Graphviz](https://graphviz.org/download/) for graph export
 - Activate the environment or open a new terminal if `brick` is not found
 
