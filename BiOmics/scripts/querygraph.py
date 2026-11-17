@@ -31,8 +31,8 @@ except Exception:  # pragma: no cover - keeps qr usable if policy module is unav
     resolve_relation_aliases = None
     select_kg_policy = None
 
-# brick KG API configuration. Set BRICK_API_BASE_URL to override the default API root.
-API_BASE_URL = os.getenv("BRICK_API_BASE_URL", "https://biomics.dcs.cloud/api").rstrip("/")
+# brick KG API configuration.
+API_BASE_URL = os.getenv("BRICK_API_BASE_URL", "https://biomics.dcs.cloud/api")
 API_TIMEOUT = float(os.getenv("BRICK_API_TIMEOUT", "120"))
 _TRUST_ENV_PROXY_VALUE = os.getenv(
     "BRICK_TRUST_ENV_PROXY",
@@ -48,7 +48,7 @@ MAX_MULTI_HOP = 3
 
 
 def _post_api(url: str, payload: dict) -> requests.Response:
-    """POST to the configured brick API without inheriting local proxies by default."""
+    """POST to the brick API without inheriting local proxy env by default."""
     session = requests.Session()
     session.trust_env = API_TRUST_ENV_PROXY
     return session.post(url, json=payload, timeout=API_TIMEOUT)
