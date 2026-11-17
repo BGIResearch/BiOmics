@@ -55,27 +55,7 @@ The main commands provided by BiOmics are:
 | `brick plan` / `brick workflow` | Orchestration | Materialize inspectable plans and editable task scaffolds |
 | `brick agent` | Checked execution | Validate plans, execute safe BiOmics commands, check artifacts, and report failures |
 
-## Quick start
 
-### Query, rank, and visualize
-
-```bash
-# Query T-cell marker genes
-brick qr "T cell" --st Cell --tt Gene -r marker_of -o query.csv
-
-# Rank and visualize the candidates
-brick rk -i query.csv --rank -o ranked.csv
-brick pl radial -i ranked.csv --top-k 10 -o result.png
-```
-
-Generate an editable workflow scaffold:
-
-```bash
-brick workflow celltype --adata data.h5ad --groupby leiden -o celltype_recipe
-brick workflow enrichment --genes geneset.txt -o enrichment_recipe
-```
-
-Inspect and edit the generated `commands.sh` or `commands.ps1` before running task-specific analysis.
 
 ## Add BiOmics to your agent
 
@@ -194,6 +174,26 @@ Requirements and notes:
 - Network access for `brick qr`; the default KG API is `https://biomics.dcs.cloud/api`. Set `BRICK_API_BASE_URL` to override it with a custom endpoint.
 - Optional [Graphviz](https://graphviz.org/download/) for graph export
 - Activate the environment or open a new terminal if `brick` is not found
+
+## Query, rank, and visualize
+
+```bash
+# Query T-cell marker genes
+brick qr "T cell" --st Cell --tt Gene -r marker_of -o query.csv
+
+# Rank and visualize the candidates
+brick rk -i query.csv --rank -o ranked.csv
+brick pl radial -i ranked.csv --top-k 10 -o result.png
+```
+
+Generate an editable workflow scaffold:
+
+```bash
+brick workflow celltype --adata data.h5ad --groupby leiden -o celltype_recipe
+brick workflow enrichment --genes geneset.txt -o enrichment_recipe
+```
+
+Inspect and edit the generated `commands.sh` or `commands.ps1` before running task-specific analysis.
 
 ## Optional GRACE graph embedding
 
