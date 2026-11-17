@@ -27,8 +27,6 @@ Applications include cell-type annotation and subtype refinement, differential-e
 | **BiOmics-BRICK** | Modular CLI and agent skill for querying, ranking, reasoning, graph adaptation, embedding, and visualization. |
 | **BiOmics-Harness** | Agent orchestration for task understanding, planning, tool execution, output checking, bounded retries, and evidence-linked reporting. |
 
-![BiOmics benchmark overview](assets/figure2_benchmarks.png)
-
 ## Repository layout
 
 ```text
@@ -56,12 +54,6 @@ The main commands provided by BiOmics are:
 | `brick pl` | Plot | Static/interactive networks, radial association plots, and TF-regulon plots |
 | `brick plan` / `brick workflow` | Orchestration | Materialize inspectable plans and editable task scaffolds |
 | `brick agent` | Checked execution | Validate plans, execute safe BiOmics commands, check artifacts, and report failures |
-
-A typical workflow is:
-
-```text
-brick qr → brick rk / brick reason → brick ga / brick emb → brick pl
-```
 
 ## Quick start
 
