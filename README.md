@@ -57,7 +57,77 @@ The main commands provided by BiOmics are:
 
 ## Quick start
 
-### Install BiOmics in a local environment
+### Query, rank, and visualize
+
+```bash
+# Query T-cell marker genes
+brick qr "T cell" --st Cell --tt Gene -r marker_of -o query.csv
+
+# Rank and visualize the candidates
+brick rk -i query.csv --rank -o ranked.csv
+brick pl radial -i ranked.csv --top-k 10 -o result.png
+```
+
+Generate an editable workflow scaffold:
+
+```bash
+brick workflow celltype --adata data.h5ad --groupby leiden -o celltype_recipe
+brick workflow enrichment --genes geneset.txt -o enrichment_recipe
+```
+
+Inspect and edit the generated `commands.sh` or `commands.ps1` before running task-specific analysis.
+
+## Add BiOmics to your agent
+
+### Tell your agent (Codex, Claude Code, Hermes, Work Buddy, etc.)
+
+> Fetch the BiOmics repository from https://github.com/BGIResearch/BiOmics/tree/main. Clone the main branch into the current workspace, create an isolated Python virtual environment under `BiOmics/scripts`, and install the package with `python -m pip install -e .`. Verify the installation with `brick --help` and `brick qr --help`, confirm that `qr`, `rk`, `ga`, `emb`, `pl`, `reason`, `plan`, `workflow`, `policy`, and `agent` are registered, troubleshoot any installation failure, and report the repository path, environment path, and validation results.
+
+### Other installation options
+
+Alternatively, copy or symlink the `BiOmics/` directory, including `SKILL.md` and its subdirectories, into your agent's skills directory.
+
+#### Cursor
+
+```bash
+# Personal: ~/.cursor/skills/BiOmics/
+# Project: .cursor/skills/BiOmics/
+mkdir -p .cursor/skills
+cp -r BiOmics .cursor/skills/
+```
+
+#### Hermes
+
+```bash
+# Default: ~/.hermes/skills/BiOmics/
+cp -r BiOmics ~/.hermes/skills/
+
+# Alternatively, set HERMES_OPTIONAL_SKILLS_DIR to a directory containing BiOmics.
+```
+
+In a Hermes session, use `/skills search BiOmics` or invoke the skill by name.
+
+#### Claude Code
+
+```bash
+# Personal: ~/.claude/skills/BiOmics/SKILL.md
+# Project: .claude/skills/BiOmics/SKILL.md
+mkdir -p .claude/skills
+cp -r BiOmics .claude/skills/
+```
+
+#### Codex
+
+```bash
+# Project: .agents/skills/BiOmics/
+# Global: ~/.agents/skills/BiOmics/
+mkdir -p .agents/skills
+cp -r BiOmics .agents/skills/
+```
+
+Restart the agent if a newly copied skill is not discovered.
+
+## Install BiOmics-BRICK in a local environment
 
 **Linux / macOS**
 
@@ -124,72 +194,6 @@ Requirements and notes:
 - Network access for `brick qr`; the default KG API is `https://biomics.dcs.cloud/api`. Set `BRICK_API_BASE_URL` to override it with a custom endpoint.
 - Optional [Graphviz](https://graphviz.org/download/) for graph export
 - Activate the environment or open a new terminal if `brick` is not found
-
-### Query, rank, and visualize
-
-```bash
-# Query T-cell marker genes
-brick qr "T cell" --st Cell --tt Gene -r marker_of -o query.csv
-
-# Rank and visualize the candidates
-brick rk -i query.csv --rank -o ranked.csv
-brick pl radial -i ranked.csv --top-k 10 -o result.png
-```
-
-Generate an editable workflow scaffold:
-
-```bash
-brick workflow celltype --adata data.h5ad --groupby leiden -o celltype_recipe
-brick workflow enrichment --genes geneset.txt -o enrichment_recipe
-```
-
-Inspect and edit the generated `commands.sh` or `commands.ps1` before running task-specific analysis.
-
-## Tell your agent (Codex, Claude Code, Hermes, Work Buddy, etc.)
-
-> Fetch the BiOmics repository from https://github.com/BGIResearch/BiOmics/tree/main. Clone the main branch into the current workspace, create an isolated Python virtual environment under `BiOmics/scripts`, and install the package with `python -m pip install -e .`. Verify the installation with `brick --help` and `brick qr --help`, confirm that `qr`, `rk`, `ga`, `emb`, `pl`, `reason`, `plan`, `workflow`, `policy`, and `agent` are registered, troubleshoot any installation failure, and report the repository path, environment path, and validation results.
-
-Alternatively, copy or symlink the `BiOmics/` directory, including `SKILL.md` and its subdirectories, into your agent's skills directory.
-
-### Cursor
-
-```bash
-# Personal: ~/.cursor/skills/BiOmics/
-# Project: .cursor/skills/BiOmics/
-mkdir -p .cursor/skills
-cp -r BiOmics .cursor/skills/
-```
-
-### Hermes
-
-```bash
-# Default: ~/.hermes/skills/BiOmics/
-cp -r BiOmics ~/.hermes/skills/
-
-# Alternatively, set HERMES_OPTIONAL_SKILLS_DIR to a directory containing BiOmics.
-```
-
-In a Hermes session, use `/skills search BiOmics` or invoke the skill by name.
-
-### Claude Code
-
-```bash
-# Personal: ~/.claude/skills/BiOmics/SKILL.md
-# Project: .claude/skills/BiOmics/SKILL.md
-mkdir -p .claude/skills
-cp -r BiOmics .claude/skills/
-```
-
-### Codex
-
-```bash
-# Project: .agents/skills/BiOmics/
-# Global: ~/.agents/skills/BiOmics/
-mkdir -p .agents/skills
-cp -r BiOmics .agents/skills/
-```
-
-Restart the agent if a newly copied skill is not discovered.
 
 ## Optional GRACE graph embedding
 
