@@ -7,10 +7,6 @@
 
 BiOmics is a bio-reasoning framework that combines a continuously updated biomedical knowledge graph, a modular computational tool layer, and an agent-based orchestration framework. It supports knowledge retrieval, evidence-grounded interpretation, graph representation learning, and association prediction across multi-omics tasks.
 
-- **Web interface:** <https://biomics.dcs.cloud>
-- **Agent skill and complete guide:** [`BiOmics/SKILL.md`](BiOmics/SKILL.md)
-- **Execution records and associated artifacts:** <https://zenodo.org/records/23800307>
-
 ![BiOmics overview](assets/figure1_overview.png)
 
 ## What BiOmics does
@@ -37,10 +33,10 @@ Applications include cell-type annotation and subtype refinement, differential-e
 
 ```text
 BiOmics/
-├── SKILL.md              # Complete agent and BRICK usage guide
+├── SKILL.md              # Complete BiOmics agent usage guide
 ├── references/           # Task-specific workflows and KG source guidance
 ├── configs/              # Example task and query policies
-├── scripts/              # Installable BRICK CLI implementation
+├── scripts/              # Installable BiOmics-BRICK CLI implementation
 └── tests/                # Unit and integration tests
 
 assets/                   # Figures used by this homepage
@@ -48,7 +44,7 @@ LICENSE                   # MIT License
 README.md                 # This document
 ```
 
-The main BRICK commands are:
+The main commands provided by BiOmics are:
 
 | Command | Function | Typical use |
 |---|---|---|
@@ -59,7 +55,7 @@ The main BRICK commands are:
 | `brick emb` | Graph embedding | Build unified embeddings with PCA/UMAP or optional GRACE |
 | `brick pl` | Plot | Static/interactive networks, radial association plots, and TF-regulon plots |
 | `brick plan` / `brick workflow` | Orchestration | Materialize inspectable plans and editable task scaffolds |
-| `brick agent` | Checked execution | Validate plans, execute safe BRICK commands, check artifacts, and report failures |
+| `brick agent` | Checked execution | Validate plans, execute safe BiOmics commands, check artifacts, and report failures |
 
 A typical workflow is:
 
@@ -69,7 +65,7 @@ brick qr → brick rk / brick reason → brick ga / brick emb → brick pl
 
 ## Quick start
 
-### Install BRICK in a local environment
+### Install BiOmics in a local environment
 
 **Linux / macOS**
 
@@ -133,7 +129,7 @@ pip install scanpy   # optional; required for h5ad and single-cell workflows
 Requirements and notes:
 
 - Python ≥ 3.9
-- Network access for `brick qr`; the default API is `https://biomics.dcs.cloud/api`
+- Network access for `brick qr`; set `BRICK_API_BASE_URL` to your configured KG API endpoint before querying. No default endpoint is assumed.
 - Optional [Graphviz](https://graphviz.org/download/) for graph export
 - Activate the environment or open a new terminal if `brick` is not found
 
@@ -250,9 +246,9 @@ Inspect the loss curve, verify that embeddings and distances are finite, compare
 
 Outputs include the learned representations, `X_umap`, the integrated adjacency matrix, cell-by-KG distances, and training metadata. See [`references/grace_embedding.md`](BiOmics/references/grace_embedding.md) for details.
 
-## Extend BRICK on demand
+## Extend BiOmics on demand
 
-When the available bricks and their compositions cannot perform a required analysis, the host agent may extend the local BRICK source code with task-specific methods, adapters, validators, or visualizations. Keep changes scoped, register any new CLI command, preserve inputs and outputs, and validate the extension before using its results.
+When the available bricks and their compositions cannot perform a required analysis, the host agent may extend the local BiOmics source code with task-specific methods, adapters, validators, or visualizations. Keep changes scoped, register any new CLI command, preserve inputs and outputs, and validate the extension before using its results.
 
 Refresh the editable installation when needed:
 

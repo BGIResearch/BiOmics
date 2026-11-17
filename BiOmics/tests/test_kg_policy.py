@@ -265,7 +265,7 @@ def test_querygraph_dry_run_shows_fallback_stage_plan_for_hard_target():
     ]
 
 
-def test_querygraph_api_payload_uses_live_info_source_key(monkeypatch):
+def test_querygraph_api_payload_uses_relation_info_source_key(monkeypatch):
     import querygraph
 
     captured = {}
@@ -290,8 +290,8 @@ def test_querygraph_api_payload_uses_live_info_source_key(monkeypatch):
         relation_info_source=["DrugBank"],
         limit_number=1,
     )
-    assert captured["info_source"] == ["DrugBank"]
-    assert "relation_info_source" not in captured
+    assert captured["relation_info_source"] == ["DrugBank"]
+    assert "info_source" not in captured
 
 
 def test_query_relation_drops_associated_with_before_api(monkeypatch):
