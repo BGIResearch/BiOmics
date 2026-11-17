@@ -145,9 +145,11 @@ brick workflow enrichment --genes geneset.txt -o enrichment_recipe
 
 Inspect and edit the generated `commands.sh` or `commands.ps1` before running task-specific analysis.
 
-## Add BiOmics to your agent
+## Tell your agent (Codex, Claude Code, Hermes, Work Buddy, etc.)
 
-Copy or symlink the `BiOmics/` directory, including `SKILL.md` and its subdirectories, into your agent's skills directory.
+> Fetch the BiOmics repository from https://github.com/BGIResearch/BiOmics/tree/main. Clone the main branch into the current workspace, create an isolated Python virtual environment under `BiOmics/scripts`, and install the package with `python -m pip install -e .`. Verify the installation with `brick --help` and `brick qr --help`, confirm that `qr`, `rk`, `ga`, `emb`, `pl`, `reason`, `plan`, `workflow`, `policy`, and `agent` are registered, troubleshoot any installation failure, and report the repository path, environment path, and validation results.
+
+Alternatively, copy or symlink the `BiOmics/` directory, including `SKILL.md` and its subdirectories, into your agent's skills directory.
 
 ### Cursor
 
