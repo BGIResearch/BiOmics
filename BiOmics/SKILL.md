@@ -1,9 +1,20 @@
 ---
 name: BiOmics
-description: "Use when building modular BiOmics-BRICK analyses over BiOmics-KG: compose query, ranking, enrichment, graph adaptation, embedding, plotting, and reasoning bricks for bioinformatics tasks such as cell type annotation, trajectory interpretation, proteomics/PTM-aware PPI analysis, enrichment, drug repositioning, evidence tracing, and knowledge-graph hypothesis generation. Trigger when the user asks to use brick/BiOmics, query biomedical knowledge graph relationships, analyze proteome or post-translational-modification data with KG evidence, or design customizable brick workflows rather than a fixed pipeline."
+description: "Use when bioinformatics interpretation needs biomedical knowledge-graph evidence: query BiOmics-KG relationships to ground omics analysis in KG-derived evidence, and compose query, ranking, enrichment, graph adaptation, embedding, plotting, and reasoning bricks for tasks such as cell type annotation, trajectory interpretation, proteomics/PTM-aware PPI analysis, enrichment, drug repositioning, evidence tracing, and knowledge-graph hypothesis generation. Trigger when the user asks to interpret omics data with a knowledge graph, query biomedical knowledge graph relationships, use brick/BiOmics, analyze proteome or post-translational-modification data with KG evidence, or design customizable brick workflows rather than a fixed pipeline."
 ---
 
-# BiOmics-BRICK
+# BiOmics
+
+BiOmics is a bio-reasoning framework that combines a continuously updated biomedical knowledge graph, a modular computational tool layer, and an agent-based orchestration framework. It supports knowledge retrieval, evidence-grounded interpretation, graph representation learning, and association prediction across multi-omics tasks.
+BiOmics connects omics data with biological evidence through three complementary operations:
+
+- **Retrieving:** query entities, relationships, neighbours, and multi-hop paths in BiOmics-KG while preserving relation types, source databases, and literature context.
+- **Reasoning:** normalize and score evidence, inspect conflicts, construct explanatory paths, and produce traceable reports.
+- **Predicting:** integrate omics-derived graphs and KG subgraphs with PCA/UMAP or GRACE embeddings to prioritize candidate associations and generate testable hypotheses.
+
+Applications include cell-type annotation and subtype refinement, differential-expression interpretation, gene enrichment, trajectory inference, variant interpretation and phenotype prediction, protein-association analysis, gene-regulatory-network analysis, and drug repurposing.
+
+## BiOmics-BRICK
 
 BiOmics-BRICK is a set of composable command-line bricks for building biological interpretability models: omics inputs and BiOmics-KG relationships become evidence units, ranked hypotheses, enriched entities, merged graphs, plots, and traceable explanations.
 
