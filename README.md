@@ -59,55 +59,26 @@ The main commands provided by BiOmics are:
 
 ## Install BiOmics for your agent
 
-### Tell your agent (Codex, Claude Code, Hermes, Work Buddy, etc.)
+### Prompt-based installation
 
-> Fetch the BiOmics repository from https://github.com/BGIResearch/BiOmics/tree/main. Clone the main branch into the current workspace, create an isolated Python virtual environment under `BiOmics/scripts`, and install the package with `python -m pip install -e .`. Verify the installation with `brick --help` and `brick qr --help`, confirm that `qr`, `rk`, `ga`, `emb`, `pl`, `reason`, `plan`, `workflow`, `policy`, and `agent` are registered, troubleshoot any installation failure, and report the repository path, environment path, and validation results.
+```text
+Fetch the BiOmics repository from https://github.com/BGIResearch/BiOmics/tree/main.
+
+Clone the main branch into the current workspace.
+Create an isolated Python virtual environment under BiOmics/scripts.
+Install the package with:
+python -m pip install -e .
+
+Verify the installation with:
+brick --help
+brick qr --help
+
+Confirm that qr, rk, ga, emb, pl, reason, plan, workflow, policy, and agent are registered.
+If installation fails, troubleshoot the issue and retry the verification.
+Finally, report the repository path, virtual environment path, installation result, and validation results.
+```
 
 ### Other installation options
-
-#### Skills installation
-
-Alternatively, copy or symlink the `BiOmics/` directory, including `SKILL.md` and its subdirectories, into your agent's skills directory.
-
-##### Cursor
-
-```bash
-# Personal: ~/.cursor/skills/BiOmics/
-# Project: .cursor/skills/BiOmics/
-mkdir -p .cursor/skills
-cp -r BiOmics .cursor/skills/
-```
-
-##### Hermes
-
-```bash
-# Default: ~/.hermes/skills/BiOmics/
-cp -r BiOmics ~/.hermes/skills/
-
-# Alternatively, set HERMES_OPTIONAL_SKILLS_DIR to a directory containing BiOmics.
-```
-
-In a Hermes session, use `/skills search BiOmics` or invoke the skill by name.
-
-##### Claude Code
-
-```bash
-# Personal: ~/.claude/skills/BiOmics/SKILL.md
-# Project: .claude/skills/BiOmics/SKILL.md
-mkdir -p .claude/skills
-cp -r BiOmics .claude/skills/
-```
-
-##### Codex
-
-```bash
-# Project: .agents/skills/BiOmics/
-# Global: ~/.agents/skills/BiOmics/
-mkdir -p .agents/skills
-cp -r BiOmics .agents/skills/
-```
-
-Restart the agent if a newly copied skill is not discovered.
 
 #### BiOmics-BRICK installation
 
