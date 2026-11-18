@@ -57,7 +57,7 @@ The main commands provided by BiOmics are:
 
 
 
-## Add BiOmics to your agent
+## Install BiOmics for your agent
 
 ### Tell your agent (Codex, Claude Code, Hermes, Work Buddy, etc.)
 
@@ -65,9 +65,11 @@ The main commands provided by BiOmics are:
 
 ### Other installation options
 
+#### Skills installation
+
 Alternatively, copy or symlink the `BiOmics/` directory, including `SKILL.md` and its subdirectories, into your agent's skills directory.
 
-#### Cursor
+##### Cursor
 
 ```bash
 # Personal: ~/.cursor/skills/BiOmics/
@@ -76,7 +78,7 @@ mkdir -p .cursor/skills
 cp -r BiOmics .cursor/skills/
 ```
 
-#### Hermes
+##### Hermes
 
 ```bash
 # Default: ~/.hermes/skills/BiOmics/
@@ -87,7 +89,7 @@ cp -r BiOmics ~/.hermes/skills/
 
 In a Hermes session, use `/skills search BiOmics` or invoke the skill by name.
 
-#### Claude Code
+##### Claude Code
 
 ```bash
 # Personal: ~/.claude/skills/BiOmics/SKILL.md
@@ -96,7 +98,7 @@ mkdir -p .claude/skills
 cp -r BiOmics .claude/skills/
 ```
 
-#### Codex
+##### Codex
 
 ```bash
 # Project: .agents/skills/BiOmics/
@@ -107,7 +109,7 @@ cp -r BiOmics .agents/skills/
 
 Restart the agent if a newly copied skill is not discovered.
 
-## Install BiOmics-BRICK in a local environment
+#### BiOmics-BRICK installation
 
 **Linux / macOS**
 
@@ -146,7 +148,7 @@ brick qr --help
 
 The help output should include `qr`, `rk`, `ga`, `pl`, `emb`, `reason`, `plan`, `workflow`, `policy`, and `agent`.
 
-### Other installation options
+
 
 ```bash
 # Non-editable installation
@@ -175,27 +177,7 @@ Requirements and notes:
 - Optional [Graphviz](https://graphviz.org/download/) for graph export
 - Activate the environment or open a new terminal if `brick` is not found
 
-## Query, rank, and visualize
-
-```bash
-# Query T-cell marker genes
-brick qr "T cell" --st Cell --tt Gene -r marker_of -o query.csv
-
-# Rank and visualize the candidates
-brick rk -i query.csv --rank -o ranked.csv
-brick pl radial -i ranked.csv --top-k 10 -o result.png
-```
-
-Generate an editable workflow scaffold:
-
-```bash
-brick workflow celltype --adata data.h5ad --groupby leiden -o celltype_recipe
-brick workflow enrichment --genes geneset.txt -o enrichment_recipe
-```
-
-Inspect and edit the generated `commands.sh` or `commands.ps1` before running task-specific analysis.
-
-## Optional GRACE graph embedding
+#### Optional GRACE graph embedding
 
 GRACE is available for analyses in which integrated graph topology should shape the representation. It learns from two perturbed graph views using a shared GCN encoder and a symmetric InfoNCE objective. PCA/UMAP remains the default unless `--method grace` is supplied.
 
@@ -244,7 +226,7 @@ Inspect the loss curve, verify that embeddings and distances are finite, compare
 
 Outputs include the learned representations, `X_umap`, the integrated adjacency matrix, cell-by-KG distances, and training metadata. See [`references/grace_embedding.md`](BiOmics/references/grace_embedding.md) for details.
 
-## Extend BiOmics on demand
+#### Extend BiOmics on demand
 
 When the available bricks and their compositions cannot perform a required analysis, the host agent may extend the local BiOmics source code with task-specific methods, adapters, validators, or visualizations. Keep changes scoped, register any new CLI command, preserve inputs and outputs, and validate the extension before using its results.
 
