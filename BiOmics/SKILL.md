@@ -16,7 +16,7 @@ Applications include cell-type annotation and subtype refinement, differential-e
 
 ## BiOmics-BRICK
 
-BiOmics-BRICK is a set of composable command-line bricks for building biological interpretability models: omics inputs and BiOmics-KG relationships become evidence units, ranked hypotheses, enriched entities, merged graphs, plots, and traceable explanations.
+BiOmics-BRICK is an integral part of the BiOmics project. It is a set of composable command-line bricks for building biological interpretability models: omics inputs and BiOmics-KG relationships become evidence units, ranked hypotheses, enriched entities, merged graphs, plots, and traceable explanations.
 
 Do not treat brick as a single fixed pipeline. Start from the biological question, choose the smallest useful bricks, then compose them into a transparent workflow the user can inspect and modify.
 
