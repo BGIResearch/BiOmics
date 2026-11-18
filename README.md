@@ -82,6 +82,8 @@ Finally, report the repository path, virtual environment path, installation resu
 
 #### BiOmics-BRICK installation
 
+BiOmics-BRICK is the software package required for using BiOmics. If your agent does not install it automatically, use one of the installation methods below.
+
 **Linux / macOS**
 
 ```bash
